@@ -1,12 +1,11 @@
+import Combine
 import SwiftUI
-import Observation
 
-@Observable
 @MainActor
-final class ShopSettingsViewModel {
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    private(set) var settings: ShopSettings?
+final class ShopSettingsViewModel: ObservableObject {
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published private(set) var settings: ShopSettings?
 
     func load() async {
         isLoading = true
@@ -25,7 +24,7 @@ final class ShopSettingsViewModel {
 }
 
 struct ShopSettingsView: View {
-    @State private var viewModel = ShopSettingsViewModel()
+    @StateObject private var viewModel = ShopSettingsViewModel()
 
     var body: some View {
         content

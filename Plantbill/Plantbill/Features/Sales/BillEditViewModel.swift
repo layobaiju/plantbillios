@@ -1,31 +1,30 @@
+import Combine
 import Foundation
-import Observation
 
 /// Owner-only bill editing: change a line's price/quantity, add or remove
 /// plants, adjust the discount and payment split. The server recomputes
 /// every amount and marks the bill edited.
-@Observable
 @MainActor
-final class BillEditViewModel {
+final class BillEditViewModel: ObservableObject {
     let billId: UUID
 
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    private(set) var products: [Product] = []
-    private(set) var lines: [CartLine] = []
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published private(set) var products: [Product] = []
+    @Published private(set) var lines: [CartLine] = []
 
-    var discountType: DiscountType = .flat
-    var discountValueText: String = ""
-    var paymentMode: PaymentMode = .cash
-    var cashPartText: String = ""
-    var dueAmountText: String = ""
-    var remarks: String = ""
-    private(set) var customerPhone: String?
+    @Published var discountType: DiscountType = .flat
+    @Published var discountValueText: String = ""
+    @Published var paymentMode: PaymentMode = .cash
+    @Published var cashPartText: String = ""
+    @Published var dueAmountText: String = ""
+    @Published var remarks: String = ""
+    @Published private(set) var customerPhone: String?
 
-    var showingAddPicker = false
-    private(set) var isSaving = false
-    var saveError: String?
-    var saved = false
+    @Published var showingAddPicker = false
+    @Published private(set) var isSaving = false
+    @Published var saveError: String?
+    @Published var saved = false
 
     init(billId: UUID) {
         self.billId = billId

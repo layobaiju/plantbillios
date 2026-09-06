@@ -43,7 +43,7 @@ struct MainTabView: View {
     let user: CurrentUser
 
     @State private var selection: AppTab
-    @State private var notificationsStore = NotificationsStore()
+    @StateObject private var notificationsStore = NotificationsStore()
     @Environment(\.scenePhase) private var scenePhase
 
     init(user: CurrentUser) {
@@ -60,9 +60,9 @@ struct MainTabView: View {
             }
         }
         .tint(PlantbillColor.green)
-        .environment(notificationsStore)
+        .environmentObject(notificationsStore)
         .task { await notificationsStore.refresh() }
-        .onChange(of: scenePhase) { _, newPhase in
+        .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
                 Task { await notificationsStore.refresh() }
             }

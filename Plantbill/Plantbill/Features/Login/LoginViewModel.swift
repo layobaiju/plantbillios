@@ -1,13 +1,12 @@
+import Combine
 import Foundation
-import Observation
 
-@Observable
 @MainActor
-final class LoginViewModel {
-    var email: String = ""
-    var password: String = ""
-    private(set) var isSubmitting: Bool = false
-    private(set) var errorMessage: String?
+final class LoginViewModel: ObservableObject {
+    @Published var email: String = ""
+    @Published var password: String = ""
+    @Published private(set) var isSubmitting: Bool = false
+    @Published private(set) var errorMessage: String?
 
     var canSubmit: Bool {
         !isSubmitting

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BillView: View {
-    @State private var viewModel = BillingViewModel()
+    @StateObject private var viewModel = BillingViewModel()
     @State private var showingCartReview = false
     @State private var showingQuickAdd = false
     @State private var showingHeldBills = false
@@ -241,6 +241,6 @@ private struct ProductGridCell: View {
 
 #Preview {
     BillView()
-        .environment(AuthSession())
-        .environment(NotificationsStore())
+        .environmentObject(AuthSession())
+        .environmentObject(NotificationsStore())
 }

@@ -1,12 +1,11 @@
+import Combine
 import Foundation
-import Observation
 
-@Observable
 @MainActor
-final class LanguageStore {
+final class LanguageStore: ObservableObject {
     private static let key = "app_language"
 
-    private(set) var current: AppLanguage
+    @Published private(set) var current: AppLanguage
 
     init() {
         if let raw = UserDefaults.standard.string(forKey: Self.key), let language = AppLanguage(rawValue: raw) {

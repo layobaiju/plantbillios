@@ -1,17 +1,16 @@
+import Combine
 import Foundation
-import Observation
 
 /// The manager's queue of salesperson due-collections awaiting approval.
 /// Approving applies the cash/UPI split to the bill and closes the due;
 /// rejecting leaves the due outstanding.
-@Observable
 @MainActor
-final class ApprovalsViewModel {
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    private(set) var items: [PendingSettlement] = []
-    private(set) var actingId: UUID?
-    var message: String?
+final class ApprovalsViewModel: ObservableObject {
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published private(set) var items: [PendingSettlement] = []
+    @Published private(set) var actingId: UUID?
+    @Published var message: String?
 
     func load() async {
         isLoading = true

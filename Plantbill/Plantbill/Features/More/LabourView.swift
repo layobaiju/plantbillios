@@ -3,11 +3,11 @@ import SwiftUI
 struct LabourView: View {
     let isManager: Bool
 
-    @State private var viewModel: LabourViewModel
+    @StateObject private var viewModel: LabourViewModel
 
     init(isManager: Bool) {
         self.isManager = isManager
-        _viewModel = State(initialValue: LabourViewModel(isManager: isManager))
+        _viewModel = StateObject(wrappedValue: LabourViewModel(isManager: isManager))
     }
 
     var body: some View {
@@ -232,7 +232,7 @@ private struct PaymentRow: View {
 }
 
 private struct WorkerEditorSheet: View {
-    @Bindable var viewModel: LabourViewModel
+    @ObservedObject var viewModel: LabourViewModel
     @Environment(\.dismiss) private var dismiss
 
     private var editor: WorkerEditor { viewModel.workerEditor ?? WorkerEditor() }
@@ -283,7 +283,7 @@ private struct WorkerEditorSheet: View {
 }
 
 private struct PaymentSheet: View {
-    @Bindable var viewModel: LabourViewModel
+    @ObservedObject var viewModel: LabourViewModel
     @Environment(\.dismiss) private var dismiss
 
     private var editor: PaymentEditor { viewModel.paymentEditor ?? PaymentEditor() }
@@ -383,7 +383,7 @@ private struct PaymentSheet: View {
 }
 
 private struct WorkerDetailSheet: View {
-    @Bindable var viewModel: LabourViewModel
+    @ObservedObject var viewModel: LabourViewModel
 
     var body: some View {
         NavigationStack {
@@ -486,7 +486,7 @@ private struct WorkerDetailSheet: View {
 }
 
 private struct AttendanceSheet: View {
-    @Bindable var viewModel: LabourViewModel
+    @ObservedObject var viewModel: LabourViewModel
 
     var body: some View {
         NavigationStack {

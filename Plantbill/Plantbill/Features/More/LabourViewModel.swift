@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 enum LabourPayMode: String {
     case cash, upi, split
@@ -68,26 +68,25 @@ struct WorkerDetail: Equatable {
     var payments: [LabourPayment] = []
 }
 
-@Observable
 @MainActor
-final class LabourViewModel {
+final class LabourViewModel: ObservableObject {
     let isManager: Bool
 
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    private(set) var labourers: [Labourer] = []
-    private(set) var payments: [LabourPayment] = []
-    var query: String = ""
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published private(set) var labourers: [Labourer] = []
+    @Published private(set) var payments: [LabourPayment] = []
+    @Published var query: String = ""
 
-    var workerEditor: WorkerEditor?
-    var paymentEditor: PaymentEditor?
-    var detail: WorkerDetail?
+    @Published var workerEditor: WorkerEditor?
+    @Published var paymentEditor: PaymentEditor?
+    @Published var detail: WorkerDetail?
 
-    var showAttendance = false
-    private(set) var attendance: [UUID: Attendance] = [:]
-    private(set) var attendanceBusyId: UUID?
+    @Published var showAttendance = false
+    @Published private(set) var attendance: [UUID: Attendance] = [:]
+    @Published private(set) var attendanceBusyId: UUID?
 
-    var message: String?
+    @Published var message: String?
 
     init(isManager: Bool) {
         self.isManager = isManager

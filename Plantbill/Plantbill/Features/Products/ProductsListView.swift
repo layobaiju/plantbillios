@@ -3,7 +3,7 @@ import SwiftUI
 struct ProductsListView: View {
     let canManage: Bool
 
-    @State private var viewModel = ProductsViewModel()
+    @StateObject private var viewModel = ProductsViewModel()
     @State private var showingAddSheet = false
     @State private var editingProduct: Product?
     @State private var showingBulkImport = false
@@ -170,6 +170,6 @@ private struct ProductRow: View {
 
 #Preview {
     ProductsListView(canManage: true)
-        .environment(AuthSession())
-        .environment(NotificationsStore())
+        .environmentObject(AuthSession())
+        .environmentObject(NotificationsStore())
 }

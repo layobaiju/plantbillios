@@ -10,13 +10,13 @@ enum SalesDestination: Hashable {
 struct SalesView: View {
     let isManager: Bool
 
-    @State private var viewModel: SalesViewModel
+    @StateObject private var viewModel: SalesViewModel
     @State private var path = NavigationPath()
     @State private var showingDatePicker = false
 
     init(isManager: Bool) {
         self.isManager = isManager
-        _viewModel = State(initialValue: SalesViewModel(isManager: isManager))
+        _viewModel = StateObject(wrappedValue: SalesViewModel(isManager: isManager))
     }
 
     var body: some View {
@@ -402,7 +402,7 @@ private struct DatePickerSheet: View {
 }
 
 private struct ExpenseEditorSheet: View {
-    @Bindable var viewModel: SalesViewModel
+    @ObservedObject var viewModel: SalesViewModel
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {

@@ -3,11 +3,11 @@ import SwiftUI
 struct DuesView: View {
     let isManager: Bool
 
-    @State private var viewModel: DuesViewModel
+    @StateObject private var viewModel: DuesViewModel
 
     init(isManager: Bool) {
         self.isManager = isManager
-        _viewModel = State(initialValue: DuesViewModel(isManager: isManager))
+        _viewModel = StateObject(wrappedValue: DuesViewModel(isManager: isManager))
     }
 
     var body: some View {
@@ -158,7 +158,7 @@ private struct DueRow: View {
 }
 
 private struct SettleSheet: View {
-    @Bindable var viewModel: DuesViewModel
+    @ObservedObject var viewModel: DuesViewModel
     @Environment(\.dismiss) private var dismiss
 
     private var target: SettleTarget { viewModel.settle ?? SettleTarget(entry: BillListEntry(id: UUID(), createdAt: Date(), total: "0.00", dueAmount: "0.00", customerName: nil, customerPhone: nil, itemCount: 0, paymentMethod: .due, isEdited: false, pendingSettlement: false)) }

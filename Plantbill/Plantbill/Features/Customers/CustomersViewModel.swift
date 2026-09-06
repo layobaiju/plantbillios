@@ -1,17 +1,16 @@
+import Combine
 import Foundation
-import Observation
 
-@Observable
 @MainActor
-final class CustomersViewModel {
+final class CustomersViewModel: ObservableObject {
     enum State {
         case loading
         case loaded([Customer])
         case error(String)
     }
 
-    private(set) var state: State = .loading
-    var query: String = ""
+    @Published private(set) var state: State = .loading
+    @Published var query: String = ""
 
     var visible: [Customer] {
         guard case .loaded(let customers) = state else { return [] }

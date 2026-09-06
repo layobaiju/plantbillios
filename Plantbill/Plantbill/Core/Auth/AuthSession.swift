@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 enum AuthState: Equatable {
     case loading
@@ -13,10 +13,9 @@ enum AuthState: Equatable {
 /// Root session/auth state for the app. Mirrors Android's SessionRepository:
 /// bootstraps from a stored token on launch, and a 401 from anywhere forces
 /// a global logout back to the login screen.
-@Observable
 @MainActor
-final class AuthSession {
-    private(set) var state: AuthState = .loading
+final class AuthSession: ObservableObject {
+    @Published private(set) var state: AuthState = .loading
 
     private let apiClient = APIClient.shared
 

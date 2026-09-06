@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct HeldBillsSheet: View {
-    let viewModel: BillingViewModel
+    @ObservedObject var viewModel: BillingViewModel
     let onResume: (HeldBill) -> Void
 
     @Environment(\.dismiss) private var dismiss

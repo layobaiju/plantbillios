@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 enum BorrowMode: String {
     case cash, upi, split
@@ -54,18 +54,17 @@ struct PayEditor: Equatable {
     }
 }
 
-@Observable
 @MainActor
-final class BorrowingsViewModel {
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    var filter: BorrowFilter = .all
-    private(set) var items: [Borrowing] = []
-    private(set) var totalOutstanding: Money = .zero
+final class BorrowingsViewModel: ObservableObject {
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published var filter: BorrowFilter = .all
+    @Published private(set) var items: [Borrowing] = []
+    @Published private(set) var totalOutstanding: Money = .zero
 
-    var addEditor: AddEditor?
-    var payEditor: PayEditor?
-    var message: String?
+    @Published var addEditor: AddEditor?
+    @Published var payEditor: PayEditor?
+    @Published var message: String?
 
     func load() async {
         isLoading = true

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ApprovalsView: View {
-    @State private var viewModel = ApprovalsViewModel()
+    @StateObject private var viewModel = ApprovalsViewModel()
 
     var body: some View {
         content

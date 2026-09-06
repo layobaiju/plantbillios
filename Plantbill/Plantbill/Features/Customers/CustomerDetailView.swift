@@ -4,12 +4,12 @@ struct CustomerDetailView: View {
     let customerId: UUID
     let isManager: Bool
 
-    @State private var viewModel: CustomerDetailViewModel
+    @StateObject private var viewModel: CustomerDetailViewModel
 
     init(customerId: UUID, isManager: Bool) {
         self.customerId = customerId
         self.isManager = isManager
-        _viewModel = State(initialValue: CustomerDetailViewModel(customerId: customerId))
+        _viewModel = StateObject(wrappedValue: CustomerDetailViewModel(customerId: customerId))
     }
 
     var body: some View {

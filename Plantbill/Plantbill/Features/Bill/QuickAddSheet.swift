@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct QuickAddSheet: View {
-    let viewModel: BillingViewModel
+    @ObservedObject var viewModel: BillingViewModel
 
     @Environment(\.dismiss) private var dismiss
 

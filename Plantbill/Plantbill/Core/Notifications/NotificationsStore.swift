@@ -1,21 +1,20 @@
+import Combine
 import Foundation
-import Observation
 
 /// Shell-scoped notification state shared by the bell badge (on every
 /// top-level tab) and the full notifications list — one fetch serves both,
 /// mirroring Android's shell-scoped NotificationsViewModel.
-@Observable
 @MainActor
-final class NotificationsStore {
-    private(set) var items: [NotificationItem] = []
-    private(set) var unreadCount: Int = 0
-    private(set) var isLoading = false
+final class NotificationsStore: ObservableObject {
+    @Published private(set) var items: [NotificationItem] = []
+    @Published private(set) var unreadCount: Int = 0
+    @Published private(set) var isLoading = false
 
     /// IDs that were unread when the notifications screen was opened this
     /// session — kept visually highlighted even after being marked read,
     /// matching Android's "mark all unread as read on open, keep them
     /// highlighted for the session" behavior.
-    private(set) var highlightedIDs: Set<UUID> = []
+    @Published private(set) var highlightedIDs: Set<UUID> = []
 
     func refresh() async {
         isLoading = true

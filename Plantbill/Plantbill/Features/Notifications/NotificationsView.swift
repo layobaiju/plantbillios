@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct NotificationsView: View {
-    @Environment(NotificationsStore.self) private var store
+    @EnvironmentObject private var store: NotificationsStore
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
 
@@ -89,5 +89,5 @@ private struct NotificationRow: View {
 
 #Preview {
     NotificationsView()
-        .environment(NotificationsStore())
+        .environmentObject(NotificationsStore())
 }

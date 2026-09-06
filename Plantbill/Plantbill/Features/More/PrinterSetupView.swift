@@ -1,16 +1,28 @@
+import Combine
 import SwiftUI
 
-@Observable
 @MainActor
-final class PrinterSetupViewModel {
+final class PrinterSetupViewModel: ObservableObject {
     private let manager = BLEPrinterManager()
 
-    private(set) var connectingId: UUID?
-    private(set) var isSendingTest = false
-    var message: String?
+    /// `state` and `discovered` read through to `manager`, so this view model
+    /// has to re-publish the manager's changes as its own -- under the old
+    /// `@Observable` these nested reads were tracked automatically, but
+    /// `ObservableObject` only publishes what this object itself declares.
+    private var managerObservation: AnyCancellable?
+
+    @Published private(set) var connectingId: UUID?
+    @Published private(set) var isSendingTest = false
+    @Published var message: String?
 
     var state: PrinterConnectionState { manager.state }
     var discovered: [DiscoveredPrinter] { manager.discoveredPrinters }
+
+    init() {
+        managerObservation = manager.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
+        }
+    }
 
     func scan() { manager.startScan() }
     func stopScan() { manager.stopScan() }
@@ -53,7 +65,7 @@ final class PrinterSetupViewModel {
 struct PrinterSetupView: View {
     let shopName: String
 
-    @State private var viewModel = PrinterSetupViewModel()
+    @StateObject private var viewModel = PrinterSetupViewModel()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {

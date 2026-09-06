@@ -4,7 +4,7 @@ import PhotosUI
 struct ProductFormSheet: View {
     /// nil = create mode.
     let product: Product?
-    let viewModel: ProductsViewModel
+    @ObservedObject var viewModel: ProductsViewModel
 
     @Environment(\.dismiss) private var dismiss
 
@@ -130,7 +130,7 @@ struct ProductFormSheet: View {
                     }
                 }
             }
-            .onChange(of: selectedPhotoItem) { _, newItem in
+            .onChange(of: selectedPhotoItem) { newItem in
                 Task {
                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
                         pendingPhotoData = data

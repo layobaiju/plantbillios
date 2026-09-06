@@ -1,9 +1,8 @@
+import Combine
 import Foundation
-import Observation
 
-@Observable
 @MainActor
-final class BillDetailViewModel {
+final class BillDetailViewModel: ObservableObject {
     enum State {
         case loading
         case loaded(BillDetail)
@@ -11,10 +10,10 @@ final class BillDetailViewModel {
     }
 
     let billId: UUID
-    private(set) var state: State = .loading
-    private(set) var isDeleting = false
-    var deleted = false
-    var deleteError: String?
+    @Published private(set) var state: State = .loading
+    @Published private(set) var isDeleting = false
+    @Published var deleted = false
+    @Published var deleteError: String?
 
     init(billId: UUID) {
         self.billId = billId

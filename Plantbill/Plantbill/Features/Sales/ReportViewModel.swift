@@ -1,20 +1,19 @@
+import Combine
 import Foundation
-import Observation
 
-@Observable
 @MainActor
-final class ReportViewModel {
+final class ReportViewModel: ObservableObject {
     let isManager: Bool
 
-    var dateFrom: Date = ShopCalendar.today()
-    var dateTo: Date = ShopCalendar.today()
-    private(set) var staff: [Salesperson] = []
-    var selectedStaffId: UUID?
+    @Published var dateFrom: Date = ShopCalendar.today()
+    @Published var dateTo: Date = ShopCalendar.today()
+    @Published private(set) var staff: [Salesperson] = []
+    @Published var selectedStaffId: UUID?
 
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    private(set) var report: DetailedReport?
-    private(set) var isDownloading = false
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published private(set) var report: DetailedReport?
+    @Published private(set) var isDownloading = false
 
     init(isManager: Bool) {
         self.isManager = isManager

@@ -4,13 +4,13 @@ struct BillEditView: View {
     let billId: UUID
     let onSaved: () -> Void
 
-    @State private var viewModel: BillEditViewModel
+    @StateObject private var viewModel: BillEditViewModel
     @Environment(\.dismiss) private var dismiss
 
     init(billId: UUID, onSaved: @escaping () -> Void) {
         self.billId = billId
         self.onSaved = onSaved
-        _viewModel = State(initialValue: BillEditViewModel(billId: billId))
+        _viewModel = StateObject(wrappedValue: BillEditViewModel(billId: billId))
     }
 
     var body: some View {
@@ -25,7 +25,7 @@ struct BillEditView: View {
                     }
                 }
                 .task { await viewModel.load() }
-                .onChange(of: viewModel.saved) { _, saved in
+                .onChange(of: viewModel.saved) { saved in
                     if saved { onSaved() }
                 }
                 .sheet(isPresented: Binding(get: { viewModel.showingAddPicker }, set: { viewModel.showingAddPicker = $0 })) {
@@ -47,7 +47,7 @@ struct BillEditView: View {
 }
 
 private struct EditBody: View {
-    @Bindable var viewModel: BillEditViewModel
+    @ObservedObject var viewModel: BillEditViewModel
 
     var body: some View {
         ScrollView {
@@ -189,7 +189,7 @@ private struct EditLineRow: View {
                 .frame(width: width, height: PlantbillSpacing.minTouchTarget)
                 .background(RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius).fill(PlantbillColor.background))
                 .overlay(RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius).stroke(PlantbillColor.border, lineWidth: 1))
-                .onChange(of: text.wrappedValue) { _, newValue in onChange(newValue) }
+                .onChange(of: text.wrappedValue) { newValue in onChange(newValue) }
         }
     }
 }

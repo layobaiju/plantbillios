@@ -9,7 +9,7 @@ struct OwnerDashboardView: View {
     let email: String
     let onLogout: () -> Void
 
-    @State private var viewModel = OwnerDashboardViewModel()
+    @StateObject private var viewModel = OwnerDashboardViewModel()
     @State private var path = NavigationPath()
 
     var body: some View {

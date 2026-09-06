@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct LanguagePickerView: View {
-    @Environment(LanguageStore.self) private var languageStore
+    @EnvironmentObject private var languageStore: LanguageStore
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -40,5 +40,5 @@ struct LanguagePickerView: View {
 
 #Preview {
     LanguagePickerView()
-        .environment(LanguageStore())
+        .environmentObject(LanguageStore())
 }

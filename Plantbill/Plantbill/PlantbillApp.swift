@@ -2,14 +2,14 @@ import SwiftUI
 
 @main
 struct PlantbillApp: App {
-    @State private var session = AuthSession()
-    @State private var languageStore = LanguageStore()
+    @StateObject private var session = AuthSession()
+    @StateObject private var languageStore = LanguageStore()
 
     var body: some Scene {
         WindowGroup {
             RootView()
-                .environment(session)
-                .environment(languageStore)
+                .environmentObject(session)
+                .environmentObject(languageStore)
                 .environment(\.locale, languageStore.current.locale)
                 // Forces the whole tree to rebuild on language change —
                 // mirrors Android's activity-recreation-on-language-switch,

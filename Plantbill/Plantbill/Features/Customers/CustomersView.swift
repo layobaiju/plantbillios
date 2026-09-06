@@ -8,7 +8,7 @@ enum CustomerDestination: Hashable {
 struct CustomersView: View {
     let isManager: Bool
 
-    @State private var viewModel = CustomersViewModel()
+    @StateObject private var viewModel = CustomersViewModel()
     @State private var path = NavigationPath()
 
     var body: some View {

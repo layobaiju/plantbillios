@@ -4,13 +4,13 @@ struct OwnerShopDetailView: View {
     let shopId: UUID
     let shopName: String
 
-    @State private var viewModel: OwnerShopDetailViewModel
+    @StateObject private var viewModel: OwnerShopDetailViewModel
     @State private var pendingStaffDelete: OwnerStaff?
 
     init(shopId: UUID, shopName: String) {
         self.shopId = shopId
         self.shopName = shopName
-        _viewModel = State(initialValue: OwnerShopDetailViewModel(shopId: shopId))
+        _viewModel = StateObject(wrappedValue: OwnerShopDetailViewModel(shopId: shopId))
     }
 
     var body: some View {
@@ -270,7 +270,7 @@ private struct OwnerStaffRowView: View {
 }
 
 private struct AddStaffCard: View {
-    @Bindable var viewModel: OwnerShopDetailViewModel
+    @ObservedObject var viewModel: OwnerShopDetailViewModel
 
     var body: some View {
         PlantbillCard {
@@ -296,7 +296,7 @@ private struct AddStaffCard: View {
 }
 
 private struct OwnerLabourerDetailSheet: View {
-    @Bindable var viewModel: OwnerShopDetailViewModel
+    @ObservedObject var viewModel: OwnerShopDetailViewModel
 
     var body: some View {
         NavigationStack {
@@ -369,7 +369,7 @@ private struct OwnerLabourerDetailSheet: View {
 }
 
 private struct OwnerBillDetailSheet: View {
-    @Bindable var viewModel: OwnerShopDetailViewModel
+    @ObservedObject var viewModel: OwnerShopDetailViewModel
 
     var body: some View {
         NavigationStack {

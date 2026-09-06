@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct LoginView: View {
-    @Environment(AuthSession.self) private var session
-    @State private var viewModel = LoginViewModel()
+    @EnvironmentObject private var session: AuthSession
+    @StateObject private var viewModel = LoginViewModel()
     @FocusState private var focusedField: Field?
 
     private enum Field { case email, password }
@@ -97,5 +97,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
-        .environment(AuthSession())
+        .environmentObject(AuthSession())
 }

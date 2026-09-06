@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 struct NewStaffForm: Equatable {
     var email: String = ""
@@ -17,25 +17,24 @@ struct OwnerBillDetailState {
     var bill: BillDetail?
 }
 
-@Observable
 @MainActor
-final class OwnerShopDetailViewModel {
+final class OwnerShopDetailViewModel: ObservableObject {
     let shopId: UUID
 
-    private(set) var report: DetailedReport?
-    private(set) var bills: [OwnerBillRow] = []
-    private(set) var billsLoading = false
-    private(set) var staff: [OwnerStaff] = []
-    private(set) var cashInHand: OwnerCashInHand?
-    var cashFull = true
-    private(set) var labourers: [Labourer] = []
+    @Published private(set) var report: DetailedReport?
+    @Published private(set) var bills: [OwnerBillRow] = []
+    @Published private(set) var billsLoading = false
+    @Published private(set) var staff: [OwnerStaff] = []
+    @Published private(set) var cashInHand: OwnerCashInHand?
+    @Published var cashFull = true
+    @Published private(set) var labourers: [Labourer] = []
 
-    var labourerDetail: WorkerDetail?
-    var billDetail: OwnerBillDetailState?
-    var newStaff = NewStaffForm()
-    var message: String?
+    @Published var labourerDetail: WorkerDetail?
+    @Published var billDetail: OwnerBillDetailState?
+    @Published var newStaff = NewStaffForm()
+    @Published var message: String?
 
-    var period: OwnerPeriod = .today {
+    @Published var period: OwnerPeriod = .today {
         didSet {
             if oldValue != period {
                 Task { await loadReport() }
@@ -44,7 +43,7 @@ final class OwnerShopDetailViewModel {
             }
         }
     }
-    var customFrom: Date = ShopCalendar.calendar.date(byAdding: .day, value: -6, to: ShopCalendar.today()) ?? ShopCalendar.today() {
+    @Published var customFrom: Date = ShopCalendar.calendar.date(byAdding: .day, value: -6, to: ShopCalendar.today()) ?? ShopCalendar.today() {
         didSet {
             if period == .custom {
                 Task { await loadReport() }
@@ -52,7 +51,7 @@ final class OwnerShopDetailViewModel {
             }
         }
     }
-    var customTo: Date = ShopCalendar.today() {
+    @Published var customTo: Date = ShopCalendar.today() {
         didSet {
             if period == .custom {
                 Task { await loadReport() }

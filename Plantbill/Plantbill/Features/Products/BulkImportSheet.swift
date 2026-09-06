@@ -2,7 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct BulkImportSheet: View {
-    let viewModel: ProductsViewModel
+    @ObservedObject var viewModel: ProductsViewModel
 
     @Environment(\.dismiss) private var dismiss
 

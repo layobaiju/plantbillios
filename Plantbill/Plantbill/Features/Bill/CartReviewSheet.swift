@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CartReviewSheet: View {
-    @Bindable var viewModel: BillingViewModel
+    @ObservedObject var viewModel: BillingViewModel
 
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
@@ -43,7 +43,7 @@ struct CartReviewSheet: View {
                     .font(PlantbillTypography.caption)
                 }
             }
-            .onChange(of: viewModel.checkoutState) { _, newState in
+            .onChange(of: viewModel.checkoutState) { newState in
                 if case .success = newState { dismiss() }
             }
         }
@@ -301,7 +301,7 @@ private struct CartLineRow: View {
                     RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
                         .stroke(PlantbillColor.border, lineWidth: 1)
                 )
-                .onChange(of: text.wrappedValue) { _, newValue in
+                .onChange(of: text.wrappedValue) { newValue in
                     onChange(newValue)
                 }
         }

@@ -1,9 +1,8 @@
+import Combine
 import Foundation
-import Observation
 
-@Observable
 @MainActor
-final class BillingViewModel {
+final class BillingViewModel: ObservableObject {
     enum ProductLoadState {
         case loading
         case loaded([Product])
@@ -29,32 +28,32 @@ final class BillingViewModel {
 
     // MARK: Product browsing
 
-    private(set) var productState: ProductLoadState = .loading
-    var searchText: String = "" { didSet { scheduleReload() } }
-    var selectedCategory: String? = nil { didSet { Task { await loadProducts() } } }
-    private(set) var categories: [String] = []
-    private var searchDebounceTask: Task<Void, Never>?
+    @Published private(set) var productState: ProductLoadState = .loading
+    @Published var searchText: String = "" { didSet { scheduleReload() } }
+    @Published var selectedCategory: String? = nil { didSet { Task { await loadProducts() } } }
+    @Published private(set) var categories: [String] = []
+    @Published private var searchDebounceTask: Task<Void, Never>?
 
     // MARK: Cart
 
-    private(set) var cartLines: [CartLine] = []
-    var discountType: DiscountType = .flat
-    var discountValueText: String = ""
-    var paymentMode: PaymentMode = .cash
-    var cashPartText: String = ""
-    var dueAmountText: String = ""
-    var customerName: String = ""
-    var customerPhone: String = ""
-    var remarks: String = ""
-    private(set) var idempotencyKey = UUID().uuidString
+    @Published private(set) var cartLines: [CartLine] = []
+    @Published var discountType: DiscountType = .flat
+    @Published var discountValueText: String = ""
+    @Published var paymentMode: PaymentMode = .cash
+    @Published var cashPartText: String = ""
+    @Published var dueAmountText: String = ""
+    @Published var customerName: String = ""
+    @Published var customerPhone: String = ""
+    @Published var remarks: String = ""
+    @Published private(set) var idempotencyKey = UUID().uuidString
 
     // MARK: Held bills
 
-    private(set) var heldBills: [HeldBill] = HeldBillStore.load()
+    @Published private(set) var heldBills: [HeldBill] = HeldBillStore.load()
 
     // MARK: Checkout
 
-    private(set) var checkoutState: CheckoutState = .idle
+    @Published private(set) var checkoutState: CheckoutState = .idle
 
     // MARK: Computed (display-only preview — server is authoritative)
 

@@ -1,17 +1,16 @@
+import Combine
 import Foundation
-import Observation
 
-@Observable
 @MainActor
-final class CustomerDetailViewModel {
+final class CustomerDetailViewModel: ObservableObject {
     let customerId: UUID
 
-    private(set) var isLoading = true
-    private(set) var loadError: String?
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
     /// The customer's name, taken from the first bill that recorded one —
     /// nil when no bill has it (UI shows a fallback).
-    private(set) var name: String?
-    private(set) var bills: [BillListEntry] = []
+    @Published private(set) var name: String?
+    @Published private(set) var bills: [BillListEntry] = []
 
     init(customerId: UUID) {
         self.customerId = customerId

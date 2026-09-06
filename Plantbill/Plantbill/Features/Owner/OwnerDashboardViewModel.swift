@@ -1,20 +1,19 @@
+import Combine
 import Foundation
-import Observation
 
-@Observable
 @MainActor
-final class OwnerDashboardViewModel {
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    private(set) var overview: OwnerOverview?
+final class OwnerDashboardViewModel: ObservableObject {
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published private(set) var overview: OwnerOverview?
 
-    var period: OwnerPeriod = .today {
+    @Published var period: OwnerPeriod = .today {
         didSet { if oldValue != period { Task { await load() } } }
     }
-    var customFrom: Date = ShopCalendar.calendar.date(byAdding: .day, value: -6, to: ShopCalendar.today()) ?? ShopCalendar.today() {
+    @Published var customFrom: Date = ShopCalendar.calendar.date(byAdding: .day, value: -6, to: ShopCalendar.today()) ?? ShopCalendar.today() {
         didSet { if period == .custom { Task { await load() } } }
     }
-    var customTo: Date = ShopCalendar.today() {
+    @Published var customTo: Date = ShopCalendar.today() {
         didSet { if period == .custom { Task { await load() } } }
     }
 

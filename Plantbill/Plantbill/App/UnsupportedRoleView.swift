@@ -3,7 +3,7 @@ import SwiftUI
 /// Parity with Android's UnsupportedRoleScreen — admin accounts (and any
 /// role this build doesn't recognize) use the web app instead.
 struct UnsupportedRoleView: View {
-    @Environment(AuthSession.self) private var session
+    @EnvironmentObject private var session: AuthSession
 
     var body: some View {
         VStack(spacing: PlantbillSpacing.lg) {
@@ -30,5 +30,5 @@ struct UnsupportedRoleView: View {
 
 #Preview {
     UnsupportedRoleView()
-        .environment(AuthSession())
+        .environmentObject(AuthSession())
 }

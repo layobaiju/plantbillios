@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 private let pageSize = 20
 
@@ -50,9 +50,8 @@ struct ExpenseEditor: Equatable {
     }
 }
 
-@Observable
 @MainActor
-final class SalesViewModel {
+final class SalesViewModel: ObservableObject {
     enum SummaryState: Equatable {
         case loading
         case loaded(DaySummary)
@@ -70,19 +69,19 @@ final class SalesViewModel {
 
     let isManager: Bool
 
-    private(set) var selectedDate: Date = ShopCalendar.today()
-    private(set) var staff: [Salesperson] = []
-    private(set) var staffSales: [StaffSales] = []
-    private(set) var selectedStaffId: UUID?
+    @Published private(set) var selectedDate: Date = ShopCalendar.today()
+    @Published private(set) var staff: [Salesperson] = []
+    @Published private(set) var staffSales: [StaffSales] = []
+    @Published private(set) var selectedStaffId: UUID?
 
-    private(set) var summaryState: SummaryState = .loading
-    private(set) var bills: [BillListEntry] = []
-    private(set) var billsLoading = true
-    private(set) var loadingMore = false
-    private(set) var hasMore = false
+    @Published private(set) var summaryState: SummaryState = .loading
+    @Published private(set) var bills: [BillListEntry] = []
+    @Published private(set) var billsLoading = true
+    @Published private(set) var loadingMore = false
+    @Published private(set) var hasMore = false
 
-    var expenseEditor: ExpenseEditor?
-    var message: String?
+    @Published var expenseEditor: ExpenseEditor?
+    @Published var message: String?
 
     init(isManager: Bool) {
         self.isManager = isManager

@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 enum ProductActiveFilter: String {
     case active = "true"
@@ -7,9 +7,8 @@ enum ProductActiveFilter: String {
     case all
 }
 
-@Observable
 @MainActor
-final class ProductsViewModel {
+final class ProductsViewModel: ObservableObject {
     enum LoadState {
         case loading
         case loaded([Product])
@@ -17,25 +16,25 @@ final class ProductsViewModel {
         case error(String)
     }
 
-    private(set) var state: LoadState = .loading
-    var searchText: String = "" {
+    @Published private(set) var state: LoadState = .loading
+    @Published var searchText: String = "" {
         didSet { scheduleReload() }
     }
-    var selectedCategory: String? = nil {
+    @Published var selectedCategory: String? = nil {
         didSet { Task { await load() } }
     }
-    var includeInactive: Bool = false {
+    @Published var includeInactive: Bool = false {
         didSet { Task { await load() } }
     }
 
     /// Distinct categories seen across the last successful load, for the
     /// filter chips.
-    private(set) var categories: [String] = []
+    @Published private(set) var categories: [String] = []
 
-    private(set) var isMutating = false
-    private(set) var mutationError: String?
+    @Published private(set) var isMutating = false
+    @Published private(set) var mutationError: String?
 
-    private var searchDebounceTask: Task<Void, Never>?
+    @Published private var searchDebounceTask: Task<Void, Never>?
 
     private func scheduleReload() {
         searchDebounceTask?.cancel()

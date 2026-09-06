@@ -11,8 +11,8 @@ enum MoreDestination: Hashable {
 struct MoreView: View {
     let user: CurrentUser
 
-    @Environment(AuthSession.self) private var session
-    @Environment(LanguageStore.self) private var languageStore
+    @EnvironmentObject private var session: AuthSession
+    @EnvironmentObject private var languageStore: LanguageStore
     @State private var showingLanguagePicker = false
     @State private var showingCashSet = false
     @State private var path = NavigationPath()
@@ -277,7 +277,7 @@ private struct SetCashInHandSheet: View {
 
 #Preview {
     MoreView(user: CurrentUser(id: UUID(), email: "owner@example.com", role: .manager, shopId: UUID(), isActive: true, shopName: "Green Leaf Nursery", businessName: nil, businessUpi: nil))
-        .environment(AuthSession())
-        .environment(LanguageStore())
-        .environment(NotificationsStore())
+        .environmentObject(AuthSession())
+        .environmentObject(LanguageStore())
+        .environmentObject(NotificationsStore())
 }

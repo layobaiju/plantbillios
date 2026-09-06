@@ -1,6 +1,6 @@
+import Combine
 import Foundation
 import CoreBluetooth
-import Observation
 
 /// CoreBluetooth-based `PrinterTransport`. This is a hardware-discovery tool
 /// as much as a printing path: since it's unconfirmed whether the shop's
@@ -10,21 +10,20 @@ import Observation
 /// BLE print profile the way classic-Bluetooth printers share SPP, so the
 /// only reliable way to find out is to show everything nearby and let the
 /// shop try connecting to whatever looks like their printer by name.
-@Observable
 @MainActor
-final class BLEPrinterManager: NSObject, PrinterTransport {
-    private(set) var state: PrinterConnectionState = .idle
-    private(set) var discoveredPrinters: [DiscoveredPrinter] = []
+final class BLEPrinterManager: NSObject, ObservableObject, PrinterTransport {
+    @Published private(set) var state: PrinterConnectionState = .idle
+    @Published private(set) var discoveredPrinters: [DiscoveredPrinter] = []
 
-    @ObservationIgnored private var central: CBCentralManager!
-    @ObservationIgnored private var peripherals: [UUID: CBPeripheral] = [:]
-    @ObservationIgnored private var connectedPeripheral: CBPeripheral?
-    @ObservationIgnored private var writableCharacteristic: CBCharacteristic?
+    private var central: CBCentralManager!
+    private var peripherals: [UUID: CBPeripheral] = [:]
+    private var connectedPeripheral: CBPeripheral?
+    private var writableCharacteristic: CBCharacteristic?
 
-    @ObservationIgnored private var connectContinuation: CheckedContinuation<Void, Error>?
-    @ObservationIgnored private var writeContinuation: CheckedContinuation<Void, Error>?
-    @ObservationIgnored private var serviceDiscoveryContinuation: CheckedContinuation<Void, Error>?
-    @ObservationIgnored private var pendingServiceCount = 0
+    private var connectContinuation: CheckedContinuation<Void, Error>?
+    private var writeContinuation: CheckedContinuation<Void, Error>?
+    private var serviceDiscoveryContinuation: CheckedContinuation<Void, Error>?
+    private var pendingServiceCount = 0
 
     override init() {
         super.init()

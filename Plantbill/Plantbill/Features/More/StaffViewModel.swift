@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 private func generatePassword() -> String {
     let chars = Array("ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789")
@@ -33,17 +33,16 @@ struct ResetForm: Equatable {
     var canSave: Bool { password.count >= 8 && !saving }
 }
 
-@Observable
 @MainActor
-final class StaffViewModel {
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    private(set) var staff: [Salesperson] = []
+final class StaffViewModel: ObservableObject {
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published private(set) var staff: [Salesperson] = []
 
-    var createForm: CreateForm?
-    var resetForm: ResetForm?
-    var credentials: CredentialResult?
-    var message: String?
+    @Published var createForm: CreateForm?
+    @Published var resetForm: ResetForm?
+    @Published var credentials: CredentialResult?
+    @Published var message: String?
 
     func load() async {
         isLoading = true

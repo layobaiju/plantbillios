@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BorrowingsView: View {
-    @State private var viewModel = BorrowingsViewModel()
+    @StateObject private var viewModel = BorrowingsViewModel()
     @State private var pendingDelete: Borrowing?
 
     var body: some View {
@@ -162,7 +162,7 @@ private struct BorrowingRow: View {
 }
 
 private struct AddBorrowingSheet: View {
-    @Bindable var viewModel: BorrowingsViewModel
+    @ObservedObject var viewModel: BorrowingsViewModel
     @Environment(\.dismiss) private var dismiss
 
     private var editor: AddEditor { viewModel.addEditor ?? AddEditor() }
@@ -209,7 +209,7 @@ private struct AddBorrowingSheet: View {
 }
 
 private struct PayBorrowingSheet: View {
-    @Bindable var viewModel: BorrowingsViewModel
+    @ObservedObject var viewModel: BorrowingsViewModel
     @Environment(\.dismiss) private var dismiss
 
     private var editor: PayEditor { viewModel.payEditor ?? PayEditor(borrowing: Borrowing(id: UUID(), lenderName: "", lenderPhone: nil, amount: "0.00", cashAmount: "0.00", upiAmount: "0.00", method: "none", remarks: nil, isPaid: false, paidCashAmount: "0.00", paidUpiAmount: "0.00", paidMethod: "none", outstanding: "0.00", paidAt: nil, createdAt: Date())) }

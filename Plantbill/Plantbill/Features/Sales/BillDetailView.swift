@@ -4,7 +4,7 @@ struct BillDetailView: View {
     let billId: UUID
     let isManager: Bool
 
-    @State private var viewModel: BillDetailViewModel
+    @StateObject private var viewModel: BillDetailViewModel
     @State private var showingDeleteConfirm = false
     @State private var showingEdit = false
     @Environment(\.dismiss) private var dismiss
@@ -12,7 +12,7 @@ struct BillDetailView: View {
     init(billId: UUID, isManager: Bool) {
         self.billId = billId
         self.isManager = isManager
-        _viewModel = State(initialValue: BillDetailViewModel(billId: billId))
+        _viewModel = StateObject(wrappedValue: BillDetailViewModel(billId: billId))
     }
 
     var body: some View {
@@ -36,7 +36,7 @@ struct BillDetailView: View {
                 }
             }
             .task { await viewModel.load() }
-            .onChange(of: viewModel.deleted) { _, deleted in
+            .onChange(of: viewModel.deleted) { deleted in
                 if deleted { dismiss() }
             }
             .confirmationDialog("Delete this bill?", isPresented: $showingDeleteConfirm, titleVisibility: .visible) {

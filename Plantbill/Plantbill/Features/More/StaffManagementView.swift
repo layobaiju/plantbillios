@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct StaffManagementView: View {
-    @State private var viewModel = StaffViewModel()
+    @StateObject private var viewModel = StaffViewModel()
     @State private var pendingDelete: Salesperson?
 
     var body: some View {
@@ -99,7 +99,7 @@ private struct StaffRow: View {
 }
 
 private struct CreateStaffSheet: View {
-    @Bindable var viewModel: StaffViewModel
+    @ObservedObject var viewModel: StaffViewModel
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -140,7 +140,7 @@ private struct CreateStaffSheet: View {
 }
 
 private struct ResetPasswordSheet: View {
-    @Bindable var viewModel: StaffViewModel
+    @ObservedObject var viewModel: StaffViewModel
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {

@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 /// Dues unpaid for at least this many days are flagged "priority" (overdue).
 private let priorityDays = 30
@@ -48,17 +48,16 @@ struct SettleTarget: Equatable {
     }
 }
 
-@Observable
 @MainActor
-final class DuesViewModel {
+final class DuesViewModel: ObservableObject {
     let isManager: Bool
 
-    private(set) var isLoading = true
-    private(set) var loadError: String?
-    private(set) var dues: [BillListEntry] = []
-    var query: String = ""
-    var settle: SettleTarget?
-    var message: String?
+    @Published private(set) var isLoading = true
+    @Published private(set) var loadError: String?
+    @Published private(set) var dues: [BillListEntry] = []
+    @Published var query: String = ""
+    @Published var settle: SettleTarget?
+    @Published var message: String?
 
     init(isManager: Bool) {
         self.isManager = isManager

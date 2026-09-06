@@ -4,14 +4,14 @@ import Charts
 struct ReportView: View {
     let isManager: Bool
 
-    @State private var viewModel: ReportViewModel
+    @StateObject private var viewModel: ReportViewModel
     @State private var shareURL: URL?
     @State private var showingShareSheet = false
     @State private var downloadError: String?
 
     init(isManager: Bool) {
         self.isManager = isManager
-        _viewModel = State(initialValue: ReportViewModel(isManager: isManager))
+        _viewModel = StateObject(wrappedValue: ReportViewModel(isManager: isManager))
     }
 
     var body: some View {
