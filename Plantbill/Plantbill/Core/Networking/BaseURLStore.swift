@@ -4,7 +4,16 @@ import Foundation
 /// pattern. Exposed later in Settings; defaults to production.
 enum BaseURLStore {
     private static let key = "base_url"
+
+    /// Debug builds talk to a backend on the developer's own machine
+    /// (`localhost` resolves to the host Mac from the simulator); Release
+    /// always ships pointing at production. A value stored under `key` still
+    /// wins over both, so this only changes the *default*.
+    #if DEBUG
+    static let defaultURL = "http://localhost:8000/"
+    #else
     static let defaultURL = "https://api.plantbill.in/"
+    #endif
 
     static var current: URL {
         let stored = UserDefaults.standard.string(forKey: key) ?? defaultURL
