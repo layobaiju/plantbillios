@@ -1,4 +1,38 @@
 import SwiftUI
+import UIKit
+
+/// Adds a "Done" bar above the keyboard.
+///
+/// Number, decimal and phone keypads have no return key, so once one of them
+/// is up there is no way to put it away — the screen looks stuck, which reads
+/// to a shop owner as "I can't go back". Every numeric field in the app needs
+/// this, so it lives on the shared components rather than per screen.
+struct KeyboardDoneBar: ViewModifier {
+    let isFocused: Bool
+    let onDone: () -> Void
+
+    func body(content: Content) -> some View {
+        content.toolbar {
+            if isFocused {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done", action: onDone)
+                        .font(PlantbillTypography.bodyEmphasized)
+                }
+            }
+        }
+    }
+}
+
+extension View {
+    /// Dismisses whatever is first responder — works for both the SwiftUI and
+    /// the UIKit-backed fields without either needing to know about it.
+    func dismissKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+        )
+    }
+}
 
 /// Large, legible text field — 48pt+ tall, clear border, obvious focus state.
 struct PlantbillTextField: View {
@@ -76,6 +110,7 @@ struct PlantbillTextField: View {
                 .textContentType(textContentType)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
+                .modifier(KeyboardDoneBar(isFocused: effectivelyFocused) { dismissKeyboard() })
 
                 if isSecure {
                     Button {

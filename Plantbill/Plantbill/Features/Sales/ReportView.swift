@@ -98,7 +98,7 @@ struct ReportView: View {
             kpiCard("Cash collected", report.cashTotalMoney.format())
             kpiCard("UPI collected", report.upiTotalMoney.format())
             kpiCard("Due outstanding", report.dueTotalMoney.format(), tint: report.dueTotalMoney.isPositive ? PlantbillColor.error : PlantbillColor.textPrimary)
-            kpiCard("Total expenses", report.totalExpensesMoney.format())
+            kpiCard("Total expenses", report.totalExpensesMoney.formatOutgoing())
             kpiCard("Net income", report.netSalesMoney.format(), tint: PlantbillColor.green)
         }
     }

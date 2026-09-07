@@ -25,6 +25,23 @@ struct SelectAllTextField: UIViewRepresentable {
         field.text = text
         field.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         field.addTarget(context.coordinator, action: #selector(Coordinator.textChanged(_:)), for: .editingChanged)
+
+        // These are always number pads (price, quantity), which have no return
+        // key — without an accessory bar the keyboard can't be dismissed and
+        // the cart looks frozen. SwiftUI's keyboard toolbar doesn't attach to
+        // a UIViewRepresentable, so the bar is built here.
+        let bar = UIToolbar()
+        bar.sizeToFit()
+        bar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(
+                title: NSLocalizedString("Done", comment: "Dismisses the keyboard"),
+                style: .done,
+                target: field,
+                action: #selector(UIResponder.resignFirstResponder)
+            ),
+        ]
+        field.inputAccessoryView = bar
         return field
     }
 

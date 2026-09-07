@@ -303,7 +303,7 @@ private struct SummaryHero: View {
                 Divider()
 
                 HStack {
-                    statColumn(title: "Expenses", value: summary.totalExpensesMoney)
+                    statColumn(title: "Expenses", value: summary.totalExpensesMoney, outgoing: true)
                     statColumn(title: "Net", value: summary.netSalesMoney)
                     statColumn(
                         title: cashInHandCumulative ? "Cash in hand (all time)" : "Cash in hand",
@@ -363,12 +363,12 @@ private struct SummaryHero: View {
         }
     }
 
-    private func statColumn(title: LocalizedStringKey, value: Money, tint: Color = PlantbillColor.textPrimary) -> some View {
+    private func statColumn(title: LocalizedStringKey, value: Money, tint: Color = PlantbillColor.textPrimary, outgoing: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
                 .font(PlantbillTypography.caption)
                 .foregroundStyle(PlantbillColor.textSecondary)
-            Text(value.format())
+            Text(outgoing ? value.formatOutgoing() : value.format())
                 .font(PlantbillTypography.bodyEmphasized)
                 .foregroundStyle(tint)
         }

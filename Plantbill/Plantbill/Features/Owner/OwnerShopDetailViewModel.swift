@@ -11,6 +11,14 @@ struct NewStaffForm: Equatable {
     var canSave: Bool { email.contains("@") && password.count >= 8 && !saving }
 }
 
+/// Sign-in details shown exactly once after a reset — the server stores only
+/// a hash, so this is the only chance to note the password down.
+struct StaffCredential: Identifiable, Equatable {
+    let email: String
+    let password: String
+    var id: String { email }
+}
+
 /// The shop's business identity — what prints on a bill and what a customer
 /// pays into. Editable by the owner via `PATCH /owner/shops/{id}`.
 struct BusinessDetailsForm: Equatable {
@@ -70,6 +78,8 @@ final class OwnerShopDetailViewModel: ObservableObject {
     @Published var newStaff = NewStaffForm()
     @Published var message: String?
 
+    /// A newly reset password, surfaced once so the owner can pass it on.
+    @Published var resetResult: StaffCredential?
     @Published private(set) var shopProfile: OwnerShop?
     @Published private(set) var savingProfile = false
     /// Set once the owner types, so a background refresh can't wipe an
@@ -256,11 +266,28 @@ final class OwnerShopDetailViewModel: ObservableObject {
         }
     }
 
-    // Deliberately not implemented, to stay at parity rather than ahead of it:
-    // the backend also exposes PATCH /owner/shops/{id} and
-    // POST /owner/shops/{id}/staff/{id}/reset-password, and Android wraps both
-    // in OwnerRepository — but nothing in Android's UI calls either, so they
-    // are dead plumbing there rather than features an owner can reach.
+    /// Owner-side password reset. The new password is shown once, right here,
+    /// so the owner can pass it to the staff member — the server never sends
+    /// it anywhere.
+    func resetStaffPassword(_ s: OwnerStaff, newPassword: String) async {
+        guard newPassword.count >= 8 else {
+            message = "Use at least 8 characters."
+            return
+        }
+        do {
+            let body = try APIClient.shared.encode(OwnerStaffResetPasswordRequest(newPassword: newPassword))
+            let _: OwnerStaff = try await APIClient.shared.send(
+                Endpoint(path: "owner/shops/\(shopId)/staff/\(s.id)/reset-password", method: .post, body: body)
+            )
+            resetResult = StaffCredential(email: s.email, password: newPassword)
+        } catch let error as APIError {
+            message = error.userMessage
+        } catch {
+            message = APIError.unknown.userMessage
+        }
+    }
+
+    func dismissResetResult() { resetResult = nil }
 
     func dismissMessage() { message = nil }
 }

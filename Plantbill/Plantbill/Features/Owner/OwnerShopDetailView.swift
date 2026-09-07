@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct OwnerShopDetailView: View {
     let shopId: UUID
@@ -6,6 +7,7 @@ struct OwnerShopDetailView: View {
 
     @StateObject private var viewModel: OwnerShopDetailViewModel
     @State private var pendingStaffDelete: OwnerStaff?
+    @State private var pendingStaffReset: OwnerStaff?
 
     init(shopId: UUID, shopName: String) {
         self.shopId = shopId
@@ -21,11 +23,20 @@ struct OwnerShopDetailView: View {
             .listRowSeparator(.hidden)
             .listRowBackground(Color.clear)
 
+            // Cash in hand is the number the owner opens this screen for, so it
+            // sits outside the report block — it comes from its own endpoint
+            // and must not disappear when the report is empty, slow or failed.
+            Section {
+                cashInHandCard
+            }
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+
             if let report = viewModel.report {
                 Section {
                     HStack(spacing: PlantbillSpacing.sm) {
                         kpiCard("Sales", report.totalSalesMoney.format())
-                        kpiCard("Expenses", report.totalExpensesMoney.format())
+                        kpiCard("Expenses", report.totalExpensesMoney.formatOutgoing())
                         kpiCard("Net", report.netSalesMoney.format(), tint: PlantbillColor.green)
                     }
                     HStack(spacing: PlantbillSpacing.sm) {
@@ -33,7 +44,6 @@ struct OwnerShopDetailView: View {
                         kpiCard("UPI", report.upiTotalMoney.format())
                         kpiCard("Due", report.dueTotalMoney.format(), tint: report.dueTotalMoney.isPositive ? PlantbillColor.error : PlantbillColor.textPrimary)
                     }
-                    cashInHandCard
 
                     if !report.expenses.isEmpty {
                         Text("Expenses")
@@ -111,7 +121,11 @@ struct OwnerShopDetailView: View {
                     .font(PlantbillTypography.headline)
                     .foregroundStyle(PlantbillColor.textPrimary)
                 ForEach(viewModel.staff) { s in
-                    OwnerStaffRowView(staff: s) { pendingStaffDelete = s }
+                    OwnerStaffRowView(
+                        staff: s,
+                        onResetPassword: { pendingStaffReset = s },
+                        onRemove: { pendingStaffDelete = s }
+                    )
                 }
                 AddStaffCard(viewModel: viewModel)
             }
@@ -149,6 +163,25 @@ struct OwnerShopDetailView: View {
                 confirmLabel: "Delete account"
             ) {
                 Task { await viewModel.deleteStaff(staff) }
+            }
+        }
+        .sheet(item: $pendingStaffReset) { staff in
+            ResetStaffPasswordSheet(staff: staff, viewModel: viewModel)
+        }
+        .alert("Password reset", isPresented: Binding(
+            get: { viewModel.resetResult != nil },
+            set: { if !$0 { viewModel.dismissResetResult() } }
+        )) {
+            Button("Copy") {
+                if let r = viewModel.resetResult {
+                    UIPasteboard.general.string = "\(r.email)\n\(r.password)"
+                }
+                viewModel.dismissResetResult()
+            }
+            Button("Done", role: .cancel) { viewModel.dismissResetResult() }
+        } message: {
+            if let r = viewModel.resetResult {
+                Text("Share these securely — they won't be shown again.\n\nEmail: \(r.email)\nPassword: \(r.password)")
             }
         }
     }
@@ -258,11 +291,12 @@ private struct OwnerLabourerRowView: View {
 
 private struct OwnerStaffRowView: View {
     let staff: OwnerStaff
+    let onResetPassword: () -> Void
     let onRemove: () -> Void
 
     var body: some View {
         PlantbillCard {
-            HStack {
+            VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(staff.email)
                         .font(PlantbillTypography.bodyEmphasized)
@@ -271,11 +305,87 @@ private struct OwnerStaffRowView: View {
                         .font(PlantbillTypography.caption)
                         .foregroundStyle(PlantbillColor.textSecondary)
                 }
-                Spacer()
-                Button("Remove", role: .destructive, action: onRemove)
-                    .font(PlantbillTypography.caption)
+                // Laid out as full-width buttons rather than hidden behind a
+                // "…" menu: the audience is older shop owners, and the design
+                // brief calls for obvious affordances and 48pt touch targets.
+                HStack(spacing: PlantbillSpacing.sm) {
+                    Button(action: onResetPassword) {
+                        Text("Reset password")
+                            .font(PlantbillTypography.caption)
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity, minHeight: PlantbillSpacing.minTouchTarget)
+                            .foregroundStyle(PlantbillColor.green)
+                            .background(
+                                RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                                    .stroke(PlantbillColor.green, lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(.plain)
+
+                    Button(action: onRemove) {
+                        Text("Remove")
+                            .font(PlantbillTypography.caption)
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity, minHeight: PlantbillSpacing.minTouchTarget)
+                            .foregroundStyle(PlantbillColor.error)
+                            .background(
+                                RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                                    .stroke(PlantbillColor.error, lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
             }
         }
+    }
+}
+
+/// Owner-side password reset. The new password is shown once afterwards so the
+/// owner can pass it on — the server keeps only a hash.
+private struct ResetStaffPasswordSheet: View {
+    let staff: OwnerStaff
+    @ObservedObject var viewModel: OwnerShopDetailViewModel
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var password = ""
+
+    var body: some View {
+        NavigationStack {
+            VStack(alignment: .leading, spacing: PlantbillSpacing.lg) {
+                Text("Set a new password for \(staff.email). Write it down — it's shown only once.")
+                    .font(PlantbillTypography.body)
+                    .foregroundStyle(PlantbillColor.textPrimary)
+
+                PlantbillTextField(label: "New password (8+ characters)", text: $password, placeholder: "")
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+
+                SecondaryButton(title: "Suggest a strong password") {
+                    password = Self.suggestPassword()
+                }
+
+                PrimaryButton(title: "Reset password", isDisabled: password.count < 8) {
+                    Task {
+                        await viewModel.resetStaffPassword(staff, newPassword: password)
+                        dismiss()
+                    }
+                }
+
+                SecondaryButton(title: "Cancel") { dismiss() }
+                Spacer()
+            }
+            .padding(PlantbillSpacing.lg)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(PlantbillColor.background)
+            .navigationTitle("Reset password")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    /// Ambiguous characters left out — these get read aloud and copied by hand.
+    private static func suggestPassword() -> String {
+        let alphabet = Array("abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789")
+        return String((0..<12).map { _ in alphabet.randomElement()! })
     }
 }
 

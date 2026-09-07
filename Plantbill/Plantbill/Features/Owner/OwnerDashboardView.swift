@@ -113,7 +113,7 @@ struct OwnerDashboardView: View {
                 kpiCard("Net income", overview.netSalesMoney.format(), tint: PlantbillColor.green)
             }
             HStack(spacing: PlantbillSpacing.sm) {
-                kpiCard("Expenses", overview.totalExpensesMoney.format())
+                kpiCard("Expenses", overview.totalExpensesMoney.formatOutgoing())
                 kpiCard("Bills", "\(overview.billCount)")
             }
         }
