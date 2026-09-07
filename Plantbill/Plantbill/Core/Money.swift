@@ -31,6 +31,14 @@ struct Money: Comparable, Equatable {
         "₹" + (Self.displayFormatter.string(from: NSDecimalNumber(decimal: rounded(scale: 0))) ?? "0")
     }
 
+    /// Money leaving the shop — an expense, a labour payment — rendered with a
+    /// leading minus, e.g. "−₹450". Uses a true minus sign (U+2212) rather
+    /// than a hyphen so it lines up with the digits at any size. Zero stays
+    /// unsigned, since "−₹0" reads as an error.
+    func formatOutgoing() -> String {
+        isZero ? format() : "−" + format()
+    }
+
     /// Editable-field value with no decimals, e.g. "120" (for price inputs).
     func toInput() -> String {
         Self.inputFormatter.string(from: NSDecimalNumber(decimal: rounded(scale: 0))) ?? "0"

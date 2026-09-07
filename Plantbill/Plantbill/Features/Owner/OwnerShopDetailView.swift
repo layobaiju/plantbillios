@@ -43,7 +43,7 @@ struct OwnerShopDetailView: View {
                             HStack {
                                 Text(e.title).font(PlantbillTypography.body).foregroundStyle(PlantbillColor.textPrimary)
                                 Spacer()
-                                Text(e.amountMoney.format()).font(PlantbillTypography.body).foregroundStyle(PlantbillColor.error)
+                                Text(e.amountMoney.formatOutgoing()).font(PlantbillTypography.body).foregroundStyle(PlantbillColor.error)
                             }
                         }
                     }
@@ -93,6 +93,15 @@ struct OwnerShopDetailView: View {
                         OwnerLabourerRowView(labourer: l) { viewModel.openLabourer(l) }
                     }
                 }
+            }
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+
+            Section {
+                Text("Business details")
+                    .font(PlantbillTypography.headline)
+                    .foregroundStyle(PlantbillColor.textPrimary)
+                BusinessDetailsCard(viewModel: viewModel)
             }
             .listRowSeparator(.hidden)
             .listRowBackground(Color.clear)
@@ -270,6 +279,52 @@ private struct OwnerStaffRowView: View {
     }
 }
 
+/// What prints on this shop's bills and what customers pay into. Editable by
+/// the owner — this is the only place a multi-shop owner can set it per shop.
+private struct BusinessDetailsCard: View {
+    @ObservedObject var viewModel: OwnerShopDetailViewModel
+
+    var body: some View {
+        PlantbillCard {
+            VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
+                field("Business name", text: $viewModel.businessForm.name, placeholder: "Shown on bills")
+                field("Address", text: $viewModel.businessForm.address, placeholder: "Shop address")
+                field("Phone", text: $viewModel.businessForm.phone, placeholder: "Business phone", keyboard: .phonePad)
+                field("Email", text: $viewModel.businessForm.email, placeholder: "Business email", keyboard: .emailAddress)
+                field("UPI ID", text: $viewModel.businessForm.upi, placeholder: "name@bank — used for the payment QR")
+
+                PrimaryButton(
+                    title: "Save business details",
+                    isLoading: viewModel.savingProfile,
+                    isDisabled: viewModel.savingProfile || !viewModel.profileEdited
+                ) {
+                    Task { await viewModel.saveShopProfile() }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func field(
+        _ label: LocalizedStringKey,
+        text: Binding<String>,
+        placeholder: LocalizedStringKey,
+        keyboard: UIKeyboardType = .default
+    ) -> some View {
+        PlantbillTextField(
+            label: label,
+            // Any keystroke marks the form dirty, so a background refresh
+            // can't overwrite what's being typed.
+            text: Binding(get: { text.wrappedValue }, set: { newValue in
+                text.wrappedValue = newValue
+                viewModel.profileEdited = true
+            }),
+            placeholder: placeholder,
+            keyboardType: keyboard
+        )
+    }
+}
+
 private struct AddStaffCard: View {
     @ObservedObject var viewModel: OwnerShopDetailViewModel
 
@@ -281,10 +336,8 @@ private struct AddStaffCard: View {
                     .foregroundStyle(PlantbillColor.textPrimary)
                 PlantbillTextField(label: "Login email", text: $viewModel.newStaff.email, placeholder: "you@example.com", keyboardType: .emailAddress)
                 PlantbillTextField(label: "Password (8+ characters)", text: $viewModel.newStaff.password)
-                HStack(spacing: PlantbillSpacing.sm) {
-                    FilterChip(title: "Salesperson", isSelected: viewModel.newStaff.role == "salesperson") { viewModel.newStaff.role = "salesperson" }
-                    FilterChip(title: "Manager", isSelected: viewModel.newStaff.role == "manager") { viewModel.newStaff.role = "manager" }
-                }
+                // Salesperson only — a manager account is created by the
+                // platform admin along with the shop, not added here.
                 if let error = viewModel.newStaff.error {
                     InlineErrorText(message: LocalizedStringKey(error))
                 }

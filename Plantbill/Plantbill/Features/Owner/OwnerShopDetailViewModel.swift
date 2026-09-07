@@ -11,6 +11,42 @@ struct NewStaffForm: Equatable {
     var canSave: Bool { email.contains("@") && password.count >= 8 && !saving }
 }
 
+/// The shop's business identity — what prints on a bill and what a customer
+/// pays into. Editable by the owner via `PATCH /owner/shops/{id}`.
+struct BusinessDetailsForm: Equatable {
+    var name = ""
+    var address = ""
+    var phone = ""
+    var email = ""
+    var upi = ""
+
+    init() {}
+
+    init(shop: OwnerShop) {
+        name = shop.businessName ?? ""
+        address = shop.businessAddress ?? ""
+        phone = shop.businessPhone ?? ""
+        email = shop.businessEmail ?? ""
+        upi = shop.businessUpi ?? ""
+    }
+
+    /// Blank means "clear it", so empty strings are sent as nil rather than
+    /// as an empty value the backend would have to interpret.
+    var request: OwnerShopUpdateRequest {
+        func trimmed(_ s: String) -> String? {
+            let t = s.trimmingCharacters(in: .whitespacesAndNewlines)
+            return t.isEmpty ? nil : t
+        }
+        return OwnerShopUpdateRequest(
+            businessName: trimmed(name),
+            businessAddress: trimmed(address),
+            businessPhone: trimmed(phone),
+            businessEmail: trimmed(email),
+            businessUpi: trimmed(upi)
+        )
+    }
+}
+
 /// The bill whose full detail (items + totals) sheet is open.
 struct OwnerBillDetailState {
     var loading = true
@@ -33,6 +69,13 @@ final class OwnerShopDetailViewModel: ObservableObject {
     @Published var billDetail: OwnerBillDetailState?
     @Published var newStaff = NewStaffForm()
     @Published var message: String?
+
+    @Published private(set) var shopProfile: OwnerShop?
+    @Published private(set) var savingProfile = false
+    /// Set once the owner types, so a background refresh can't wipe an
+    /// in-progress edit.
+    @Published var profileEdited = false
+    @Published var businessForm = BusinessDetailsForm()
 
     @Published var period: OwnerPeriod = .today {
         didSet {
@@ -70,7 +113,41 @@ final class OwnerShopDetailViewModel: ObservableObject {
         async let staffTask: Void = loadStaff()
         async let cashTask: Void = loadCashInHand()
         async let labourTask: Void = loadLabourers()
-        _ = await (reportTask, billsTask, staffTask, cashTask, labourTask)
+        async let profileTask: Void = loadShopProfile()
+        _ = await (reportTask, billsTask, staffTask, cashTask, labourTask, profileTask)
+    }
+
+    // MARK: Business details
+
+    /// `GET /owner/shops` is the only route that returns the editable business
+    /// fields — the overview rows carry takings, not the profile — so the
+    /// shop is picked out of that list by id.
+    func loadShopProfile() async {
+        let shops: [OwnerShop]? = try? await APIClient.shared.send(Endpoint(path: "owner/shops"))
+        guard let shop = shops?.first(where: { $0.id == shopId }) else { return }
+        shopProfile = shop
+        // Only seed the form the first time, so a refresh can't discard what
+        // the owner is part-way through typing.
+        if !profileEdited { businessForm = BusinessDetailsForm(shop: shop) }
+    }
+
+    func saveShopProfile() async {
+        savingProfile = true
+        defer { savingProfile = false }
+        do {
+            let body = try APIClient.shared.encode(businessForm.request)
+            let updated: OwnerShop = try await APIClient.shared.send(
+                Endpoint(path: "owner/shops/\(shopId)", method: .patch, body: body)
+            )
+            shopProfile = updated
+            businessForm = BusinessDetailsForm(shop: updated)
+            profileEdited = false
+            message = "Business details saved."
+        } catch let error as APIError {
+            message = error.userMessage
+        } catch {
+            message = APIError.unknown.userMessage
+        }
     }
 
     private var currentRange: (Date, Date) { period.range(customFrom: customFrom, customTo: customTo) }

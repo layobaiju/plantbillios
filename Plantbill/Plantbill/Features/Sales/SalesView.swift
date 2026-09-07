@@ -344,7 +344,7 @@ private struct SummaryHero: View {
                                     .foregroundStyle(PlantbillColor.textSecondary)
                             }
                             Spacer()
-                            Text(expense.amountMoney.format())
+                            Text(expense.amountMoney.formatOutgoing())
                                 .font(PlantbillTypography.body)
                                 .foregroundStyle(PlantbillColor.textPrimary)
                             Menu {

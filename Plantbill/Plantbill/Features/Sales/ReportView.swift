@@ -157,7 +157,7 @@ struct ReportView: View {
                                 .foregroundStyle(PlantbillColor.textSecondary)
                         }
                         Spacer()
-                        Text(row.totalMoney.format())
+                        Text(row.totalMoney.formatOutgoing())
                             .font(PlantbillTypography.bodyEmphasized)
                             .foregroundStyle(PlantbillColor.textPrimary)
                     }
