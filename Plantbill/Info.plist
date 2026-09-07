@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  The rest of the Info.plist is still generated from the
+	  INFOPLIST_KEY_* build settings (GENERATE_INFOPLIST_FILE stays YES);
+	  this file exists only for keys those settings can't express, which
+	  means anything nested.
+
+	  NSAllowsLocalNetworking permits plain HTTP to LAN and .local
+	  addresses ONLY — it does not weaken App Transport Security for
+	  public hosts, so the production API is still required to be HTTPS.
+	  It is what lets a real device reach a backend running on the
+	  developer's Mac over Wi-Fi: `localhost` on an iPhone means the
+	  iPhone, so testing on hardware needs the Mac's LAN address, and
+	  ATS blocks that without this key. Apple accepts it on the App
+	  Store precisely because it's scoped to local networks.
+	-->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+</dict>
+</plist>
