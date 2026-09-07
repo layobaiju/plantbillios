@@ -56,8 +56,10 @@ struct CartReviewSheet: View {
             ForEach(viewModel.cartLines) { line in
                 CartLineRow(
                     line: line,
-                    onQuantityChange: { viewModel.updateQuantity(lineId: line.id, quantity: $0) },
-                    onPriceChange: { viewModel.updatePrice(lineId: line.id, price: $0) },
+                    onQuantityText: { viewModel.updateQuantityText(lineId: line.id, text: $0) },
+                    onPriceText: { viewModel.updatePriceText(lineId: line.id, text: $0) },
+                    onIncrement: { viewModel.incrementQuantity(lineId: line.id) },
+                    onDecrement: { viewModel.decrementQuantity(lineId: line.id) },
                     onRemove: { viewModel.removeLine(lineId: line.id) }
                 )
             }
@@ -188,7 +190,22 @@ struct CartReviewSheet: View {
                 keyboardType: .phonePad
             )
             .focused($focusedField, equals: .phone)
+
+            if let rc = viewModel.returningCustomer {
+                Text(returningCustomerText(rc))
+                    .font(PlantbillTypography.body)
+                    .foregroundStyle(PlantbillColor.green)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
         }
+    }
+
+    /// "Asha — Returning customer · came 3 time(s) before", or without the
+    /// name when the server didn't have one. Mirrors Android's
+    /// `cart_returning_customer`.
+    private func returningCustomerText(_ rc: CustomerLookup) -> String {
+        let prefix = rc.name.map { "\($0) — " } ?? ""
+        return "\(prefix)Returning customer · came \(rc.visitCount) time(s) before"
     }
 
     private var remarksSection: some View {
@@ -203,9 +220,16 @@ struct CartReviewSheet: View {
             PrimaryButton(
                 title: "Save bill • \(viewModel.total.format())",
                 isLoading: viewModel.checkoutState == .submitting,
-                isDisabled: viewModel.checkoutState == .submitting
+                isDisabled: viewModel.checkoutState == .submitting || !viewModel.allLinesFilled
             ) {
                 Task { await viewModel.checkout() }
+            }
+
+            if viewModel.showsIncompleteLinesHint {
+                Text("Enter a quantity and price for every item.")
+                    .font(PlantbillTypography.body)
+                    .foregroundStyle(PlantbillColor.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             SecondaryButton(title: "Hold bill — serve another customer") {
@@ -223,20 +247,21 @@ struct CartReviewSheet: View {
 
 private struct CartLineRow: View {
     let line: CartLine
-    let onQuantityChange: (Int) -> Void
-    let onPriceChange: (Money) -> Void
+    let onQuantityText: (String) -> Void
+    let onPriceText: (String) -> Void
+    let onIncrement: () -> Void
+    let onDecrement: () -> Void
     let onRemove: () -> Void
 
-    @State private var priceText: String
-    @State private var quantityText: String
-
-    init(line: CartLine, onQuantityChange: @escaping (Int) -> Void, onPriceChange: @escaping (Money) -> Void, onRemove: @escaping () -> Void) {
-        self.line = line
-        self.onQuantityChange = onQuantityChange
-        self.onPriceChange = onPriceChange
-        self.onRemove = onRemove
-        _priceText = State(initialValue: line.unitPrice.toInput())
-        _quantityText = State(initialValue: "\(line.quantity)")
+    /// Bound straight through to the view model rather than mirrored in local
+    /// `@State`: the stepper mutates the line, and local copies seeded in
+    /// `init` would not pick that up (a `CartLineRow` is reused for the same
+    /// line identity across renders).
+    private var priceBinding: Binding<String> {
+        Binding(get: { line.priceInput }, set: onPriceText)
+    }
+    private var quantityBinding: Binding<String> {
+        Binding(get: { line.qtyInput }, set: onQuantityText)
     }
 
     var body: some View {
@@ -259,24 +284,38 @@ private struct CartLineRow: View {
                 }
 
                 HStack(spacing: PlantbillSpacing.md) {
-                    boxedField(label: "Price", text: $priceText, width: 76) { newValue in
-                        onPriceChange(Money.parse(newValue))
-                    }
+                    boxedField(label: "Price", text: priceBinding, width: 76)
 
                     Spacer()
 
-                    boxedField(label: "Quantity", text: $quantityText, width: 60) { newValue in
-                        if let qty = Int(newValue), qty > 0 {
-                            onQuantityChange(qty)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Quantity")
+                            .font(PlantbillTypography.caption)
+                            .foregroundStyle(PlantbillColor.textSecondary)
+                        HStack(spacing: PlantbillSpacing.xs) {
+                            stepperButton(systemName: "minus", action: onDecrement)
+                                .accessibilityLabel("Decrease quantity for \(line.productName)")
+                            boxedTextBox(text: quantityBinding, width: 56)
+                            stepperButton(systemName: "plus", action: onIncrement)
+                                .accessibilityLabel("Increase quantity for \(line.productName)")
                         }
                     }
                 }
 
                 HStack {
+                    // Blank lines show no running total — there is nothing to
+                    // total yet, and a "₹0" would read as a real price.
+                    if !line.isFilled {
+                        Text("Enter quantity and price")
+                            .font(PlantbillTypography.caption)
+                            .foregroundStyle(PlantbillColor.textSecondary)
+                    }
                     Spacer()
-                    Text(line.lineTotal.format())
-                        .font(PlantbillTypography.caption)
-                        .foregroundStyle(PlantbillColor.textSecondary)
+                    if line.isFilled {
+                        Text(line.lineTotal.format())
+                            .font(PlantbillTypography.caption)
+                            .foregroundStyle(PlantbillColor.textSecondary)
+                    }
                 }
             }
         }
@@ -286,24 +325,44 @@ private struct CartLineRow: View {
     /// so price/quantity clearly read as editable text boxes rather than
     /// plain inline numbers.
     @ViewBuilder
-    private func boxedField(label: LocalizedStringKey, text: Binding<String>, width: CGFloat, onChange: @escaping (String) -> Void) -> some View {
+    private func boxedField(label: LocalizedStringKey, text: Binding<String>, width: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(label)
                 .font(PlantbillTypography.caption)
                 .foregroundStyle(PlantbillColor.textSecondary)
-            SelectAllTextField(text: text, placeholder: "0", keyboardType: .numberPad, textAlignment: .center)
-                .frame(width: width, height: PlantbillSpacing.minTouchTarget)
+            boxedTextBox(text: text, width: width)
+        }
+    }
+
+    /// Placeholder is an em dash, not "0" — these start blank and a "0" would
+    /// read as a real entered price of zero.
+    @ViewBuilder
+    private func boxedTextBox(text: Binding<String>, width: CGFloat) -> some View {
+        SelectAllTextField(text: text, placeholder: "—", keyboardType: .numberPad, textAlignment: .center)
+            .frame(width: width, height: PlantbillSpacing.minTouchTarget)
+            .background(
+                RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                    .fill(PlantbillColor.background)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                    .stroke(PlantbillColor.border, lineWidth: 1)
+            )
+    }
+
+    @ViewBuilder
+    private func stepperButton(systemName: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemName)
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(PlantbillColor.green)
+                .frame(width: PlantbillSpacing.minTouchTarget, height: PlantbillSpacing.minTouchTarget)
                 .background(
                     RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
-                        .fill(PlantbillColor.background)
+                        .fill(PlantbillColor.greenTint)
                 )
-                .overlay(
-                    RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
-                        .stroke(PlantbillColor.border, lineWidth: 1)
-                )
-                .onChange(of: text.wrappedValue) { newValue in
-                    onChange(newValue)
-                }
+                .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
     }
 }

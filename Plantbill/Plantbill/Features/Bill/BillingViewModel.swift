@@ -43,7 +43,24 @@ final class BillingViewModel: ObservableObject {
     @Published var cashPartText: String = ""
     @Published var dueAmountText: String = ""
     @Published var customerName: String = ""
-    @Published var customerPhone: String = ""
+    /// Digits only, capped at 10 — the server rejects a non-10-digit
+    /// `new_customer.phone` with 422, so it is enforced here on the way in.
+    /// Setting it (re)schedules the returning-customer lookup.
+    @Published var customerPhone: String = "" {
+        didSet {
+            let digits = String(customerPhone.filter(\.isNumber).prefix(10))
+            if digits != customerPhone {
+                customerPhone = digits
+                return // the re-entrant set below handles the rest
+            }
+            if digits.count < 10 { returningCustomer = nil }
+            scheduleCustomerLookup(digits)
+        }
+    }
+    /// Non-nil only when the backend reported a match for the current 10-digit
+    /// number. Never gates or delays saving the bill.
+    @Published private(set) var returningCustomer: CustomerLookup?
+    @Published private var lookupTask: Task<Void, Never>?
     @Published var remarks: String = ""
     @Published private(set) var idempotencyKey = UUID().uuidString
 
@@ -82,6 +99,13 @@ final class BillingViewModel: ObservableObject {
     }
     var requiresCustomerPhone: Bool { dueAmount.isPositive }
 
+    /// Every line needs a quantity ≥ 1 and a price before the bill can be
+    /// saved. Mirrors Android's `allLinesFilled`.
+    var allLinesFilled: Bool { !cartLines.isEmpty && cartLines.allSatisfy(\.isFilled) }
+
+    /// Shown under the disabled Save button while any line is still blank.
+    var showsIncompleteLinesHint: Bool { !cartLines.isEmpty && !allLinesFilled }
+
     // MARK: Product loading
 
     private func scheduleReload() {
@@ -113,22 +137,39 @@ final class BillingViewModel: ObservableObject {
 
     // MARK: Cart line editing
 
+    /// Manual tap-to-add starts BLANK — no quantity, no price prefill from the
+    /// product's saved price. The operator enters the size-based price and the
+    /// count for every line (`info/iOS-UPDATES.md` §2).
     func addToCart(_ product: Product) {
-        cartLines.append(CartLine(productId: product.id, productName: product.name, unitPrice: product.price, quantity: 1))
+        cartLines.append(CartLine(productId: product.id, productName: product.name))
     }
 
-    func updateQuantity(lineId: UUID, quantity: Int) {
+    /// Raw text straight from the quantity box. Clearing it returns the line to
+    /// blank and KEEPS the line — blank is not "removed"; only the trash
+    /// control removes a line.
+    func updateQuantityText(lineId: UUID, text: String) {
         guard let index = cartLines.firstIndex(where: { $0.id == lineId }) else { return }
-        if quantity <= 0 {
-            cartLines.remove(at: index)
-        } else {
-            cartLines[index].quantity = quantity
-        }
+        cartLines[index].qtyInput = text.filter(\.isNumber)
     }
 
-    func updatePrice(lineId: UUID, price: Money) {
+    func updatePriceText(lineId: UUID, text: String) {
         guard let index = cartLines.firstIndex(where: { $0.id == lineId }) else { return }
-        cartLines[index].unitPrice = price
+        cartLines[index].priceInput = text.filter(\.isNumber)
+    }
+
+    /// Stepper `+`: from blank this gives 1, matching Android's QuantityStepper.
+    func incrementQuantity(lineId: UUID) {
+        guard let index = cartLines.firstIndex(where: { $0.id == lineId }) else { return }
+        let next = max(1, cartLines[index].quantity + 1)
+        cartLines[index].qtyInput = "\(next)"
+    }
+
+    /// Stepper `−`: floors at 1 so it can never reach 0 (removing is the trash
+    /// control's job, not the stepper's). From blank it also lands on 1.
+    func decrementQuantity(lineId: UUID) {
+        guard let index = cartLines.firstIndex(where: { $0.id == lineId }) else { return }
+        let next = max(1, cartLines[index].quantity - 1)
+        cartLines[index].qtyInput = "\(next)"
     }
 
     func removeLine(lineId: UUID) {
@@ -144,9 +185,33 @@ final class BillingViewModel: ObservableObject {
         dueAmountText = ""
         customerName = ""
         customerPhone = ""
+        lookupTask?.cancel()
+        returningCustomer = nil
         remarks = ""
         idempotencyKey = UUID().uuidString
         checkoutState = .idle
+    }
+
+    // MARK: Returning-customer lookup
+
+    /// Debounced ~350ms once the field reaches 10 digits. Fire-and-forget: a
+    /// failure leaves the hint empty and never surfaces an error, because this
+    /// must never block or delay saving a bill. RLS scopes the visit count to
+    /// this shop, so a number only ever seen at another shop returns found=false.
+    private func scheduleCustomerLookup(_ digits: String) {
+        lookupTask?.cancel()
+        guard digits.count == 10 else { return }
+        lookupTask = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(350))
+            guard !Task.isCancelled else { return }
+            let result: CustomerLookup? = try? await APIClient.shared.send(
+                Endpoint(path: "customers/lookup", queryItems: [URLQueryItem(name: "phone", value: digits)])
+            )
+            guard let self, !Task.isCancelled else { return }
+            // Ignore a late response if the field changed while it was in flight.
+            guard self.customerPhone == digits else { return }
+            self.returningCustomer = (result?.found == true) ? result : nil
+        }
     }
 
     // MARK: Quick add
@@ -157,7 +222,16 @@ final class BillingViewModel: ObservableObject {
                 ProductCreateRequest(name: name, category: "Quick Add", retailPrice: price.toWire(), lastWholesalePrice: nil)
             )
             let product: Product = try await APIClient.shared.send(Endpoint(path: "products", method: .post, body: body))
-            cartLines.append(CartLine(productId: product.id, productName: product.name, unitPrice: price, quantity: quantity))
+            // Quick add is the one flow that seeds explicit values — the operator
+            // has just typed the price and count, so the line arrives filled.
+            cartLines.append(
+                CartLine(
+                    productId: product.id,
+                    productName: product.name,
+                    qtyInput: "\(max(1, quantity))",
+                    priceInput: price.toInput()
+                )
+            )
             return true
         } catch {
             return false
@@ -177,8 +251,16 @@ final class BillingViewModel: ObservableObject {
         if !cartLines.isEmpty {
             HeldBillStore.add(snapshotCurrentBill())
         }
+        // A held bill was filled in before it was parked, so it comes back with
+        // its values intact rather than blank.
         cartLines = held.lines.map {
-            CartLine(id: $0.id, productId: $0.productId, productName: $0.productName, unitPrice: Money.parse($0.unitPriceWire), quantity: $0.quantity)
+            CartLine(
+                id: $0.id,
+                productId: $0.productId,
+                productName: $0.productName,
+                qtyInput: $0.quantity >= 1 ? "\($0.quantity)" : "",
+                priceInput: Money.parse($0.unitPriceWire).toInput()
+            )
         }
         discountType = DiscountType(rawValue: held.discountType) ?? .flat
         discountValueText = held.discountValueText
@@ -224,6 +306,12 @@ final class BillingViewModel: ObservableObject {
 
     func checkout() async {
         guard !cartLines.isEmpty else { return }
+        // The server enforces quantity ≥ 1 / unit_price ≥ 0; the client's job is
+        // simply never to submit an incomplete line.
+        guard allLinesFilled else {
+            checkoutState = .error("Enter a quantity and price for every item.")
+            return
+        }
         if requiresCustomerPhone && !isValidPhone(customerPhone) {
             checkoutState = .error("Enter a valid 10-digit phone number since money is owed on this bill.")
             return

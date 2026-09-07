@@ -73,7 +73,14 @@ final class BillEditViewModel: ObservableObject {
         lines = detail.items.compactMap { item -> CartLine? in
             guard let productId = item.productId else { return nil }
             let name = catalog.first { $0.id == productId }?.name ?? item.productName
-            return CartLine(productId: productId, productName: name, unitPrice: item.unitPriceMoney, quantity: item.quantity)
+            // Editing an existing bill deliberately KEEPS its values — only new
+            // bill creation starts blank (`info/iOS-UPDATES.md` §2).
+            return CartLine(
+                productId: productId,
+                productName: name,
+                qtyInput: "\(item.quantity)",
+                priceInput: item.unitPriceMoney.toInput()
+            )
         }
         discountType = DiscountType(rawValue: detail.discountType) ?? .flat
         let discountValue = Money.parse(detail.discountValue)
@@ -97,13 +104,13 @@ final class BillEditViewModel: ObservableObject {
         if quantity <= 0 {
             lines.removeAll { $0.id == lineId }
         } else if let index = lines.firstIndex(where: { $0.id == lineId }) {
-            lines[index].quantity = quantity
+            lines[index].qtyInput = "\(quantity)"
         }
     }
 
     func setUnitPrice(lineId: UUID, price: Money) {
         guard let index = lines.firstIndex(where: { $0.id == lineId }) else { return }
-        lines[index].unitPrice = price
+        lines[index].priceInput = price.toInput()
     }
 
     func removeLine(lineId: UUID) {
@@ -111,7 +118,15 @@ final class BillEditViewModel: ObservableObject {
     }
 
     func addProduct(_ product: Product) {
-        lines.append(CartLine(productId: product.id, productName: product.name, unitPrice: product.price, quantity: 1))
+        // Same rule as seeding: the edit flow keeps prefilled values.
+        lines.append(
+            CartLine(
+                productId: product.id,
+                productName: product.name,
+                qtyInput: "1",
+                priceInput: product.price.toInput()
+            )
+        )
         showingAddPicker = false
     }
 
