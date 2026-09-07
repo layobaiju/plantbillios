@@ -287,6 +287,23 @@ final class OwnerShopDetailViewModel: ObservableObject {
         }
     }
 
+    /// Deactivating keeps the account and its sales history but blocks
+    /// sign-in — the reversible alternative to Remove, which is permanent.
+    func setStaffActive(_ s: OwnerStaff, isActive: Bool) async {
+        do {
+            let body = try APIClient.shared.encode(OwnerStaffActivateRequest(isActive: isActive))
+            let _: OwnerStaff = try await APIClient.shared.send(
+                Endpoint(path: "owner/shops/\(shopId)/staff/\(s.id)", method: .patch, body: body)
+            )
+            message = isActive ? "\(s.email) can sign in again." : "\(s.email) can no longer sign in."
+            await loadStaff()
+        } catch let error as APIError {
+            message = error.userMessage
+        } catch {
+            message = APIError.unknown.userMessage
+        }
+    }
+
     func dismissResetResult() { resetResult = nil }
 
     func dismissMessage() { message = nil }

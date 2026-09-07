@@ -123,6 +123,7 @@ struct OwnerShopDetailView: View {
                 ForEach(viewModel.staff) { s in
                     OwnerStaffRowView(
                         staff: s,
+                        onToggleActive: { Task { await viewModel.setStaffActive(s, isActive: !s.isActive) } },
                         onResetPassword: { pendingStaffReset = s },
                         onRemove: { pendingStaffDelete = s }
                     )
@@ -291,6 +292,7 @@ private struct OwnerLabourerRowView: View {
 
 private struct OwnerStaffRowView: View {
     let staff: OwnerStaff
+    let onToggleActive: () -> Void
     let onResetPassword: () -> Void
     let onRemove: () -> Void
 
@@ -309,6 +311,19 @@ private struct OwnerStaffRowView: View {
                 // "…" menu: the audience is older shop owners, and the design
                 // brief calls for obvious affordances and 48pt touch targets.
                 HStack(spacing: PlantbillSpacing.sm) {
+                    Button(action: onToggleActive) {
+                        Text(staff.isActive ? "Deactivate" : "Activate")
+                            .font(PlantbillTypography.caption)
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity, minHeight: PlantbillSpacing.minTouchTarget)
+                            .foregroundStyle(staff.isActive ? PlantbillColor.textPrimary : PlantbillColor.green)
+                            .background(
+                                RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                                    .stroke(staff.isActive ? PlantbillColor.border : PlantbillColor.green, lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(.plain)
+
                     Button(action: onResetPassword) {
                         Text("Reset password")
                             .font(PlantbillTypography.caption)
