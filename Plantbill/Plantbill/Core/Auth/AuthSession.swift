@@ -27,6 +27,11 @@ final class AuthSession: ObservableObject {
         }
     }
 
+    /// Opening the app must work with no network. Only a token the server
+    /// actively rejects ends the session — an unreachable server does not,
+    /// or a shop with patchy signal would be locked out of its own till and
+    /// unable to sign back in. Mirrors Android's SessionRepository, which
+    /// restores optimistically from the cached identity for the same reason.
     func bootstrap() async {
         guard await KeychainStore.loadToken() != nil else {
             state = .unauthenticated
@@ -34,10 +39,22 @@ final class AuthSession: ObservableObject {
         }
         do {
             let user: CurrentUser = try await apiClient.send(Endpoint(path: "auth/me"))
+            await KeychainStore.saveUser(user)
             state = resolvedState(for: user)
-        } catch {
-            await KeychainStore.deleteToken()
+        } catch APIError.sessionExpired {
+            // The token really is dead — this is the one case that signs out.
+            await KeychainStore.clear()
             state = .unauthenticated
+        } catch {
+            // Offline, 5xx, timeout: keep the session and route from the last
+            // known identity so the app stays usable.
+            if let cached = await KeychainStore.loadUser() {
+                state = resolvedState(for: cached)
+            } else {
+                // Token but no cached identity (upgraded from an older build):
+                // nothing to route from, so ask for a sign-in.
+                state = .unauthenticated
+            }
         }
     }
 
@@ -49,6 +66,7 @@ final class AuthSession: ObservableObject {
         await KeychainStore.saveToken(token.accessToken)
 
         let user: CurrentUser = try await apiClient.send(Endpoint(path: "auth/me"))
+        await KeychainStore.saveUser(user)
         state = resolvedState(for: user)
     }
 
@@ -58,7 +76,9 @@ final class AuthSession: ObservableObject {
     func logout() {
         state = .unauthenticated
         BusinessProfile.shared.clear()
-        Task { await KeychainStore.deleteToken() }
+        // Clears the cached identity too, so a signed-out device can't be
+        // routed back in from a stale one.
+        Task { await KeychainStore.clear() }
     }
 
     private func resolvedState(for user: CurrentUser) -> AuthState {

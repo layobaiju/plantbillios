@@ -7,7 +7,11 @@ struct TokenResponse: Decodable {
 }
 
 /// GET /auth/me response.
-struct CurrentUser: Decodable, Equatable {
+///
+/// Encodable as well as Decodable so it can be cached next to the token: the
+/// app has to be able to open and route itself with no network, exactly like
+/// Android's `SavedAccount` in TokenStore.
+struct CurrentUser: Codable, Equatable {
     let id: UUID
     let email: String
     let role: Role

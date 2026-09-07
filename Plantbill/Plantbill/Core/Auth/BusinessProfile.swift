@@ -10,6 +10,9 @@ final class BusinessProfile {
     private(set) var upi: String?
     private(set) var businessName: String?
     private(set) var shopName: String?
+    /// Scopes the offline product cache, so switching accounts can never show
+    /// another shop's catalogue.
+    private(set) var shopId: UUID?
 
     private init() {}
 
@@ -17,11 +20,13 @@ final class BusinessProfile {
         upi = user.businessUpi
         businessName = user.businessName
         shopName = user.shopName
+        shopId = user.shopId
     }
 
     func clear() {
         upi = nil
         businessName = nil
         shopName = nil
+        shopId = nil
     }
 }

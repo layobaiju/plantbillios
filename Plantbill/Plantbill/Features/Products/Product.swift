@@ -1,7 +1,10 @@
 import Foundation
 
 /// Mirrors backend `ProductOut` (app/schemas/product.py).
-struct Product: Decodable, Identifiable, Equatable {
+///
+/// Encodable too, so the catalogue can be cached to disk — a shop with no
+/// signal still needs to see its plants and prices to serve a customer.
+struct Product: Codable, Identifiable, Equatable {
     let id: UUID
     let name: String
     let category: String?

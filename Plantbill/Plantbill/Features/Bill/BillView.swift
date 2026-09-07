@@ -42,6 +42,16 @@ struct BillView: View {
     private var browsingContent: some View {
         VStack(spacing: 0) {
             utilityRow
+            if viewModel.isShowingCachedProducts {
+                // Says plainly what still works, rather than leaving the
+                // cashier wondering whether the prices are stale.
+                Text("Showing saved plants. You can still bill and hold it — it saves when you're back online.")
+                    .font(PlantbillTypography.caption)
+                    .foregroundStyle(PlantbillColor.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, PlantbillSpacing.md)
+                    .padding(.top, PlantbillSpacing.xs)
+            }
             filterBar
             productGrid
         }

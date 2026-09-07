@@ -118,8 +118,12 @@ final class APIClient {
         do {
             (data, response) = try await session.data(for: request)
         } catch {
+            // A transport failure is the "server isn't answering" signal the
+            // NetworkMonitor can't get from the path alone.
+            await NetworkMonitor.shared.reportFailure()
             throw APIError.network
         }
+        await NetworkMonitor.shared.reportSuccess()
 
         guard let http = response as? HTTPURLResponse else { throw APIError.unknown }
 

@@ -8,6 +8,7 @@ struct PlantbillApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .offlineBanner()
                 .environmentObject(session)
                 .environmentObject(languageStore)
                 .environment(\.locale, languageStore.current.locale)

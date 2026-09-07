@@ -32,6 +32,9 @@ final class BillingViewModel: ObservableObject {
     @Published var searchText: String = "" { didSet { scheduleReload() } }
     @Published var selectedCategory: String? = nil { didSet { Task { await loadProducts() } } }
     @Published private(set) var categories: [String] = []
+    /// True when the grid is showing the on-device catalogue because the
+    /// server couldn't be reached.
+    @Published private(set) var isShowingCachedProducts = false
     @Published private var searchDebounceTask: Task<Void, Never>?
 
     // MARK: Cart
@@ -132,11 +135,37 @@ final class BillingViewModel: ObservableObject {
             let products: [Product] = try await APIClient.shared.send(Endpoint(path: "products", queryItems: query))
             categories = Array(Set(products.compactMap { $0.category?.isEmpty == false ? $0.category : nil })).sorted()
             productState = products.isEmpty ? .empty : .loaded(products)
+            isShowingCachedProducts = false
+            // Only an unfiltered catalogue is worth caching — storing a search
+            // result would leave the shop offline with a partial list.
+            if trimmed.isEmpty, selectedCategory == nil {
+                ProductCache.save(products, shopId: BusinessProfile.shared.shopId)
+            }
         } catch let error as APIError {
-            productState = .error(error.userMessage)
+            productState = fallbackToCache() ?? .error(error.userMessage)
         } catch {
-            productState = .error(APIError.unknown.userMessage)
+            productState = fallbackToCache() ?? .error(APIError.unknown.userMessage)
         }
+    }
+
+    /// With no signal, serve the last known catalogue rather than an error —
+    /// the cashier can still browse plants, build a cart and hold the bill.
+    /// Filtering is applied locally so search and categories keep working.
+    private func fallbackToCache() -> ProductLoadState? {
+        guard let cached = ProductCache.load(shopId: BusinessProfile.shared.shopId), !cached.isEmpty else {
+            return nil
+        }
+        categories = Array(Set(cached.compactMap { $0.category?.isEmpty == false ? $0.category : nil })).sorted()
+
+        let needle = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let filtered = cached.filter { product in
+            guard product.isActive else { return false }
+            if let selectedCategory, product.category != selectedCategory { return false }
+            if !needle.isEmpty, !product.name.lowercased().contains(needle) { return false }
+            return true
+        }
+        isShowingCachedProducts = true
+        return filtered.isEmpty ? .empty : .loaded(filtered)
     }
 
     // MARK: Cart line editing

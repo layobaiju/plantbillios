@@ -30,6 +30,9 @@ final class ProductsViewModel: ObservableObject {
     /// Distinct categories seen across the last successful load, for the
     /// filter chips.
     @Published private(set) var categories: [String] = []
+    /// True when the list is the on-device catalogue, served because the
+    /// server couldn't be reached.
+    @Published private(set) var isShowingCachedProducts = false
 
     @Published private(set) var isMutating = false
     @Published private(set) var mutationError: String?
@@ -57,11 +60,35 @@ final class ProductsViewModel: ObservableObject {
             let products: [Product] = try await APIClient.shared.send(Endpoint(path: "products", queryItems: query))
             categories = Array(Set(products.compactMap { $0.category?.isEmpty == false ? $0.category : nil })).sorted()
             state = products.isEmpty ? .empty : .loaded(products)
+            isShowingCachedProducts = false
+            if trimmedSearch.isEmpty, selectedCategory == nil, includeInactive {
+                // The Products tab's "include inactive" view is the complete
+                // catalogue — the right snapshot to keep for offline.
+                ProductCache.save(products, shopId: BusinessProfile.shared.shopId)
+            }
         } catch let error as APIError {
-            state = .error(error.userMessage)
+            state = fallbackToCache() ?? .error(error.userMessage)
         } catch {
-            state = .error(APIError.unknown.userMessage)
+            state = fallbackToCache() ?? .error(APIError.unknown.userMessage)
         }
+    }
+
+    /// Offline: show the last known catalogue read-only rather than an error.
+    private func fallbackToCache() -> LoadState? {
+        guard let cached = ProductCache.load(shopId: BusinessProfile.shared.shopId), !cached.isEmpty else {
+            return nil
+        }
+        categories = Array(Set(cached.compactMap { $0.category?.isEmpty == false ? $0.category : nil })).sorted()
+
+        let needle = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let filtered = cached.filter { product in
+            if !includeInactive, !product.isActive { return false }
+            if let selectedCategory, product.category != selectedCategory { return false }
+            if !needle.isEmpty, !product.name.lowercased().contains(needle) { return false }
+            return true
+        }
+        isShowingCachedProducts = true
+        return filtered.isEmpty ? .empty : .loaded(filtered)
     }
 
     /// Returns the created product (so a freshly-picked photo can be
