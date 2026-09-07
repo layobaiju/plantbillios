@@ -330,9 +330,15 @@ private struct SummaryHero: View {
                     ForEach(summary.expenses) { expense in
                         HStack {
                             VStack(alignment: .leading, spacing: 1) {
-                                Text(expense.reason)
+                                // category_name when present, else the legacy reason.
+                                Text(expense.title)
                                     .font(PlantbillTypography.body)
                                     .foregroundStyle(PlantbillColor.textPrimary)
+                                if let note = expense.note, !note.isEmpty {
+                                    Text(note)
+                                        .font(PlantbillTypography.caption)
+                                        .foregroundStyle(PlantbillColor.textSecondary)
+                                }
                                 Text(expense.paymentMethod == "cash" ? "Cash" : "UPI")
                                     .font(PlantbillTypography.caption)
                                     .foregroundStyle(PlantbillColor.textSecondary)
@@ -421,7 +427,7 @@ private struct ExpenseEditorSheet: View {
                     selectAllOnFocus: true
                 )
 
-                PlantbillTextField(label: "Reason", text: Binding(get: { editor.reason }, set: setReason), placeholder: "e.g. Electricity bill")
+                categorySection
 
                 HStack(spacing: PlantbillSpacing.sm) {
                     FilterChip(title: "Cash", isSelected: editor.paymentMethod == "cash") { setMethod("cash") }
@@ -473,9 +479,84 @@ private struct ExpenseEditorSheet: View {
         }
     }
 
+    /// Category picker + optional remark. A category is required to save; the
+    /// old free-text "Reason" box it replaced is only shown when editing an
+    /// expense recorded before categories existed and never categorised.
+    @ViewBuilder
+    private var categorySection: some View {
+        VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
+            HStack {
+                Text("Category")
+                    .font(PlantbillTypography.caption)
+                    .foregroundStyle(PlantbillColor.textSecondary)
+                Spacer()
+                if viewModel.isManager {
+                    Button(editor.isAddingCategory ? "Cancel" : "Add new") {
+                        viewModel.expenseEditor?.isAddingCategory.toggle()
+                        viewModel.expenseEditor?.newCategoryName = ""
+                        viewModel.expenseEditor?.error = nil
+                    }
+                    .font(PlantbillTypography.caption)
+                    .foregroundStyle(PlantbillColor.green)
+                }
+            }
+
+            if viewModel.expenseCategories.isEmpty && !editor.isAddingCategory {
+                Text(viewModel.isManager
+                     ? "No categories yet — tap \"Add new\" to make one."
+                     : "No categories yet. Ask the manager to add one.")
+                    .font(PlantbillTypography.caption)
+                    .foregroundStyle(PlantbillColor.textSecondary)
+            }
+
+            if !viewModel.expenseCategories.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: PlantbillSpacing.sm) {
+                        ForEach(viewModel.expenseCategories) { category in
+                            FilterChip(title: LocalizedStringKey(category.name), isSelected: editor.categoryId == category.id) {
+                                viewModel.expenseEditor?.categoryId = category.id
+                                viewModel.expenseEditor?.error = nil
+                            }
+                        }
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+
+            if editor.isAddingCategory {
+                HStack(spacing: PlantbillSpacing.sm) {
+                    PlantbillTextField(
+                        label: "New category",
+                        text: Binding(get: { editor.newCategoryName }, set: setNewCategoryName),
+                        placeholder: "e.g. Petrol"
+                    )
+                    Button("Save") { Task { await viewModel.createExpenseCategory() } }
+                        .font(PlantbillTypography.bodyEmphasized)
+                        .foregroundStyle(PlantbillColor.green)
+                        .disabled(editor.newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }
+
+            // Legacy rows: keep showing what the expense used to say so an old
+            // entry isn't silently relabelled when it's opened for edit.
+            if editor.id != nil, editor.categoryId == nil, !editor.reason.isEmpty {
+                Text("Previously: \(editor.reason)")
+                    .font(PlantbillTypography.caption)
+                    .foregroundStyle(PlantbillColor.textSecondary)
+            }
+
+            PlantbillTextField(
+                label: "Remark (optional)",
+                text: Binding(get: { editor.note }, set: setNote),
+                placeholder: "e.g. scooter fill"
+            )
+        }
+    }
+
     private var editor: ExpenseEditor { viewModel.expenseEditor ?? ExpenseEditor() }
     private func setAmount(_ v: String) { viewModel.expenseEditor?.amount = v; viewModel.expenseEditor?.error = nil }
-    private func setReason(_ v: String) { viewModel.expenseEditor?.reason = v; viewModel.expenseEditor?.error = nil }
+    private func setNote(_ v: String) { viewModel.expenseEditor?.note = v; viewModel.expenseEditor?.error = nil }
+    private func setNewCategoryName(_ v: String) { viewModel.expenseEditor?.newCategoryName = v; viewModel.expenseEditor?.error = nil }
     private func setMethod(_ v: String) { viewModel.expenseEditor?.paymentMethod = v; viewModel.expenseEditor?.error = nil }
     private func setSplitCash(_ v: String) { viewModel.expenseEditor?.splitCashText = v; viewModel.expenseEditor?.error = nil }
 }

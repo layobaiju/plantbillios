@@ -4,12 +4,40 @@ import Foundation
 struct Expense: Decodable, Identifiable, Equatable {
     let id: UUID
     let amount: String
+    /// Snapshotted server-side from the chosen category; still returned for
+    /// rows created before categories existed, and for backward compatibility.
     let reason: String
+    let categoryId: UUID?
+    let categoryName: String?
+    /// Optional free-text remark ("scooter fill").
+    let note: String?
     /// "cash" (out of the drawer) or "upi".
     let paymentMethod: String
     let createdAt: Date
 
     var amountMoney: Money { Money.parse(amount) }
+
+    /// What to show as the row's title — the category when there is one,
+    /// falling back to the legacy free-text reason.
+    var title: String { categoryName ?? reason }
+}
+
+/// Mirrors backend `ExpenseCategoryOut` — a manager-curated list that replaced
+/// the old free-text reason.
+struct ExpenseCategory: Decodable, Identifiable, Equatable, Hashable {
+    let id: UUID
+    let name: String
+}
+
+/// One row of `expenses_by_category` on `GET /bills/summary/report` — total
+/// spend per category across the whole range, not per day.
+struct ExpenseCategoryTotal: Decodable, Equatable, Identifiable {
+    let category: String
+    let total: String
+    let count: Int
+
+    var id: String { category }
+    var totalMoney: Money { Money.parse(total) }
 }
 
 /// Mirrors backend `BillSummaryOut` — a day's takings + cash book (shop
@@ -187,6 +215,9 @@ struct DetailedReport: Decodable {
     let totalExpenses: String
     let netSales: String
     let expenses: [Expense]
+    /// Total spend per expense category across the whole range (not per-day
+    /// rows). Optional so an older backend without it still decodes.
+    let expensesByCategory: [ExpenseCategoryTotal]?
     let categories: [CategorySales]
     let topProducts: [ProductSales]
 

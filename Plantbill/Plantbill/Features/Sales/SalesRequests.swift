@@ -3,8 +3,16 @@ import Foundation
 /// Mirrors backend `ExpenseCreate`/`ExpenseUpdate` (app/schemas/expense.py).
 struct ExpenseRequest: Encodable {
     let amount: String
-    let reason: String
+    /// Preferred over `reason` — the server snapshots the category's name onto
+    /// the expense's `reason` field for us.
+    let categoryId: UUID?
+    let note: String?
     let paymentMethod: String
+}
+
+/// Mirrors backend `ExpenseCategoryCreate` — manager/admin only.
+struct ExpenseCategoryRequest: Encodable {
+    let name: String
 }
 
 /// Mirrors backend `SettlementCreate` (app/schemas/settlement.py).

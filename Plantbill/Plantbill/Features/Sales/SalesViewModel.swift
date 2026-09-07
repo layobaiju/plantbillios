@@ -23,7 +23,17 @@ struct StaffSales: Identifiable, Equatable {
 struct ExpenseEditor: Equatable {
     var id: UUID? = nil
     var amount: String = ""
+    /// The chosen category. Required to save — the free-text reason it
+    /// replaced is only still read for rows created before categories existed.
+    var categoryId: UUID? = nil
+    /// Optional remark stored alongside the category.
+    var note: String = ""
+    /// Legacy free-text reason, kept only so an old expense opened for edit
+    /// can still show what it was.
     var reason: String = ""
+    /// Inline "Add new category" field — managers only.
+    var newCategoryName: String = ""
+    var isAddingCategory = false
     /// "cash", "upi", or (create-only) "split".
     var paymentMethod: String = "cash"
     /// The cash portion when `paymentMethod == "split"`; the UPI portion is
@@ -40,7 +50,9 @@ struct ExpenseEditor: Equatable {
     }
 
     var canSave: Bool {
-        guard amountMoney.isPositive, !reason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, !saving else {
+        // A category is required to save (the spec's rule); amount must be
+        // positive. The old "reason must be non-empty" check is gone with it.
+        guard amountMoney.isPositive, categoryId != nil, !saving else {
             return false
         }
         if paymentMethod == "split" {
@@ -81,6 +93,7 @@ final class SalesViewModel: ObservableObject {
     @Published private(set) var hasMore = false
 
     @Published var expenseEditor: ExpenseEditor?
+    @Published private(set) var expenseCategories: [ExpenseCategory] = []
     @Published var message: String?
 
     init(isManager: Bool) {
@@ -197,31 +210,82 @@ final class SalesViewModel: ObservableObject {
 
     // MARK: Expense editor
 
-    func openCreateExpense() { expenseEditor = ExpenseEditor() }
-    func openEditExpense(_ expense: Expense) {
-        expenseEditor = ExpenseEditor(id: expense.id, amount: expense.amount, reason: expense.reason, paymentMethod: expense.paymentMethod)
+    func openCreateExpense() {
+        expenseEditor = ExpenseEditor()
+        Task { await loadExpenseCategories() }
     }
+
+    func openEditExpense(_ expense: Expense) {
+        expenseEditor = ExpenseEditor(
+            id: expense.id,
+            amount: expense.amount,
+            categoryId: expense.categoryId,
+            note: expense.note ?? "",
+            reason: expense.reason,
+            paymentMethod: expense.paymentMethod
+        )
+        Task { await loadExpenseCategories() }
+    }
+
     func closeExpenseEditor() { expenseEditor = nil }
+
+    /// The picker's options. Any shop staff can read them; only a manager can
+    /// add one.
+    func loadExpenseCategories() async {
+        guard let list: [ExpenseCategory] = try? await APIClient.shared.send(
+            Endpoint(path: "expense-categories")
+        ) else { return }
+        expenseCategories = list.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    }
+
+    /// Manager-only "Add new": creates the category, then selects it so the
+    /// expense being written can use it immediately.
+    func createExpenseCategory() async {
+        guard isManager, var editor = expenseEditor else { return }
+        let name = editor.newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !name.isEmpty else { return }
+        do {
+            let body = try APIClient.shared.encode(ExpenseCategoryRequest(name: name))
+            let created: ExpenseCategory = try await APIClient.shared.send(
+                Endpoint(path: "expense-categories", method: .post, body: body)
+            )
+            await loadExpenseCategories()
+            editor.categoryId = created.id
+            editor.newCategoryName = ""
+            editor.isAddingCategory = false
+            editor.error = nil
+            expenseEditor = editor
+        } catch let error as APIError {
+            // 409 on a duplicate name — surface it rather than failing silently.
+            editor.error = error.userMessage
+            expenseEditor = editor
+        } catch {
+            editor.error = APIError.unknown.userMessage
+            expenseEditor = editor
+        }
+    }
 
     func saveExpense() async {
         guard var editor = expenseEditor, editor.canSave else { return }
         editor.saving = true
         expenseEditor = editor
-        let reason = editor.reason.trimmingCharacters(in: .whitespacesAndNewlines)
+        let categoryId = editor.categoryId
+        let trimmedNote = editor.note.trimmingCharacters(in: .whitespacesAndNewlines)
+        let note: String? = trimmedNote.isEmpty ? nil : trimmedNote
         do {
             if editor.id == nil, editor.paymentMethod == "split" {
                 // No split field on the backend's expense model — post the
                 // cash and UPI portions as two separate rows instead.
                 if editor.splitCashMoney.isPositive {
-                    let body = try APIClient.shared.encode(ExpenseRequest(amount: editor.splitCashMoney.toWire(), reason: reason, paymentMethod: "cash"))
+                    let body = try APIClient.shared.encode(ExpenseRequest(amount: editor.splitCashMoney.toWire(), categoryId: categoryId, note: note, paymentMethod: "cash"))
                     let _: Expense = try await APIClient.shared.send(Endpoint(path: "expenses", method: .post, body: body))
                 }
                 if editor.splitUpiMoney.isPositive {
-                    let body = try APIClient.shared.encode(ExpenseRequest(amount: editor.splitUpiMoney.toWire(), reason: reason, paymentMethod: "upi"))
+                    let body = try APIClient.shared.encode(ExpenseRequest(amount: editor.splitUpiMoney.toWire(), categoryId: categoryId, note: note, paymentMethod: "upi"))
                     let _: Expense = try await APIClient.shared.send(Endpoint(path: "expenses", method: .post, body: body))
                 }
             } else {
-                let body = try APIClient.shared.encode(ExpenseRequest(amount: editor.amountMoney.toWire(), reason: reason, paymentMethod: editor.paymentMethod))
+                let body = try APIClient.shared.encode(ExpenseRequest(amount: editor.amountMoney.toWire(), categoryId: categoryId, note: note, paymentMethod: editor.paymentMethod))
                 if let id = editor.id {
                     let _: Expense = try await APIClient.shared.send(Endpoint(path: "expenses/\(id)", method: .patch, body: body))
                 } else {

@@ -40,6 +40,9 @@ struct ReportView: View {
                 } else if let report = viewModel.report {
                     kpiGrid(report)
                     if !report.categories.isEmpty { categoryChart(report) }
+                    if let byCategory = report.expensesByCategory, !byCategory.isEmpty {
+                        expensesByCategorySection(byCategory)
+                    }
                     if !report.topProducts.isEmpty { topProductsChart(report) }
                     downloadSection
 
@@ -128,6 +131,37 @@ struct ReportView: View {
                     .foregroundStyle(PlantbillColor.green)
                 }
                 .frame(height: CGFloat(report.categories.count) * 36 + 20)
+            }
+        }
+    }
+
+    /// Spend per expense category over the whole range ("Petrol: ₹4,200"), as
+    /// a plain totals list rather than a chart — it reads as a bill to settle,
+    /// not a trend.
+    @ViewBuilder
+    private func expensesByCategorySection(_ rows: [ExpenseCategoryTotal]) -> some View {
+        PlantbillCard {
+            VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
+                Text("Expenses by category")
+                    .font(PlantbillTypography.bodyEmphasized)
+                    .foregroundStyle(PlantbillColor.textPrimary)
+
+                ForEach(rows) { row in
+                    HStack {
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(row.category)
+                                .font(PlantbillTypography.body)
+                                .foregroundStyle(PlantbillColor.textPrimary)
+                            Text("\(row.count) entr\(row.count == 1 ? "y" : "ies")")
+                                .font(PlantbillTypography.caption)
+                                .foregroundStyle(PlantbillColor.textSecondary)
+                        }
+                        Spacer()
+                        Text(row.totalMoney.format())
+                            .font(PlantbillTypography.bodyEmphasized)
+                            .foregroundStyle(PlantbillColor.textPrimary)
+                    }
+                }
             }
         }
     }
