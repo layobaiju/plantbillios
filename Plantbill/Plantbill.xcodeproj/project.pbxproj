@@ -255,6 +255,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Plantbill uses Bluetooth to connect to your receipt printer.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Plantbill listens to the microphone so you can say a plant name instead of typing it.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Plantbill turns what you say into a plant name so it can be added to the bill.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -287,6 +289,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Plantbill uses Bluetooth to connect to your receipt printer.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Plantbill listens to the microphone so you can say a plant name instead of typing it.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Plantbill turns what you say into a plant name so it can be added to the bill.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -72,6 +72,10 @@ final class BillingViewModel: ObservableObject {
 
     @Published private(set) var checkoutState: CheckoutState = .idle
 
+    /// Transient confirmation banner (voice search results, mostly).
+    @Published private(set) var toast: String?
+    @Published private var toastTask: Task<Void, Never>?
+
     // MARK: Computed (display-only preview — server is authoritative)
 
     var subtotal: Money { CartMath.subtotal(cartLines) }
@@ -190,6 +194,48 @@ final class BillingViewModel: ObservableObject {
         remarks = ""
         idempotencyKey = UUID().uuidString
         checkoutState = .idle
+    }
+
+    // MARK: Voice search
+
+    /// Every alternative the recogniser heard is scored against the catalog and
+    /// the best-scoring product is added straight to the cart. The mic is
+    /// deliberately restricted to the shop's own products: whatever is spoken
+    /// snaps to a real product name rather than leaking stray words into a
+    /// text search. Mirrors Android's `onVoiceTranscript`.
+    func onVoiceTranscript(_ alternatives: [String]) {
+        guard case .loaded(let products) = productState, !products.isEmpty else {
+            showToast("Add a few products first, then use voice search.")
+            return
+        }
+        let names = products.map(\.name)
+        var best: PhoneticMatcher.Match?
+        for alt in alternatives {
+            if let m = PhoneticMatcher.findClosest(transcript: alt, candidates: names),
+               best == nil || m.score > best!.score {
+                best = m
+            }
+        }
+        let product = best.flatMap { m in products.first { $0.name == m.candidate } } ?? products[0]
+        addToCart(product)
+        searchText = ""
+        showToast("Added \(product.name) to the cart.")
+    }
+
+    func showVoiceUnavailable() {
+        showToast("Voice search isn't available on this device.")
+    }
+
+    /// Android uses a Toast here; iOS has no equivalent, so this drives a small
+    /// self-dismissing banner in BillView.
+    func showToast(_ text: String) {
+        toast = text
+        toastTask?.cancel()
+        toastTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(2.5))
+            guard !Task.isCancelled else { return }
+            self?.toast = nil
+        }
     }
 
     // MARK: Returning-customer lookup

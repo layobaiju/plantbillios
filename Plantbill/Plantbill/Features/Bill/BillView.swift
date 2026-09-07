@@ -50,6 +50,21 @@ struct BillView: View {
                 reviewAndPayBar
             }
         }
+        .overlay(alignment: .top) {
+            if let toast = viewModel.toast {
+                Text(toast)
+                    .font(PlantbillTypography.body)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, PlantbillSpacing.md)
+                    .padding(.vertical, PlantbillSpacing.sm)
+                    .background(
+                        Capsule().fill(PlantbillColor.textPrimary.opacity(0.92))
+                    )
+                    .padding(.top, PlantbillSpacing.sm)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: viewModel.toast)
     }
 
     private var utilityRow: some View {
@@ -61,6 +76,15 @@ struct BillView: View {
                     .font(PlantbillTypography.caption)
                     .fontWeight(.medium)
             }
+
+            // Android hangs the mic off the search field's trailing edge;
+            // SwiftUI's `.searchable` takes no accessory view, so it sits here
+            // instead — directly under the search box and on the same row as
+            // the other billing shortcuts.
+            VoiceSearchButton(
+                onResults: { viewModel.onVoiceTranscript($0) },
+                onUnavailable: { viewModel.showVoiceUnavailable() }
+            )
 
             Spacer()
 
