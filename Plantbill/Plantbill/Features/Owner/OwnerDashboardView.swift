@@ -3,6 +3,7 @@ import Charts
 
 enum OwnerDestination: Hashable {
     case shopDetail(UUID, String)
+    case dues
 }
 
 struct OwnerDashboardView: View {
@@ -19,6 +20,14 @@ struct OwnerDashboardView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .background(PlantbillColor.background)
                 .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            path.append(OwnerDestination.dues)
+                        } label: {
+                            Image(systemName: "indianrupeesign.circle")
+                        }
+                        .accessibilityLabel("Dues")
+                    }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(action: onLogout) {
                             Image(systemName: "rectangle.portrait.and.arrow.right")
@@ -29,6 +38,8 @@ struct OwnerDashboardView: View {
                     switch destination {
                     case .shopDetail(let id, let name):
                         OwnerShopDetailView(shopId: id, shopName: name)
+                    case .dues:
+                        OwnerDuesView()
                     }
                 }
                 .task { await viewModel.load() }

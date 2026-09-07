@@ -160,6 +160,57 @@ struct OwnerShopUpdateRequest: Encodable {
     var businessUpi: String? = nil
 }
 
+/// Mirrors backend `ShopDueRow` — one shop's outstanding credit, for the
+/// owner's cross-shop dues overview (`GET /owner/dues`).
+struct ShopDueRow: Decodable, Identifiable, Equatable {
+    let shopId: UUID
+    let shopName: String
+    let outstanding: String
+    let billCount: Int
+    let customerCount: Int
+    let oldestDueDate: String?
+
+    var id: UUID { shopId }
+    var outstandingMoney: Money { Money.parse(outstanding) }
+}
+
+/// Mirrors backend `OwnerDuesOverview` — total owed across every owned shop.
+struct OwnerDuesOverview: Decodable, Equatable {
+    let totalOutstanding: String
+    let shops: [ShopDueRow]?
+
+    var totalOutstandingMoney: Money { Money.parse(totalOutstanding) }
+}
+
+/// Mirrors backend `DueBillRow` — one unpaid bill behind a customer's balance.
+struct DueBillRow: Decodable, Identifiable, Equatable {
+    let billId: UUID
+    let billNo: String?
+    let createdAt: Date
+    let total: String
+    let dueAmount: String
+
+    var id: UUID { billId }
+    var dueAmountMoney: Money { Money.parse(dueAmount) }
+    var totalMoney: Money { Money.parse(total) }
+}
+
+/// Mirrors backend `CustomerDueRow` — what one customer owes a given shop
+/// (`GET /owner/shops/{id}/dues`). Read-only for the owner: settling a due is
+/// the shop's own Dues screen, which goes through the approval workflow.
+struct CustomerDueRow: Decodable, Identifiable, Equatable {
+    let customerId: UUID?
+    let name: String
+    let phone: String?
+    let outstanding: String
+    let billCount: Int
+    let oldestDueDate: String?
+    let bills: [DueBillRow]?
+
+    var id: String { customerId?.uuidString ?? name }
+    var outstandingMoney: Money { Money.parse(outstanding) }
+}
+
 enum OwnerPeriod: String, CaseIterable {
     case today, week, month, custom
 

@@ -41,7 +41,7 @@ struct OwnerShopDetailView: View {
                             .foregroundStyle(PlantbillColor.textPrimary)
                         ForEach(report.expenses) { e in
                             HStack {
-                                Text(e.reason).font(PlantbillTypography.body).foregroundStyle(PlantbillColor.textPrimary)
+                                Text(e.title).font(PlantbillTypography.body).foregroundStyle(PlantbillColor.textPrimary)
                                 Spacer()
                                 Text(e.amountMoney.format()).font(PlantbillTypography.body).foregroundStyle(PlantbillColor.error)
                             }
@@ -130,16 +130,17 @@ struct OwnerShopDetailView: View {
         .sheet(isPresented: Binding(get: { viewModel.billDetail != nil }, set: { if !$0 { viewModel.closeBill() } })) {
             OwnerBillDetailSheet(viewModel: viewModel)
         }
-        .confirmationDialog(
-            "Remove this staff member?",
-            isPresented: Binding(get: { pendingStaffDelete != nil }, set: { if !$0 { pendingStaffDelete = nil } }),
-            titleVisibility: .visible
-        ) {
-            Button("Remove", role: .destructive) {
-                if let s = pendingStaffDelete { Task { await viewModel.deleteStaff(s) } }
-                pendingStaffDelete = nil
+        // Android gates this behind TypeEmailToDeleteDialog rather than a
+        // one-tap confirm, so a mis-tap can't remove the wrong account.
+        .sheet(item: $pendingStaffDelete) { staff in
+            TypeEmailToDeleteSheet(
+                email: staff.email,
+                title: "Remove staff?",
+                message: "\(staff.email) will lose access to this shop immediately. This can't be undone.",
+                confirmLabel: "Delete account"
+            ) {
+                Task { await viewModel.deleteStaff(staff) }
             }
-            Button("Cancel", role: .cancel) { pendingStaffDelete = nil }
         }
     }
 

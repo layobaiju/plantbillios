@@ -179,5 +179,11 @@ final class OwnerShopDetailViewModel: ObservableObject {
         }
     }
 
+    // Deliberately not implemented, to stay at parity rather than ahead of it:
+    // the backend also exposes PATCH /owner/shops/{id} and
+    // POST /owner/shops/{id}/staff/{id}/reset-password, and Android wraps both
+    // in OwnerRepository — but nothing in Android's UI calls either, so they
+    // are dead plumbing there rather than features an owner can reach.
+
     func dismissMessage() { message = nil }
 }
