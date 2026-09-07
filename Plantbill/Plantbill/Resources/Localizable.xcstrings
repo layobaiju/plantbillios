@@ -14,6 +14,24 @@
             "state": "translated",
             "value": "% ശതമാനം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "% प्रतिशत"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "% ಶೇಕಡಾ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "% சதவீதம்"
+          }
         }
       }
     },
@@ -126,6 +144,24 @@
             "state": "translated",
             "value": "ഹാജരല്ല"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अनुपस्थित"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಗೈರುಹಾಜರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வரவில்லை"
+          }
         }
       }
     },
@@ -141,6 +177,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "അക്കൗണ്ട് ഉണ്ടാക്കി"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खाता बना"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಖಾತೆ ರಚಿಸಲಾಗಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கணக்கு உருவாக்கப்பட்டது"
           }
         }
       }
@@ -158,6 +212,24 @@
             "state": "translated",
             "value": "സജീവമാക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सक्रिय करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಕ್ರಿಯಗೊಳಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செயல்படுத்து"
+          }
         }
       }
     },
@@ -173,6 +245,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "സജീവം"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सक्रिय"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಕ್ರಿಯ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செயலில்"
           }
         }
       }
@@ -190,6 +280,24 @@
             "state": "translated",
             "value": "സജീവം (ബില്ലിംഗിൽ കാണിക്കും)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सक्रिय (बिलिंग में दिखता है)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಕ್ರಿಯ (ಬಿಲ್ಲಿಂಗ್‌ನಲ್ಲಿ ತೋರಿಸಲಾಗುತ್ತದೆ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செயலில் (பில்லிங்கில் காட்டப்படும்)"
+          }
         }
       }
     },
@@ -206,6 +314,24 @@
             "state": "translated",
             "value": "ഒരു ചെടി ചേർക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एक पौधा जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಒಂದು ಸಸ್ಯ ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ஒரு செடியைச் சேர்"
+          }
         }
       }
     },
@@ -221,6 +347,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ആദ്യം ഒരു തൊഴിലാളിയെ ചേർക്കുക."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पहले एक मज़दूर जोड़ें।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮೊದಲು ಒಬ್ಬ ಕಾರ್ಮಿಕನನ್ನು ಸೇರಿಸಿ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "முதலில் ஒரு தொழிலாளியைச் சேர்."
           }
         }
       }
@@ -254,6 +398,24 @@
             "state": "translated",
             "value": "കടം ചേർക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उधार जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಾಲ ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடனைச் சேர்"
+          }
         }
       }
     },
@@ -286,6 +448,24 @@
             "state": "translated",
             "value": "ഒരു സ്‌പ്രെഡ്‌ഷീറ്റിൽ നിന്ന് ഒരുമിച്ച് ഒട്ടേറെ സാധനങ്ങൾ ചേർക്കുക, പിന്നെ ഫയൽ പേര് വഴി ഫോട്ടോകൾ ചേർക്കുക."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एक स्प्रेडशीट से एक साथ कई सामान जोड़ें, फिर फ़ाइल नाम से फ़ोटो जोड़ें।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸ್ಪ್ರೆಡ್‌ಶೀಟ್‌ನಿಂದ ಒಟ್ಟಿಗೆ ಹಲವು ಸರಕುಗಳನ್ನು ಸೇರಿಸಿ, ನಂತರ ಫೈಲ್ ಹೆಸರಿನ ಮೂಲಕ ಫೋಟೋಗಳನ್ನು ಲಗತ್ತಿಸಿ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ஒரு விரிதாளிலிருந்து பல பொருட்களை ஒரே நேரத்தில் சேர்க்கவும், பிறகு கோப்புப் பெயர் மூலம் புகைப்படங்களை இணைக்கவும்."
+          }
         }
       }
     },
@@ -301,6 +481,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "സാധനം ചേർക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಸ್ತು ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருள் சேர்"
           }
         }
       }
@@ -318,6 +516,24 @@
             "state": "translated",
             "value": "സാധനങ്ങൾ ടാബിൽ സാധനങ്ങൾ ചേർക്കുക, അല്ലെങ്കിൽ വേഗത്തിൽ ചേർക്കൽ ഉപയോഗിക്കുക."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान टैब में सामान जोड़ें, या जल्दी जोड़ें का उपयोग करें।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸರಕುಗಳು ಟ್ಯಾಬ್‌ನಲ್ಲಿ ಸರಕುಗಳನ್ನು ಸೇರಿಸಿ, ಅಥವಾ ತ್ವರಿತ ಸೇರಿಸುವಿಕೆ ಬಳಸಿ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருட்கள் தாவலில் பொருட்களைச் சேர்க்கவும், அல்லது விரைவு சேர்ப்பைப் பயன்படுத்தவும்."
+          }
         }
       }
     },
@@ -333,6 +549,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "വിൽപനക്കാരനെ ചേർക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सेल्सपर्सन जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮಾರಾಟಗಾರನನ್ನು ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விற்பனையாளரைச் சேர்"
           }
         }
       }
@@ -350,6 +584,24 @@
             "state": "translated",
             "value": "ജീവനക്കാരെ ചേർക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "स्टाफ़ जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಿಬ್ಬಂದಿ ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணியாளரைச் சேர்"
+          }
         }
       }
     },
@@ -366,6 +618,24 @@
             "state": "translated",
             "value": "ബില്ലിലേക്ക് ചേർക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल में जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್‌ಗೆ ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில்லில் சேர்"
+          }
         }
       }
     },
@@ -381,6 +651,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "തൊഴിലാളിയെ ചേർക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मज़दूर जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಾರ್ಮಿಕನನ್ನು ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொழிலாளியைச் சேர்"
           }
         }
       }
@@ -414,6 +702,24 @@
             "state": "translated",
             "value": "ഈ ബില്ലിലേക്ക് ഒറ്റത്തവണ സാധനം ചേർക്കുന്നു (\"വേഗത്തിൽ ചേർക്കൽ\" എന്നതിന് കീഴിൽ സൂക്ഷിക്കും)."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इस बिल में एक बार का सामान जोड़ता है (\"जल्दी जोड़ें\" के तहत सहेजा जाता है)।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಈ ಬಿಲ್‌ಗೆ ಒಂದು ಬಾರಿಯ ವಸ್ತುವನ್ನು ಸೇರಿಸುತ್ತದೆ (\"ತ್ವರಿತ ಸೇರಿಸುವಿಕೆ\" ಅಡಿಯಲ್ಲಿ ಉಳಿಸಲಾಗುತ್ತದೆ)."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இந்த பில்லில் ஒரு முறை பொருளைச் சேர்க்கிறது (\"விரைவு சேர்ப்பு\" கீழ் சேமிக்கப்படும்)."
+          }
         }
       }
     },
@@ -446,6 +752,24 @@
             "state": "translated",
             "value": "മുൻകൂർ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अग्रिम"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮುಂಗಡ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "முன்பணம்"
+          }
         }
       }
     },
@@ -461,6 +785,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "മുൻകൂർ തുക (₹)"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अग्रिम रकम (₹)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮುಂಗಡ ಮೊತ್ತ (₹)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "முன்பணத் தொகை (₹)"
           }
         }
       }
@@ -478,6 +820,24 @@
             "state": "translated",
             "value": "എല്ലാം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सभी"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಎಲ್ಲಾ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "அனைத்தும்"
+          }
         }
       }
     },
@@ -493,6 +853,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "എല്ലാ ജീവനക്കാരും"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सभी स्टाफ़"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಎಲ್ಲಾ ಸಿಬ್ಬಂದಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "அனைத்து ஊழியர்களும்"
           }
         }
       }
@@ -526,6 +904,24 @@
             "state": "translated",
             "value": "തുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रकम"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮೊತ್ತ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொகை"
+          }
         }
       }
     },
@@ -542,6 +938,24 @@
             "state": "translated",
             "value": "തുക (₹)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रकम (₹)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮೊತ್ತ (₹)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொகை (₹)"
+          }
         }
       }
     },
@@ -557,6 +971,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കടമുള്ള തുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बकाया रकम"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಾಕಿ ಮೊತ್ತ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நிலுவைத் தொகை"
           }
         }
       }
@@ -590,6 +1022,24 @@
             "state": "translated",
             "value": "അംഗീകരിക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मंज़ूर करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅನುಮೋದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ஒப்புதல் அளி"
+          }
         }
       }
     },
@@ -606,6 +1056,24 @@
             "state": "translated",
             "value": "കട പിരിവുകൾ അംഗീകരിക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "वसूली मंज़ूर करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಸೂಲಿಗಳನ್ನು ಅನುಮೋದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வசூல்களை ஒப்புதல் அளி"
+          }
         }
       }
     },
@@ -621,6 +1089,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഹാജർ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हाज़िरी"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಹಾಜರಾತಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வருகை"
           }
         }
       }
@@ -654,6 +1140,24 @@
             "state": "translated",
             "value": "നൽകാനുള്ള ബാക്കി"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "देना बाकी"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿಸಬೇಕಾದ ಬಾಕಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செலுத்த வேண்டிய இருப்பு"
+          }
         }
       }
     },
@@ -669,6 +1173,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ബിൽ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில்"
           }
         }
       }
@@ -686,6 +1208,24 @@
             "state": "translated",
             "value": "ബിൽ നേരത്തെ സേവ് ചെയ്തിട്ടുണ്ട്"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल पहले ही सहेजा जा चुका है"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್ ಈಗಾಗಲೇ ಉಳಿಸಲಾಗಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில் ஏற்கனவே சேமிக்கப்பட்டது"
+          }
         }
       }
     },
@@ -701,6 +1241,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ബിൽ വിവരങ്ങൾ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल विवरण"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್ ವಿವರಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில் விவரங்கள்"
           }
         }
       }
@@ -718,6 +1276,24 @@
             "state": "translated",
             "value": "ബിൽ സേവ് ചെയ്തു"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल सहेजा गया"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್ ಉಳಿಸಲಾಗಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில் சேமிக்கப்பட்டது"
+          }
         }
       }
     },
@@ -733,6 +1309,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ബില്ലുകൾ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್‌ಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில்கள்"
           }
         }
       }
@@ -750,6 +1344,24 @@
             "state": "translated",
             "value": "മറ്റൊരു ഉപഭോക്താവിനെ സഹായിക്കാൻ നിങ്ങൾ മാറ്റിവെച്ച ബില്ലുകൾ. തുടരാൻ 'തുടരുക' അമർത്തുക."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "दूसरे ग्राहक को निपटाने के लिए रोके गए बिल। जारी रखने के लिए 'फिर से शुरू करें' दबाएँ।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನೊಬ್ಬ ಗ್ರಾಹಕರಿಗೆ ಸೇವೆ ಸಲ್ಲಿಸಲು ನೀವು ತಡೆಹಿಡಿದ ಬಿಲ್‌ಗಳು. ಮುಂದುವರಿಸಲು 'ಮುಂದುವರಿಸಿ' ಒತ್ತಿ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வேறு வாடிக்கையாளருக்கு உதவ நீங்கள் நிறுத்திவைத்த பில்கள். தொடர 'மீண்டும் தொடங்கு' அழுத்தவும்."
+          }
         }
       }
     },
@@ -766,6 +1378,24 @@
             "state": "translated",
             "value": "ആരിൽ നിന്ന് വാങ്ങി (പേര്)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "किससे लिया (नाम)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಯಾರಿಂದ ಪಡೆದಿರಿ (ಹೆಸರು)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "யாரிடமிருந்து வாங்கியது (பெயர்)"
+          }
         }
       }
     },
@@ -781,6 +1411,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കടം ചേർത്തു."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उधार जोड़ा गया."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಾಲ ಸೇರಿಸಲಾಗಿದೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடன் சேர்க்கப்பட்டது."
           }
         }
       }
@@ -814,6 +1462,24 @@
             "state": "translated",
             "value": "കൂട്ടത്തോടെ ചേർക്കൽ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एक साथ आयात"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಮೂಹ ಆಮದು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மொத்தமாக இறக்குமதி"
+          }
         }
       }
     },
@@ -829,6 +1495,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "സ്ഥാപനത്തിന്റെ പേര്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "व्यवसाय का नाम"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವ್ಯಾಪಾರದ ಹೆಸರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வணிகப் பெயர்"
           }
         }
       }
@@ -862,6 +1546,24 @@
             "state": "translated",
             "value": "റദ്ദാക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रद्द करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ರದ್ದುಮಾಡಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ரத்து செய்"
+          }
         }
       }
     },
@@ -877,6 +1579,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പണം"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नकद"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಗದು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணம்"
           }
         }
       }
@@ -910,6 +1630,24 @@
             "state": "translated",
             "value": "കയ്യിലുള്ള പണം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हाथ में नकद"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೈಯಲ್ಲಿರುವ ನಗದು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கையிருப்பு பணம்"
+          }
         }
       }
     },
@@ -925,6 +1663,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കയ്യിലുള്ള പണം • എല്ലാ കാലവും"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हाथ में नकद (कुल)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೈಯಲ್ಲಿರುವ ನಗದು (ಒಟ್ಟು)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கையிருப்பு பணம் (மொத்தம்)"
           }
         }
       }
@@ -958,6 +1714,24 @@
             "state": "translated",
             "value": "കയ്യിലുള്ള പണം (₹)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हाथ में नकद (₹)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೈಯಲ್ಲಿರುವ ನಗದು (₹)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கையிருப்பு பணம் (₹)"
+          }
         }
       }
     },
@@ -973,6 +1747,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കയ്യിലുള്ള പണം %@ ആയി സജ്ജമാക്കി."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हाथ में नकद %@ पर सेट किया गया."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೈಯಲ್ಲಿರುವ ನಗದು %@ ಗೆ ಹೊಂದಿಸಲಾಗಿದೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கையிருப்பு பணம் %@ ஆக அமைக்கப்பட்டது."
           }
         }
       }
@@ -990,6 +1782,24 @@
             "state": "translated",
             "value": "പണത്തിന്റെ ഭാഗം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नकद हिस्सा"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಗದು ಭಾಗ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணப் பங்கு"
+          }
         }
       }
     },
@@ -1005,6 +1815,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പണത്തിന്റെ ഭാഗം (₹)"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नकद हिस्सा (₹)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಗದು ಭಾಗ (₹)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணப் பகுதி (₹)"
           }
         }
       }
@@ -1022,6 +1850,24 @@
             "state": "translated",
             "value": "വിഭാഗം (നിർബന്ധമല്ല)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "श्रेणी (वैकल्पिक)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವರ್ಗ (ಐಚ್ಛಿಕ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வகை (விரும்பினால்)"
+          }
         }
       }
     },
@@ -1037,6 +1883,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കാർട്ട് മായ്ക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कार्ट खाली करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಾರ್ಟ್ ತೆರವುಗೊಳಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கார்ட்டை அழி"
           }
         }
       }
@@ -1054,6 +1918,24 @@
             "state": "translated",
             "value": "അടയ്ക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बंद करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮುಚ್ಚಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மூடு"
+          }
         }
       }
     },
@@ -1069,6 +1951,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പരിശോധന അടയ്ക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "समीक्षा बंद करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪರಿಶೀಲನೆ ಮುಚ್ಚಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மதிப்பாய்வை மூடு"
           }
         }
       }
@@ -1086,6 +1986,24 @@
             "state": "translated",
             "value": "%@ പിരിക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ वसूलें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ವಸೂಲಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ வசூலி"
+          }
         }
       }
     },
@@ -1101,6 +2019,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പിരിക്കുന്നത്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "वसूली"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಸೂಲಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வசூலிப்பது"
           }
         }
       }
@@ -1118,6 +2054,24 @@
             "state": "translated",
             "value": "ഇപ്പോൾ പിരിക്കുന്നത് (₹)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अभी वसूल रहे हैं (₹)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಈಗ ವಸೂಲಿ ಮಾಡುತ್ತಿರುವುದು (₹)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இப்போது வசூலிப்பது (₹)"
+          }
         }
       }
     },
@@ -1134,6 +2088,24 @@
             "state": "translated",
             "value": "ബന്ധിപ്പിച്ചു"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "जुड़ा"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಂಪರ್ಕಗೊಂಡಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இணைக்கப்பட்டது"
+          }
         }
       }
     },
@@ -1149,6 +2121,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഇനം ചേർക്കാൻ കഴിഞ്ഞില്ല."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आइटम नहीं जोड़ा जा सका."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಸ್ತುವನ್ನು ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருளைச் சேர்க்க முடியவில்லை."
           }
         }
       }
@@ -1198,6 +2188,24 @@
             "state": "translated",
             "value": "അക്കൗണ്ട് ഉണ്ടാക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खाता बनाएँ"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಖಾತೆ ರಚಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கணக்கை உருவாக்கு"
+          }
         }
       }
     },
@@ -1230,6 +2238,24 @@
             "state": "translated",
             "value": "ഇഷ്ടാനുസൃതം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कस्टम"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಸ್ಟಮ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தனிப்பயன்"
+          }
         }
       }
     },
@@ -1245,6 +2271,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഉപഭോക്താവ്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ग्राहक"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಗ್ರಾಹಕ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வாடிக்கையாளர்"
           }
         }
       }
@@ -1262,6 +2306,24 @@
             "state": "translated",
             "value": "ഉപഭോക്താവ് (നിർബന്ധമല്ല)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ग्राहक (वैकल्पिक)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಗ್ರಾಹಕ (ಐಚ್ಛಿಕ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வாடிக்கையாளர் (விரும்பினால்)"
+          }
         }
       }
     },
@@ -1277,6 +2339,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഉപഭോക്താവ് (കടത്തിന് ആവശ്യമാണ്)"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ग्राहक (उधार के लिए आवश्यक)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಗ್ರಾಹಕ (ಸಾಲಕ್ಕೆ ಅಗತ್ಯ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வாடிக்கையாளர் (கடனுக்குத் தேவை)"
           }
         }
       }
@@ -1309,6 +2389,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഉപഭോക്താക്കൾ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ग्राहक"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಗ್ರಾಹಕರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வாடிக்கையாளர்கள்"
           }
         }
       }
@@ -1358,6 +2456,24 @@
             "state": "translated",
             "value": "ജോലി ചെയ്ത ദിവസങ്ങൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "काम किए दिन"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೆಲಸ ಮಾಡಿದ ದಿನಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வேலை செய்த நாட்கள்"
+          }
         }
       }
     },
@@ -1374,6 +2490,24 @@
             "state": "translated",
             "value": "നിഷ്‌ക്രിയമാക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "निष्क्रिय करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செயலிழக்கச் செய்"
+          }
         }
       }
     },
@@ -1389,6 +2523,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഇല്ലാതാക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हटाएँ"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅಳಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நீக்கு"
           }
         }
       }
@@ -1422,6 +2574,24 @@
             "state": "translated",
             "value": "സാധനം ഇല്ലാതാക്കണോ?"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान हटाएँ?"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಸ್ತುವನ್ನು ಅಳಿಸಬೇಕೇ?"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருளை நீக்கவா?"
+          }
         }
       }
     },
@@ -1437,6 +2607,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഈ ബിൽ ഇല്ലാതാക്കണോ?"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "यह बिल हटाएँ?"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಈ ಬಿಲ್ ಅಳಿಸುವುದೇ?"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இந்த பில்லை நீக்கவா?"
           }
         }
       }
@@ -1454,6 +2642,24 @@
             "state": "translated",
             "value": "ഈ കടം ഇല്ലാതാക്കണോ?"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "यह उधार हटाएँ?"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಈ ಸಾಲ ಅಳಿಸುವುದೇ?"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இந்தக் கடனை நீக்கவா?"
+          }
         }
       }
     },
@@ -1470,6 +2676,24 @@
             "state": "translated",
             "value": "ഇല്ലാതാക്കി."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हटा दिया."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅಳಿಸಲಾಗಿದೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நீக்கப்பட்டது."
+          }
         }
       }
     },
@@ -1485,6 +2709,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഒഴിവാക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हटाएँ"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ತ್ಯಜಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நீக்கு"
           }
         }
       }
@@ -1534,6 +2776,24 @@
             "state": "translated",
             "value": "കിഴിവ്"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "छूट"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ರಿಯಾಯಿತಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தள்ளுபடி"
+          }
         }
       }
     },
@@ -1565,6 +2825,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "എക്‌സൽ ടെംപ്ലേറ്റ് ഡൗൺലോഡ് ചെയ്യുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एक्सेल टेम्पलेट डाउनलोड करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಎಕ್ಸೆಲ್ ಟೆಂಪ್ಲೇಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "எக்செல் டெம்ப்ளேட்டைப் பதிவிறக்கு"
           }
         }
       }
@@ -1598,6 +2876,24 @@
             "state": "translated",
             "value": "കടം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उधार"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಾಲ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடன்"
+          }
         }
       }
     },
@@ -1613,6 +2909,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കടം (പിന്നീട് നൽകാൻ, നിർബന്ധമല്ല)"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उधार (बाद में देय, वैकल्पिक)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಾಲ (ನಂತರ ಪಾವತಿ, ಐಚ್ಛಿಕ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடன் (பின்னர் செலுத்த, விரும்பினால்)"
           }
         }
       }
@@ -1646,6 +2960,24 @@
             "state": "translated",
             "value": "കടങ്ങൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उधार"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಾಕಿಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நிலுவைகள்"
+          }
         }
       }
     },
@@ -1678,6 +3010,24 @@
             "state": "translated",
             "value": "ബിൽ തിരുത്തുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल संपादित करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್ ಸಂಪಾದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில்லைத் திருத்து"
+          }
         }
       }
     },
@@ -1693,6 +3043,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ചെലവ് തിരുത്തുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खर्च संपादित करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಖರ್ಚು ಸಂಪಾದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செலவைத் திருத்து"
           }
         }
       }
@@ -1710,6 +3078,24 @@
             "state": "translated",
             "value": "പണമടവ് തിരുത്തുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान संपादित करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿ ಸಂಪಾದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணம் செலுத்துதலைத் திருத்து"
+          }
         }
       }
     },
@@ -1725,6 +3111,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "സാധനം തിരുത്തുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान संपादित करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಸ್ತುವನ್ನು ಸಂಪಾದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருளைத் திருத்து"
           }
         }
       }
@@ -1742,6 +3146,24 @@
             "state": "translated",
             "value": "തൊഴിലാളിയെ തിരുത്തുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मज़दूर संपादित करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಾರ್ಮಿಕನನ್ನು ಸಂಪಾದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொழிலாளியைத் திருத்து"
+          }
         }
       }
     },
@@ -1758,6 +3180,24 @@
             "state": "translated",
             "value": "തിരുത്തി"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "संपादित"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಂಪಾದಿಸಲಾಗಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "திருத்தப்பட்டது"
+          }
         }
       }
     },
@@ -1773,6 +3213,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഇമെയിൽ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ईमेल"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇಮೇಲ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மின்னஞ்சல்"
           }
         }
       }
@@ -1838,6 +3296,24 @@
             "state": "translated",
             "value": "ചെലവുകൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खर्च"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಖರ್ಚುಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செலவுகள்"
+          }
         }
       }
     },
@@ -1853,6 +3329,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "സ്ത്രീ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "महिला"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮಹಿಳೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பெண்"
           }
         }
       }
@@ -1870,6 +3364,24 @@
             "state": "translated",
             "value": "മുതൽ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "से"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇಂದ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "முதல்"
+          }
         }
       }
     },
@@ -1885,6 +3397,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ലിംഗം"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "लिंग"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಲಿಂಗ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பாலினம்"
           }
         }
       }
@@ -1918,6 +3448,24 @@
             "state": "translated",
             "value": "മുൻകൂർ നൽകുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अग्रिम दें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮುಂಗಡ ನೀಡಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "முன்பணம் கொடு"
+          }
         }
       }
     },
@@ -1933,6 +3481,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "അര ദിവസം"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आधा दिन"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅರ್ಧ ದಿನ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "அரை நாள்"
           }
         }
       }
@@ -1950,6 +3516,24 @@
             "state": "translated",
             "value": "മാറ്റിവെച്ച ബില്ലുകൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रोके गए बिल"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ತಡೆಹಿಡಿದ ಬಿಲ್‌ಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நிறுத்திவைத்த பில்கள்"
+          }
         }
       }
     },
@@ -1965,6 +3549,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ബിൽ മാറ്റിവെക്കുക — മറ്റൊരാളെ സഹായിക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल रोकें — दूसरे ग्राहक को निपटाएँ"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್ ತಡೆಹಿಡಿಯಿರಿ — ಇನ್ನೊಬ್ಬ ಗ್ರಾಹಕರಿಗೆ ಸೇವೆ ಮಾಡಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில்லை நிறுத்து — வேறு வாடிக்கையாளருக்கு உதவு"
           }
         }
       }
@@ -1982,6 +3584,24 @@
             "state": "translated",
             "value": "എങ്ങനെ അടച്ചു?"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान कैसे हुआ?"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಹೇಗೆ ಪಾವತಿಸಲಾಯಿತು?"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "எப்படி செலுத்தப்பட்டது?"
+          }
         }
       }
     },
@@ -1997,6 +3617,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "സജീവമല്ല"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "निष्क्रिय"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಿಷ್ಕ್ರಿಯ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செயலற்றது"
           }
         }
       }
@@ -2014,6 +3652,24 @@
             "state": "translated",
             "value": "നിഷ്‌ക്രിയമായവയും ഉൾപ്പെടുത്തുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "निष्क्रिय भी शामिल करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಿಷ್ಕ್ರಿಯವಾದವುಗಳನ್ನೂ ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செயலற்றவற்றையும் சேர்"
+          }
         }
       }
     },
@@ -2029,6 +3685,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "സാധനത്തിന്റെ പേര്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान का नाम"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಸ್ತುವಿನ ಹೆಸರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருளின் பெயர்"
           }
         }
       }
@@ -2046,6 +3720,24 @@
             "state": "translated",
             "value": "സാധനങ്ങൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಸ್ತುಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருட்கள்"
+          }
         }
       }
     },
@@ -2061,6 +3753,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "തൊഴിലാളികൾ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मज़दूर"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಾರ್ಮಿಕರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொழிலாளர்கள்"
           }
         }
       }
@@ -2078,6 +3788,24 @@
             "state": "translated",
             "value": "ഭാഷ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भाषा"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಭಾಷೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மொழி"
+          }
         }
       }
     },
@@ -2093,6 +3821,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കൂടുതൽ കാണിക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "और दिखाएँ"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನಷ್ಟು ತೋರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மேலும் காட்டு"
           }
         }
       }
@@ -2125,6 +3871,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ബില്ലുകൾ ലോഡ് ചെയ്യുന്നു…"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल लोड हो रहे हैं…"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್‌ಗಳು ಲೋಡ್ ಆಗುತ್ತಿವೆ…"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில்கள் ஏற்றப்படுகின்றன…"
           }
         }
       }
@@ -2334,6 +4098,24 @@
             "state": "translated",
             "value": "ലോഡ് ചെയ്യുന്നു…"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "लोड हो रहा है…"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಲೋಡ್ ಆಗುತ್ತಿದೆ…"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ஏற்றுகிறது…"
+          }
         }
       }
     },
@@ -2350,6 +4132,24 @@
             "state": "translated",
             "value": "ലോഗ് ഔട്ട്"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "लॉग आउट"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಲಾಗ್ ಔಟ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வெளியேறு"
+          }
         }
       }
     },
@@ -2365,6 +4165,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ലോഗിൻ ഇമെയിൽ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "लॉगिन ईमेल"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಲಾಗಿನ್ ಇಮೇಲ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "உள்நுழைவு மின்னஞ்சல்"
           }
         }
       }
@@ -2398,6 +4216,24 @@
             "state": "translated",
             "value": "പുരുഷൻ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पुरुष"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪುರುಷ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ஆண்"
+          }
         }
       }
     },
@@ -2413,6 +4249,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "മാനേജർ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मैनेजर"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮ್ಯಾನೇಜರ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மேலாளர்"
           }
         }
       }
@@ -2430,6 +4284,24 @@
             "state": "translated",
             "value": "രീതി"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "तरीका"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಿಧಾನ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "முறை"
+          }
         }
       }
     },
@@ -2445,6 +4317,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "മാസം"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "महीना"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ತಿಂಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மாதம்"
           }
         }
       }
@@ -2462,6 +4352,24 @@
             "state": "translated",
             "value": "കൂടുതൽ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "और"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನಷ್ಟು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மேலும்"
+          }
         }
       }
     },
@@ -2477,6 +4385,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പേര്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नाम"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಹೆಸರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பெயர்"
           }
         }
       }
@@ -2526,6 +4452,24 @@
             "state": "translated",
             "value": "അറ്റാദായം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "शुद्ध"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಿವ್ವಳ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நிகரம்"
+          }
         }
       }
     },
@@ -2542,6 +4486,24 @@
             "state": "translated",
             "value": "അറ്റ വരുമാനം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "शुद्ध आय"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಿವ್ವಳ ಆದಾಯ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நிகர வருமானம்"
+          }
         }
       }
     },
@@ -2557,6 +4519,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പുതിയ ബിൽ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नया बिल"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಹೊಸ ಬಿಲ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "புதிய பில்"
           }
         }
       }
@@ -2590,6 +4570,24 @@
             "state": "translated",
             "value": "പുതിയ സാധനം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नया सामान"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಹೊಸ ವಸ್ತು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "புதிய பொருள்"
+          }
         }
       }
     },
@@ -2605,6 +4603,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഈ കാലയളവിൽ ബില്ലുകളൊന്നുമില്ല."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इस अवधि में कोई बिल नहीं।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಈ ಅವಧಿಯಲ್ಲಿ ಬಿಲ್‌ಗಳು ಇಲ್ಲ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இந்தக் காலத்தில் பில்கள் இல்லை."
           }
         }
       }
@@ -2653,6 +4669,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഉപഭോക്താക്കൾ ഇല്ല"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अभी कोई ग्राहक नहीं"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನೂ ಗ್ರಾಹಕರಿಲ್ಲ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இன்னும் வாடிக்கையாளர்கள் இல்லை"
           }
         }
       }
@@ -2718,6 +4752,24 @@
             "state": "translated",
             "value": "അറിയിപ്പുകൾ ഒന്നുമില്ല"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अभी कोई सूचना नहीं"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನೂ ಯಾವುದೇ ಅಧಿಸೂಚನೆಗಳಿಲ್ಲ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இதுவரை அறிவிப்புகள் இல்லை"
+          }
         }
       }
     },
@@ -2750,6 +4802,24 @@
             "state": "translated",
             "value": "തിരിച്ചടച്ച കടങ്ങളൊന്നുമില്ല."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अभी तक कोई चुकाया उधार नहीं।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನೂ ಹಿಂತಿರುಗಿಸಿದ ಸಾಲಗಳಿಲ್ಲ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இன்னும் திருப்பிச் செலுத்திய கடன்கள் இல்லை."
+          }
         }
       }
     },
@@ -2765,6 +4835,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഇതുവരെ പണമടവുകളൊന്നും രേഖപ്പെടുത്തിയിട്ടില്ല."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अभी तक कोई भुगतान दर्ज नहीं।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನೂ ಯಾವುದೇ ಪಾವತಿ ದಾಖಲಾಗಿಲ್ಲ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இன்னும் பணம் செலுத்துதல் எதுவும் பதிவாகவில்லை."
           }
         }
       }
@@ -2798,6 +4886,24 @@
             "state": "translated",
             "value": "സാധനങ്ങളൊന്നുമില്ല"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कोई सामान नहीं"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಯಾವುದೇ ಸರಕುಗಳಿಲ್ಲ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருட்கள் இல்லை"
+          }
         }
       }
     },
@@ -2814,6 +4920,24 @@
             "state": "translated",
             "value": "\"%@\" എന്നതിന് സാധനങ്ങളൊന്നും കണ്ടെത്തിയില്ല."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"%@\" से मेल खाता कोई सामान नहीं।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"%@\" ಗೆ ಹೊಂದುವ ಸರಕುಗಳಿಲ್ಲ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"%@\" உடன் பொருந்தும் பொருட்கள் இல்லை."
+          }
         }
       }
     },
@@ -2829,6 +4953,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഇതുവരെ ഉൽപ്പന്നങ്ങൾ ഇല്ല"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अभी कोई सामान नहीं"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನೂ ಯಾವುದೇ ಸರಕುಗಳಿಲ್ಲ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இன்னும் பொருட்கள் இல்லை"
           }
         }
       }
@@ -2942,6 +5084,24 @@
             "state": "translated",
             "value": "കുറിപ്പ് (നിർബന്ധമല്ല)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "टिप्पणी (वैकल्पिक)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಟಿಪ್ಪಣಿ (ಐಚ್ಛಿಕ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "குறிப்பு (விருப்பம்)"
+          }
         }
       }
     },
@@ -2957,6 +5117,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "അംഗീകരിക്കാൻ ഒന്നുമില്ല"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मंज़ूर करने को कुछ नहीं"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅನುಮೋದಿಸಲು ಏನೂ ಇಲ್ಲ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ஒப்புதல் அளிக்க எதுவும் இல்லை"
           }
         }
       }
@@ -2974,6 +5152,24 @@
             "state": "translated",
             "value": "അറിയിപ്പുകൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सूचनाएं"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅಧಿಸೂಚನೆಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "அறிவிப்புகள்"
+          }
         }
       }
     },
@@ -2989,6 +5185,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ദിവസങ്ങളുടെ എണ്ണം"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "दिनों की संख्या"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ದಿನಗಳ ಸಂಖ್ಯೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நாட்களின் எண்ணிக்கை"
           }
         }
       }
@@ -3006,6 +5220,24 @@
             "state": "translated",
             "value": "ശരി"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ठीक है"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸರಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "சரி"
+          }
         }
       }
     },
@@ -3021,6 +5253,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കടത്തിൽ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उधार पर"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಾಲದಲ್ಲಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடனில்"
           }
         }
       }
@@ -3054,6 +5304,24 @@
             "state": "translated",
             "value": "തുറക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खोलें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ತೆರೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "திற"
+          }
         }
       }
     },
@@ -3069,6 +5337,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "മറ്റ് കടങ്ങൾ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अन्य बकाया"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇತರ ಬಾಕಿಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பிற நிலுவைகள்"
           }
         }
       }
@@ -3086,6 +5372,24 @@
             "state": "translated",
             "value": "കടം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बकाया"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಾಕಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நிலுவை"
+          }
         }
       }
     },
@@ -3101,6 +5405,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഉടമ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मालिक"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮಾಲೀಕ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "உரிமையாளர்"
           }
         }
       }
@@ -3134,6 +5456,24 @@
             "state": "translated",
             "value": "അടച്ചു"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "चुकाया"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿಸಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செலுத்தியது"
+          }
         }
       }
     },
@@ -3149,6 +5489,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "മുൻകൂർ നൽകിയത്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पहले चुकाया"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮುಂಚಿತವಾಗಿ ಪಾವತಿಸಿದ್ದು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "முன்கூட்டியே செலுத்தியது"
           }
         }
       }
@@ -3166,6 +5524,24 @@
             "state": "translated",
             "value": "ഭാഗികമായി അടച്ചു"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आंशिक चुकाया"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಭಾಗಶಃ ಪಾವತಿಸಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பகுதியாக செலுத்தியது"
+          }
         }
       }
     },
@@ -3181,6 +5557,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പാസ്‌വേഡ്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पासवर्ड"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾಸ್‌ವರ್ಡ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடவுச்சொல்"
           }
         }
       }
@@ -3214,6 +5608,24 @@
             "state": "translated",
             "value": "പാസ്‌വേഡ് പുനഃസജ്ജമാക്കി"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पासवर्ड रीसेट"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾಸ್‌ವರ್ಡ್ ಮರುಹೊಂದಿಸಲಾಗಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடவுச்சொல் மீட்டமைக்கப்பட்டது"
+          }
         }
       }
     },
@@ -3229,6 +5641,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "തിരിച്ചടയ്ക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "लौटाएँ"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಹಿಂತಿರುಗಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "திருப்பிச் செலுத்து"
           }
         }
       }
@@ -3262,6 +5692,24 @@
             "state": "translated",
             "value": "പണമടയ്ക്കൽ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணம் செலுத்துதல்"
+          }
         }
       }
     },
@@ -3277,6 +5725,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പണമടവ് ഇല്ലാതാക്കി."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान हटाया गया."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿ ಅಳಿಸಲಾಗಿದೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணம் செலுத்தல் நீக்கப்பட்டது."
           }
         }
       }
@@ -3294,6 +5760,24 @@
             "state": "translated",
             "value": "പണമടവ് ചരിത്രം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान इतिहास"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿ ಇತಿಹಾಸ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணம் செலுத்திய வரலாறு"
+          }
         }
       }
     },
@@ -3309,6 +5793,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പണമടയ്ക്കൽ രീതി"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान का तरीका"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿ ವಿಧಾನ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணம் செலுத்தும் முறை"
           }
         }
       }
@@ -3326,6 +5828,24 @@
             "state": "translated",
             "value": "പണമടയ്ക്കൽ വിഭജനം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान मिश्रण"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿ ಮಿಶ್ರಣ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணம் செலுத்தும் கலவை"
+          }
         }
       }
     },
@@ -3341,6 +5861,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പണമടവ് രേഖപ്പെടുത്തി."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान दर्ज किया गया."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿ ದಾಖಲಿಸಲಾಗಿದೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணம் செலுத்தல் பதிவு செய்யப்பட்டது."
           }
         }
       }
@@ -3358,6 +5896,24 @@
             "state": "translated",
             "value": "ശതമാനം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "प्रतिशत"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಶೇಕಡಾ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "சதவீதம்"
+          }
         }
       }
     },
@@ -3374,6 +5930,24 @@
             "state": "translated",
             "value": "ഫോൺ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "फ़ोन"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಫೋನ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொலைபேசி"
+          }
         }
       }
     },
@@ -3389,6 +5963,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഫോൺ (രസീതുകൾക്ക്)"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "फ़ोन (रसीद के लिए)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಫೋನ್ (ರಸೀದಿಗಳಿಗೆ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொலைபேசி (ரசீதுகளுக்கு)"
           }
         }
       }
@@ -3421,6 +6013,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഫോൺ (നിർബന്ധം — പണം കടം)"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "फ़ोन (आवश्यक — पैसा उधार)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಫೋನ್ (ಅಗತ್ಯ — ಸಾಲದ ಹಣ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொலைபேசி (தேவை — கடன் பணம்)"
           }
         }
       }
@@ -3502,6 +6112,24 @@
             "state": "translated",
             "value": "ഹാജർ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उपस्थित"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಹಾಜರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வருகை"
+          }
         }
       }
     },
@@ -3517,6 +6145,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "വില"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कीमत"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬೆಲೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விலை"
           }
         }
       }
@@ -3534,6 +6180,24 @@
             "state": "translated",
             "value": "വില (₹)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कीमत (₹)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬೆಲೆ (₹)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விலை (₹)"
+          }
         }
       }
     },
@@ -3550,6 +6214,24 @@
             "state": "translated",
             "value": "രസീത് പ്രിന്റ് ചെയ്യുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रसीद प्रिंट करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ರಸೀದಿ ಮುದ್ರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ரசீதை அச்சிடு"
+          }
         }
       }
     },
@@ -3565,6 +6247,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പ്രിന്റർ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "प्रिंटर"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪ್ರಿಂಟರ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பிரிண்டர்"
           }
         }
       }
@@ -3614,6 +6314,24 @@
             "state": "translated",
             "value": "സാധനങ്ങൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸರಕುಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருட்கள்"
+          }
         }
       }
     },
@@ -3662,6 +6380,24 @@
             "state": "translated",
             "value": "വാങ്ങൽ ചരിത്രം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खरीद इतिहास"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಖರೀದಿ ಇತಿಹಾಸ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கொள்முதல் வரலாறு"
+          }
         }
       }
     },
@@ -3677,6 +6413,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "എണ്ണം"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मात्रा"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪ್ರಮಾಣ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "அளவு"
           }
         }
       }
@@ -3694,6 +6448,24 @@
             "state": "translated",
             "value": "ഇഷ്‌ടാനുസൃത സാധനം വേഗത്തിൽ ചേർക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कस्टम सामान जल्दी जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಸ್ಟಮ್ ವಸ್ತುವನ್ನು ತ್ವರಿತವಾಗಿ ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தனிப்பயன் பொருளை விரைவாகச் சேர்"
+          }
         }
       }
     },
@@ -3709,6 +6481,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "വേഗത്തിൽ സാധനം ചേർക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "जल्दी सामान जोड़ें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ತ್ವರಿತವಾಗಿ ವಸ್ತು ಸೇರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விரைவாக பொருள் சேர்"
           }
         }
       }
@@ -3726,6 +6516,24 @@
             "state": "translated",
             "value": "കാരണം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कारण"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಾರಣ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "காரணம்"
+          }
         }
       }
     },
@@ -3741,6 +6549,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "രസീത്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रसीद"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ರಸೀದಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ரசீது"
           }
         }
       }
@@ -3758,6 +6584,24 @@
             "state": "translated",
             "value": "സമീപകാല പണമടവുകൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हाल के भुगतान"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇತ್ತೀಚಿನ ಪಾವತಿಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "சமீபத்திய பணம் செலுத்துதல்கள்"
+          }
         }
       }
     },
@@ -3773,6 +6617,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പണം രേഖപ്പെടുത്തുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "भुगतान दर्ज करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿ ದಾಖಲಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணத்தைப் பதிவு செய்"
           }
         }
       }
@@ -3790,6 +6652,24 @@
             "state": "translated",
             "value": "നിരസിക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अस्वीकार करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ತಿರಸ್ಕರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நிராகரி"
+          }
         }
       }
     },
@@ -3806,6 +6686,24 @@
             "state": "translated",
             "value": "കുറിപ്പ് (നിർബന്ധമല്ല)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "टिप्पणी (वैकल्पिक)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಟಿಪ್ಪಣಿ (ಐಚ್ಛಿಕ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "குறிப்பு (விரும்பினால்)"
+          }
         }
       }
     },
@@ -3821,6 +6719,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "നീക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हटाएँ"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ತೆಗೆದುಹಾಕಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நீக்கு"
           }
         }
       }
@@ -3870,6 +6786,24 @@
             "state": "translated",
             "value": "വിൽപനക്കാരനെ നീക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सेल्सपर्सन हटाएँ"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮಾರಾಟಗಾರನನ್ನು ತೆಗೆದುಹಾಕಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விற்பனையாளரை நீக்கு"
+          }
         }
       }
     },
@@ -3885,6 +6819,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "വിൽപനക്കാരനെ നീക്കണോ?"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सेल्सपर्सन हटाएँ?"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮಾರಾಟಗಾರನನ್ನು ತೆಗೆದುಹಾಕುವುದೇ?"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விற்பனையாளரை நீக்கவா?"
           }
         }
       }
@@ -3918,6 +6870,24 @@
             "state": "translated",
             "value": "പാസ്‌വേഡ് പുനഃസജ്ജമാക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पासवर्ड रीसेट करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾಸ್‌ವರ್ಡ್ ಮರುಹೊಂದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடவுச்சொல்லை மீட்டமை"
+          }
         }
       }
     },
@@ -3950,6 +6920,24 @@
             "state": "translated",
             "value": "ഈ ബിൽ തുടരുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "यह बिल जारी रखें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಈ ಬಿಲ್ ಮುಂದುವರಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இந்த பில்லைத் தொடரவும்"
+          }
         }
       }
     },
@@ -3965,6 +6953,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "പരിശോധിച്ച് പണം അടയ്ക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "देखें और भुगतान करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪರಿಶೀಲಿಸಿ ಪಾವತಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பார்த்து பணம் செலுத்து"
           }
         }
       }
@@ -3982,6 +6988,24 @@
             "state": "translated",
             "value": "ബിൽ പരിശോധിക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल देखें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್ ಪರಿಶೀಲಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில்லைப் பார்க்கவும்"
+          }
         }
       }
     },
@@ -3997,6 +7021,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കയ്യിലുള്ള പണം"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हाथ में नकद (जारी)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೈಯಲ್ಲಿರುವ ನಗದು (ಮುಂದುವರಿಕೆ)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கையிருப்பு பணம் (தொடர்ச்சி)"
           }
         }
       }
@@ -4014,6 +7056,24 @@
             "state": "translated",
             "value": "വിൽപന"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिक्री"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮಾರಾಟ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விற்பனை"
+          }
         }
       }
     },
@@ -4029,6 +7089,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "വിഭാഗം അനുസരിച്ച് വിൽപന"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "श्रेणी अनुसार बिक्री"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವರ್ಗದ ಪ್ರಕಾರ ಮಾರಾಟ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வகை வாரியாக விற்பனை"
           }
         }
       }
@@ -4046,6 +7124,24 @@
             "state": "translated",
             "value": "കട അനുസരിച്ച് വിൽപന"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "दुकान अनुसार बिक्री"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅಂಗಡಿ ಪ್ರಕಾರ ಮಾರಾಟ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடை வாரியாக விற்பனை"
+          }
         }
       }
     },
@@ -4062,6 +7158,24 @@
             "state": "translated",
             "value": "വിൽപനക്കാർ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "विक्रेता"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮಾರಾಟಗಾರರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விற்பனையாளர்கள்"
+          }
         }
       }
     },
@@ -4077,6 +7191,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "വിൽപനക്കാരൻ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सेल्सपर्सन"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮಾರಾಟಗಾರ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விற்பனையாளர்"
           }
         }
       }
@@ -4110,6 +7242,24 @@
             "state": "translated",
             "value": "സേവ് ചെയ്യുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सेव करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಉಳಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "சேமி"
+          }
         }
       }
     },
@@ -4125,6 +7275,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ബിൽ സേവ് ചെയ്യുക • %@"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बिल सहेजें • %@"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬಿಲ್ ಉಳಿಸಿ • %@"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பில்லைச் சேமி • %@"
           }
         }
       }
@@ -4142,6 +7310,24 @@
             "state": "translated",
             "value": "മാറ്റങ്ങൾ സേവ് ചെയ്യുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बदलाव सहेजें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மாற்றங்களைச் சேமி"
+          }
         }
       }
     },
@@ -4157,6 +7343,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "മാറ്റങ്ങൾ സേവ് ചെയ്യുക • %@"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बदलाव सहेजें • %@"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ • %@"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மாற்றங்களைச் சேமி • %@"
           }
         }
       }
@@ -4174,6 +7378,24 @@
             "state": "translated",
             "value": "ചെലവ് സേവ് ചെയ്യുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खर्च सहेजें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಖರ್ಚು ಉಳಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செலவைச் சேமி"
+          }
         }
       }
     },
@@ -4189,6 +7411,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "സേവ് ചെയ്തു."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सहेज लिया."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಉಳಿಸಲಾಗಿದೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "சேமிக்கப்பட்டது."
           }
         }
       }
@@ -4238,6 +7478,24 @@
             "state": "translated",
             "value": "സാധനങ്ങൾ തിരയുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान खोजें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸರಕುಗಳನ್ನು ಹುಡುಕಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பொருட்களைத் தேடு"
+          }
         }
       }
     },
@@ -4253,6 +7511,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "അംഗീകാരത്തിനായി അയയ്ക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मंज़ूरी के लिए भेजें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅನುಮೋದನೆಗಾಗಿ ಕಳುಹಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ஒப்புதலுக்கு அனுப்பு"
           }
         }
       }
@@ -4286,6 +7562,24 @@
             "state": "translated",
             "value": "കയ്യിലുള്ള പണം സജ്ജമാക്കുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हाथ में नकद सेट करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೈಯಲ್ಲಿರುವ ನಗದು ಹೊಂದಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கையிருப்பு பணத்தை அமைக்கவும்"
+          }
         }
       }
     },
@@ -4317,6 +7611,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "കടയുടെ വിവരങ്ങൾ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "दुकान का विवरण"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅಂಗಡಿ ವಿವರಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கடை விவரங்கள்"
           }
         }
       }
@@ -4350,6 +7662,24 @@
             "state": "translated",
             "value": "സൈൻ ഇൻ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "साइन इन करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸೈನ್ ಇನ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "உள்நுழை"
+          }
         }
       }
     },
@@ -4365,6 +7695,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "നിങ്ങളുടെ കടയിലേക്ക് സൈൻ ഇൻ ചെയ്യുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अपनी दुकान में साइन इन करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಿಮ್ಮ ಅಂಗಡಿಗೆ ಸೈನ್ ಇನ್ ಮಾಡಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "உங்கள் கடையில் உள்நுழையவும்"
           }
         }
       }
@@ -4398,6 +7746,24 @@
             "state": "translated",
             "value": "വിഭജനം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बँटवारा"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಿಭಜನೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பிரித்தல்"
+          }
         }
       }
     },
@@ -4413,6 +7779,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ജീവനക്കാർ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "स्टाफ़"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಿಬ್ಬಂದಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணியாளர்கள்"
           }
         }
       }
@@ -4430,6 +7814,24 @@
             "state": "translated",
             "value": "ജീവനക്കാരനെ ചേർത്തു."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कर्मचारी जोड़ा गया."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಿಬ್ಬಂದಿ ಸೇರಿಸಲಾಗಿದೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணியாளர் சேர்க்கப்பட்டார்."
+          }
         }
       }
     },
@@ -4445,6 +7847,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഇനിയും ബാക്കി"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अभी भी बकाया"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇನ್ನೂ ಬಾಕಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இன்னும் நிலுவை"
           }
         }
       }
@@ -4494,6 +7914,24 @@
             "state": "translated",
             "value": "ഉപത്തുക"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उप-योग"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಉಪಮೊತ್ತ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இடைத்தொகை"
+          }
         }
       }
     },
@@ -4525,6 +7963,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ആദ്യത്തേത് ഉണ്ടാക്കാൻ \"സാധനം ചേർക്കുക\" അമർത്തുക."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पहला बनाने के लिए \"सामान जोड़ें\" दबाएँ।"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮೊದಲನೆಯದನ್ನು ರಚಿಸಲು \"ವಸ್ತು ಸೇರಿಸಿ\" ಒತ್ತಿ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "முதலாவதை உருவாக்க \"பொருள் சேர்\" ஐ அழுத்தவும்."
           }
         }
       }
@@ -4638,6 +8094,24 @@
             "state": "translated",
             "value": "നൽകാനുള്ളത്"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "चुकाना है"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಪಾವತಿಸಬೇಕು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "செலுத்த வேண்டியது"
+          }
         }
       }
     },
@@ -4653,6 +8127,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഇന്ന്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आज"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇಂದು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இன்று"
           }
         }
       }
@@ -4670,6 +8162,24 @@
             "state": "translated",
             "value": "ഇന്നത്തെ ഹാജർ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आज की हाज़िरी"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇಂದಿನ ಹಾಜರಾತಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இன்றைய வருகை"
+          }
         }
       }
     },
@@ -4685,6 +8195,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "മികച്ച സാധനങ്ങൾ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "शीर्ष सामान"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಉನ್ನತ ಸಾಮಾನುಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "சிறந்த பொருட்கள்"
           }
         }
       }
@@ -4702,6 +8230,24 @@
             "state": "translated",
             "value": "മികച്ച വിൽപനക്കാർ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "शीर्ष विक्रेता"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಉನ್ನತ ಮಾರಾಟಗಾರರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "சிறந்த விற்பனையாளர்கள்"
+          }
         }
       }
     },
@@ -4717,6 +8263,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഇന്നത്തെ മികച്ച വിൽപനക്കാർ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आज के शीर्ष विक्रेता"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಇಂದಿನ ಅಗ್ರ ಮಾರಾಟಗಾರರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "இன்றைய சிறந்த விற்பனையாளர்கள்"
           }
         }
       }
@@ -4734,6 +8298,24 @@
             "state": "translated",
             "value": "ആകെ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कुल"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಒಟ್ಟು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மொத்தம்"
+          }
         }
       }
     },
@@ -4749,6 +8331,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ആകെ ചെലവുകൾ"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कुल खर्च"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಒಟ್ಟು ಖರ್ಚುಗಳು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மொத்த செலவுகள்"
           }
         }
       }
@@ -4766,6 +8366,24 @@
             "state": "translated",
             "value": "ആകെ ബാക്കിയുള്ളത്"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कुल बकाया"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಒಟ್ಟು ಬಾಕಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மொத்த நிலுவை"
+          }
         }
       }
     },
@@ -4781,6 +8399,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ആകെ നൽകിയത്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कुल भुगतान"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಒಟ್ಟು ಪಾವತಿಸಿದ್ದು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மொத்தம் செலுத்தியது"
           }
         }
       }
@@ -4798,6 +8434,24 @@
             "state": "translated",
             "value": "ആകെ വിൽപന"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कुल बिक्री"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಒಟ್ಟು ಮಾರಾಟ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மொத்த விற்பனை"
+          }
         }
       }
     },
@@ -4814,6 +8468,24 @@
             "state": "translated",
             "value": "ആകെ ചെലവാക്കിയത്"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कुल खर्च"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಒಟ್ಟು ಖರ್ಚು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மொத்த செலவு"
+          }
         }
       }
     },
@@ -4829,6 +8501,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "വീണ്ടും ശ്രമിക്കുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "फिर से कोशिश करें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மீண்டும் முயற்சிக்கவும்"
           }
         }
       }
@@ -4878,6 +8568,24 @@
             "state": "translated",
             "value": "UPI"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UPI"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UPI"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UPI"
+          }
         }
       }
     },
@@ -4893,6 +8601,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "UPI ഐഡി"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UPI आईडी"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UPI ಐಡಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UPI ஐடி"
           }
         }
       }
@@ -4942,6 +8668,24 @@
             "state": "translated",
             "value": "അജ്ഞാതം"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अज्ञात"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಅಜ್ಞಾತ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தெரியாதது"
+          }
         }
       }
     },
@@ -4974,6 +8718,24 @@
             "state": "translated",
             "value": "പുതിയ വിവരങ്ങളും അറിയിപ്പുകളും ഇവിടെ കാണാം."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अपडेट और घोषणाएं यहां दिखेंगी."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನವೀಕರಣಗಳು ಮತ್ತು ಪ್ರಕಟಣೆಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "புதுப்பிப்புகளும் அறிவிப்புகளும் இங்கே தோன்றும்."
+          }
         }
       }
     },
@@ -4989,6 +8751,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുക (.zip)"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "फ़ोटो अपलोड करें (.zip)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಫೋಟೋಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ (.zip)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "புகைப்படங்களைப் பதிவேற்று (.zip)"
           }
         }
       }
@@ -5006,6 +8786,24 @@
             "state": "translated",
             "value": "സ്‌പ്രെഡ്‌ഷീറ്റ് അപ്‌ലോഡ് ചെയ്യുക (.xlsx/.csv)"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "स्प्रेडशीट अपलोड करें (.xlsx/.csv)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸ್ಪ್ರೆಡ್‌ಶೀಟ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ (.xlsx/.csv)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "விரிதாளைப் பதிவேற்று (.xlsx/.csv)"
+          }
         }
       }
     },
@@ -5021,6 +8819,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ജീവനക്കാരനനുസരിച്ച് കാണുക"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "स्टाफ़ के अनुसार देखें"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಸಿಬ್ಬಂದಿ ಪ್ರಕಾರ ವೀಕ್ಷಿಸಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ஊழியர் வாரியாகப் பார்"
           }
         }
       }
@@ -5038,6 +8854,24 @@
             "state": "translated",
             "value": "കൂലി നൽകൽ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मज़दूरी भुगतान"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೂಲಿ ಪಾವತಿ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "கூலி செலுத்துதல்"
+          }
         }
       }
     },
@@ -5053,6 +8887,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ദിവസക്കൂലി (₹)"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "प्रतिदिन मज़दूरी (₹)"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ದಿನದ ಕೂಲಿ (₹)"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "நாள் கூலி (₹)"
           }
         }
       }
@@ -5070,6 +8922,24 @@
             "state": "translated",
             "value": "മാനേജരുടെ അംഗീകാരത്തിനായി കാത്തിരിക്കുന്നു"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मैनेजर की मंज़ूरी का इंतज़ार"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಮ್ಯಾನೇಜರ್ ಅನುಮೋದನೆಗಾಗಿ ಕಾಯುತ್ತಿದೆ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "மேலாளர் ஒப்புதலுக்காகக் காத்திருக்கிறது"
+          }
         }
       }
     },
@@ -5085,6 +8955,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "വാക്ക്-ഇൻ ഉപഭോക്താവ്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "वॉक-इन ग्राहक"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಾಕ್-ಇನ್ ಗ್ರಾಹಕ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வாக்-இன் வாடிக்கையாளர்"
           }
         }
       }
@@ -5102,6 +8990,24 @@
             "state": "translated",
             "value": "ആഴ്ച"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सप्ताह"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ವಾರ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "வாரம்"
+          }
         }
       }
     },
@@ -5117,6 +9023,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "തൊഴിലാളി"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मज़दूर"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಾರ್ಮಿಕ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொழிலாளி"
           }
         }
       }
@@ -5134,6 +9058,24 @@
             "state": "translated",
             "value": "തൊഴിലാളിയെ നീക്കി."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कर्मचारी हटाया गया."
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕೆಲಸಗಾರನನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ."
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "பணியாளர் நீக்கப்பட்டார்."
+          }
         }
       }
     },
@@ -5150,6 +9092,24 @@
             "state": "translated",
             "value": "തൊഴിലാളികൾ"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मज़दूर"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಕಾರ್ಮಿಕರು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "தொழிலாளர்கள்"
+          }
         }
       }
     },
@@ -5165,6 +9125,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "നിങ്ങളുടെ ബിസിനസ്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आपका व्यवसाय"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ನಿಮ್ಮ ವ್ಯಾಪಾರ"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "உங்கள் வணிகம்"
           }
         }
       }
@@ -5197,6 +9175,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "ഉദാ. ചെടി, ചട്ടി, മണ്ണ്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उदा. पौधा, गमला, मिट्टी"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ಉದಾ. ಸಸಿ, ಕುಂಡ, ಮಣ್ಣು"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "எ.கா. செடி, தொட்டி, மண்"
           }
         }
       }
@@ -5232,6 +9228,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "₹ ഫ്ലാറ്റ്"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "₹ सीधी"
+          }
+        },
+        "kn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "₹ ಫ್ಲಾಟ್"
+          }
+        },
+        "ta": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "₹ நிலையானது"
           }
         }
       }
