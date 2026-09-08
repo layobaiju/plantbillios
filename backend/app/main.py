@@ -9,6 +9,8 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.trial_lock import TrialLockMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.auth.router import router as auth_router
@@ -82,6 +84,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Blocks writes for a self-signed-up shop once its free trial expires. Reads
+# stay open, and shops with trial_ends_at = NULL — every admin-provisioned
+# shop, which is all of them before signup existed — are never affected.
+app.add_middleware(TrialLockMiddleware)
 
 
 @app.get("/health", tags=["health"])

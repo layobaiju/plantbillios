@@ -46,6 +46,35 @@ class Shop(Base):
     # Admin-only: shop staff can see it but not change it.
     logo_path: Mapped[str | None] = mapped_column(Text, nullable=True)
 
+    # --- Self-signup trial -------------------------------------------------
+    # NULL means "not a trial shop" — every admin-provisioned shop, which is
+    # all of them before self-signup existed. A NULL can never be locked, so
+    # existing shops are unaffected by the trial write-block.
+    trial_ends_at: Mapped[dt.datetime | None] = mapped_column(nullable=True)
+    is_subscribed: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false")
+    )
+    # True only for a shop created through the app's own signup. Gates in-app
+    # deletion: an admin-provisioned shop must not be self-deletable.
+    is_self_signup: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false")
+    )
+
+    @property
+    def is_trial_locked(self) -> bool:
+        """Read-only mode: the trial ran out and nobody has paid yet."""
+        if self.trial_ends_at is None or self.is_subscribed:
+            return False
+        return self.trial_ends_at < dt.datetime.now(dt.timezone.utc)
+
+    @property
+    def trial_days_left(self) -> int | None:
+        """Whole days remaining, floored at 0. None when there's no trial."""
+        if self.trial_ends_at is None or self.is_subscribed:
+            return None
+        delta = self.trial_ends_at - dt.datetime.now(dt.timezone.utc)
+        return max(0, delta.days + (1 if delta.seconds > 0 else 0))
+
     settings: Mapped[dict] = mapped_column(JSONB, nullable=False, server_default=text("'{}'::jsonb"))
     created_at: Mapped[dt.datetime] = created_at_col()
 
