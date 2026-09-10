@@ -1,46 +1,108 @@
 import SwiftUI
 
+/// The bill review, in the order Android's `CartSheetContent` uses: the
+/// lines, Add item, the discount, the totals, the customer, payment, the
+/// scan-to-pay QR, then Hold and Save — with remarks last because they're
+/// rarely used.
 struct CartReviewSheet: View {
     @ObservedObject var viewModel: BillingViewModel
 
     @Environment(\.dismiss) private var dismiss
-    @FocusState private var focusedField: Field?
-
-    private enum Field { case name, phone, remarks }
+    @FocusState private var remarksFocused: Bool
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: PlantbillSpacing.lg) {
+                VStack(alignment: .leading, spacing: 0) {
                     linesSection
+
+                    // Minimises the review so more plants can be tapped; the
+                    // next tap opens it again.
+                    SecondaryButton(title: "Add item", systemImage: "plus") { dismiss() }
+                        .padding(.top, PlantbillSpacing.md)
+
                     discountSection
-                    upiQrSection
-                    paymentSection
+                        .padding(.top, PlantbillSpacing.lg)
+                    totalsSection
+                        .padding(.top, PlantbillSpacing.lg)
                     customerSection
-                    remarksSection
+                        .padding(.top, PlantbillSpacing.lg)
+                    paymentSection
+                        .padding(.top, PlantbillSpacing.lg)
+
+                    // Scan-to-pay appears whenever any amount is being taken by UPI.
+                    if viewModel.upiAmount.isPositive {
+                        upiSection
+                            .padding(.top, PlantbillSpacing.lg)
+                    }
 
                     if case .error(let message) = viewModel.checkoutState {
                         InlineErrorText(message: LocalizedStringKey(message))
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, PlantbillSpacing.md)
                     }
 
-                    actionButtons
+                    // Park this bill to serve another customer first.
+                    SecondaryButton(title: "Hold bill — serve another customer", systemImage: "pause.fill") {
+                        viewModel.holdCurrentBill()
+                        dismiss()
+                    }
+                    .padding(.top, PlantbillSpacing.xl)
+
+                    PrimaryButton(
+                        title: "Save bill • \(viewModel.total.format())",
+                        isLoading: viewModel.checkoutState == .submitting,
+                        isDisabled: !viewModel.allLinesFilled
+                    ) {
+                        remarksFocused = false
+                        dismissKeyboard()
+                        Task { await viewModel.checkout() }
+                    }
+                    .padding(.top, PlantbillSpacing.md)
+
+                    if viewModel.showsIncompleteLinesHint {
+                        Text("Enter a quantity and price for every item.")
+                            .font(PlantbillTypography.body)
+                            .foregroundStyle(PlantbillColor.textSecondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, PlantbillSpacing.xs)
+                    }
+
+                    remarksField
+                        .padding(.top, PlantbillSpacing.md)
                 }
-                .padding(PlantbillSpacing.lg)
+                .padding(.horizontal, PlantbillSpacing.lg)
+                .padding(.top, PlantbillSpacing.sm)
+                .padding(.bottom, PlantbillSpacing.xl)
             }
+            .scrollDismissesKeyboard(.interactively)
             .background(PlantbillColor.background)
             .navigationTitle("Review bill")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Close review") { dismiss() }
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundStyle(PlantbillColor.textPrimary)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .accessibilityLabel(Text("Close review"))
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Clear cart", role: .destructive) {
+                    Button {
                         viewModel.clearCart()
                         dismiss()
+                    } label: {
+                        Label("Clear cart", systemImage: "trash")
+                            .labelStyle(.titleAndIcon)
+                            .font(PlantbillTypography.caption.weight(.semibold))
+                            .foregroundStyle(PlantbillColor.error)
                     }
-                    .font(PlantbillTypography.caption)
+                    .disabled(viewModel.cartLines.isEmpty)
                 }
             }
             .onChange(of: viewModel.checkoutState) { newState in
@@ -52,7 +114,7 @@ struct CartReviewSheet: View {
     // MARK: Lines
 
     private var linesSection: some View {
-        VStack(spacing: PlantbillSpacing.sm) {
+        VStack(spacing: 0) {
             ForEach(viewModel.cartLines) { line in
                 CartLineRow(
                     line: line,
@@ -62,18 +124,7 @@ struct CartReviewSheet: View {
                     onDecrement: { viewModel.decrementQuantity(lineId: line.id) },
                     onRemove: { viewModel.removeLine(lineId: line.id) }
                 )
-            }
-
-            SecondaryButton(title: "Add another plant") { dismiss() }
-
-            HStack {
-                Text("Subtotal")
-                    .font(PlantbillTypography.body)
-                    .foregroundStyle(PlantbillColor.textSecondary)
-                Spacer()
-                Text(viewModel.subtotal.format())
-                    .font(PlantbillTypography.bodyEmphasized)
-                    .foregroundStyle(PlantbillColor.textPrimary)
+                Divider()
             }
         }
     }
@@ -82,10 +133,7 @@ struct CartReviewSheet: View {
 
     private var discountSection: some View {
         VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
-            Text("Discount")
-                .font(PlantbillTypography.bodyEmphasized)
-                .foregroundStyle(PlantbillColor.textPrimary)
-
+            sectionHeader("Discount")
             HStack(spacing: PlantbillSpacing.sm) {
                 FilterChip(title: "₹ Flat", isSelected: viewModel.discountType == .flat) {
                     viewModel.discountType = .flat
@@ -93,16 +141,25 @@ struct CartReviewSheet: View {
                 FilterChip(title: "% Percent", isSelected: viewModel.discountType == .percent) {
                     viewModel.discountType = .percent
                 }
+                Spacer(minLength: 0)
+                NumberBox(
+                    text: $viewModel.discountValueText,
+                    placeholder: viewModel.discountType == .flat ? "Amount" : "Percent",
+                    keyboardType: .decimalPad
+                )
+                .frame(minWidth: 96, maxWidth: 130)
             }
+        }
+    }
 
-            PlantbillTextField(
-                label: viewModel.discountType == .flat ? "Amount" : "Percent",
-                text: $viewModel.discountValueText,
-                placeholder: "0",
-                keyboardType: .numberPad,
-                selectAllOnFocus: true
-            )
+    // MARK: Totals
 
+    private var totalsSection: some View {
+        VStack(spacing: PlantbillSpacing.xs) {
+            summaryRow("Subtotal", value: viewModel.subtotal.format())
+            if viewModel.discountAmount.isPositive {
+                summaryRow("Discount", value: viewModel.discountAmount.formatOutgoing())
+            }
             HStack {
                 Text("Total")
                     .font(PlantbillTypography.headline)
@@ -110,32 +167,61 @@ struct CartReviewSheet: View {
                 Spacer()
                 Text(viewModel.total.format())
                     .font(PlantbillTypography.headline)
-                    .foregroundStyle(PlantbillColor.green)
+                    .foregroundStyle(PlantbillColor.textPrimary)
             }
             .padding(.top, PlantbillSpacing.xs)
         }
     }
 
-    // MARK: UPI QR (informational — shows the customer what they'd scan)
-
-    @ViewBuilder
-    private var upiQrSection: some View {
-        if viewModel.paymentMode != .cash, viewModel.upiAmount.isPositive, let upi = businessUpi, !upi.isEmpty {
-            VStack(spacing: PlantbillSpacing.sm) {
-                UpiQrCodeView(payeeVpa: upi, payeeName: "Plantbill", amount: viewModel.upiAmount)
-            }
-            .frame(maxWidth: .infinity)
+    private func summaryRow(_ label: LocalizedStringKey, value: String) -> some View {
+        HStack {
+            Text(label)
+                .font(PlantbillTypography.body)
+                .foregroundStyle(PlantbillColor.textSecondary)
+            Spacer()
+            Text(value)
+                .font(PlantbillTypography.body)
+                .foregroundStyle(PlantbillColor.textSecondary)
         }
+    }
+
+    // MARK: Customer
+
+    /// Entered fresh on every bill; the phone becomes compulsory when there's a due.
+    private var customerSection: some View {
+        VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
+            sectionHeader(viewModel.requiresCustomerPhone ? "Customer (required for due)" : "Customer (optional)")
+
+            PlantbillTextField(label: "Name", text: $viewModel.customerName, textContentType: .name)
+
+            PlantbillTextField(
+                label: viewModel.requiresCustomerPhone ? "Phone (required — money owed)" : "Phone (for receipts)",
+                text: $viewModel.customerPhone,
+                keyboardType: .phonePad,
+                textContentType: .telephoneNumber
+            )
+
+            if let rc = viewModel.returningCustomer {
+                returningCustomerText(rc)
+                    .font(PlantbillTypography.body)
+                    .foregroundStyle(PlantbillColor.green)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+
+    /// "Asha — Returning customer · came 3 time(s) before", or without the
+    /// name when the server didn't have one. Android's `cart_returning_customer`.
+    private func returningCustomerText(_ rc: CustomerLookup) -> Text {
+        let prefix = rc.name.map { "\($0) — " } ?? ""
+        return Text("\(prefix)Returning customer · came \(rc.visitCount) time(s) before")
     }
 
     // MARK: Payment
 
     private var paymentSection: some View {
         VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
-            Text("Payment")
-                .font(PlantbillTypography.bodyEmphasized)
-                .foregroundStyle(PlantbillColor.textPrimary)
-
+            sectionHeader("Payment")
             HStack(spacing: PlantbillSpacing.sm) {
                 FilterChip(title: "Cash", isSelected: viewModel.paymentMode == .cash) {
                     viewModel.paymentMode = .cash
@@ -149,102 +235,113 @@ struct CartReviewSheet: View {
             }
 
             if viewModel.paymentMode == .split {
-                PlantbillTextField(label: "Cash part", text: $viewModel.cashPartText, placeholder: "0", keyboardType: .numberPad, selectAllOnFocus: true)
-
-                HStack {
-                    Text("UPI part")
-                        .font(PlantbillTypography.caption)
-                        .foregroundStyle(PlantbillColor.textSecondary)
-                    Spacer()
-                    Text(viewModel.upiAmount.format())
-                        .font(PlantbillTypography.caption)
-                        .foregroundStyle(PlantbillColor.textSecondary)
-                }
+                PlantbillTextField(
+                    label: "Cash part",
+                    text: $viewModel.cashPartText,
+                    placeholder: "0",
+                    keyboardType: .decimalPad,
+                    selectAllOnFocus: true
+                )
             }
 
             PlantbillTextField(
                 label: "Due (owed later, optional)",
                 text: $viewModel.dueAmountText,
                 placeholder: "0",
-                keyboardType: .numberPad,
+                keyboardType: .decimalPad,
                 selectAllOnFocus: true
             )
+
+            HStack(spacing: PlantbillSpacing.lg) {
+                payPill("Cash", viewModel.cashAmount)
+                payPill("UPI", viewModel.upiAmount)
+            }
+            .padding(.top, PlantbillSpacing.xs)
         }
     }
 
-    // MARK: Customer
+    private func payPill(_ label: LocalizedStringKey, _ money: Money) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(label)
+                .font(PlantbillTypography.caption)
+                .foregroundStyle(PlantbillColor.textSecondary)
+            Text(money.format())
+                .font(PlantbillTypography.bodyEmphasized)
+                .foregroundStyle(PlantbillColor.textPrimary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
 
-    private var customerSection: some View {
+    // MARK: UPI QR
+
+    private var upiSection: some View {
         VStack(spacing: PlantbillSpacing.sm) {
-            PlantbillTextField(
-                label: viewModel.requiresCustomerPhone ? "Customer (required for due)" : "Customer (optional)",
-                text: $viewModel.customerName,
-                placeholder: "Customer name"
-            )
-            .focused($focusedField, equals: .name)
-
-            PlantbillTextField(
-                label: viewModel.requiresCustomerPhone ? "Phone (required — money owed)" : "Phone (for receipts)",
-                text: $viewModel.customerPhone,
-                placeholder: "10-digit phone",
-                keyboardType: .phonePad
-            )
-            .focused($focusedField, equals: .phone)
-
-            if let rc = viewModel.returningCustomer {
-                Text(returningCustomerText(rc))
-                    .font(PlantbillTypography.body)
+            if let upi = viewModel.businessUpi, !upi.isEmpty {
+                Text("SCAN TO PAY")
+                    .font(PlantbillTypography.caption.weight(.bold))
+                    .tracking(1)
                     .foregroundStyle(PlantbillColor.green)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }
-    }
-
-    /// "Asha — Returning customer · came 3 time(s) before", or without the
-    /// name when the server didn't have one. Mirrors Android's
-    /// `cart_returning_customer`.
-    private func returningCustomerText(_ rc: CustomerLookup) -> String {
-        let prefix = rc.name.map { "\($0) — " } ?? ""
-        return "\(prefix)Returning customer · came \(rc.visitCount) time(s) before"
-    }
-
-    private var remarksSection: some View {
-        PlantbillTextField(label: "Remarks (optional)", text: $viewModel.remarks, placeholder: "")
-            .focused($focusedField, equals: .remarks)
-    }
-
-    // MARK: Actions
-
-    private var actionButtons: some View {
-        VStack(spacing: PlantbillSpacing.sm) {
-            PrimaryButton(
-                title: "Save bill • \(viewModel.total.format())",
-                isLoading: viewModel.checkoutState == .submitting,
-                isDisabled: viewModel.checkoutState == .submitting || !viewModel.allLinesFilled
-            ) {
-                Task { await viewModel.checkout() }
-            }
-
-            if viewModel.showsIncompleteLinesHint {
-                Text("Enter a quantity and price for every item.")
+                UpiQrCodeView(payeeVpa: upi, payeeName: viewModel.businessName, amount: viewModel.upiAmount, size: 220)
+                    .padding(.top, PlantbillSpacing.xs)
+                Text(viewModel.upiAmount.format())
+                    .font(PlantbillTypography.title)
+                    .foregroundStyle(PlantbillColor.textPrimary)
+                    .padding(.top, PlantbillSpacing.xs)
+                Text(verbatim: upi)
                     .font(PlantbillTypography.body)
                     .foregroundStyle(PlantbillColor.textSecondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                Text("UPI not set up")
+                    .font(PlantbillTypography.bodyEmphasized)
+                    .foregroundStyle(PlantbillColor.error)
+                Text("Ask your admin to add the shop's UPI ID so customers can scan to pay.")
+                    .font(PlantbillTypography.body)
+                    .foregroundStyle(PlantbillColor.textSecondary)
+                    .multilineTextAlignment(.center)
             }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(PlantbillSpacing.lg)
+        .background(
+            RoundedRectangle(cornerRadius: PlantbillSpacing.cardCornerRadius, style: .continuous)
+                .fill(PlantbillColor.greenTint.opacity(0.6))
+        )
+    }
 
-            SecondaryButton(title: "Hold bill — serve another customer") {
-                viewModel.holdCurrentBill()
-                dismiss()
-            }
+    // MARK: Remarks
+
+    private var remarksField: some View {
+        VStack(alignment: .leading, spacing: PlantbillSpacing.xs) {
+            Text("Remarks (optional)")
+                .font(PlantbillTypography.caption)
+                .foregroundStyle(PlantbillColor.textSecondary)
+            TextField("", text: $viewModel.remarks, axis: .vertical)
+                .lineLimit(2...5)
+                .font(PlantbillTypography.body)
+                .foregroundStyle(PlantbillColor.textPrimary)
+                .focused($remarksFocused)
+                .padding(PlantbillSpacing.md)
+                .background(
+                    RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                        .fill(PlantbillColor.surface)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                        .stroke(remarksFocused ? PlantbillColor.green : PlantbillColor.border, lineWidth: remarksFocused ? 2 : 1)
+                )
+                .modifier(KeyboardDoneBar(isFocused: remarksFocused) { remarksFocused = false })
         }
     }
 
-    private var businessUpi: String? {
-        // Populated from the signed-in user's shop profile.
-        BusinessProfile.shared.upi
+    private func sectionHeader(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(PlantbillTypography.bodyEmphasized)
+            .foregroundStyle(PlantbillColor.textPrimary)
     }
 }
 
+/// One bill line — Android's layout: the name, the line total and a remove
+/// button on top; the price box and the − Qty + stepper underneath.
 private struct CartLineRow: View {
     let line: CartLine
     let onQuantityText: (String) -> Void
@@ -254,9 +351,7 @@ private struct CartLineRow: View {
     let onRemove: () -> Void
 
     /// Bound straight through to the view model rather than mirrored in local
-    /// `@State`: the stepper mutates the line, and local copies seeded in
-    /// `init` would not pick that up (a `CartLineRow` is reused for the same
-    /// line identity across renders).
+    /// `@State`: the stepper mutates the line, and a local copy wouldn't see it.
     private var priceBinding: Binding<String> {
         Binding(get: { line.priceInput }, set: onPriceText)
     }
@@ -265,98 +360,56 @@ private struct CartLineRow: View {
     }
 
     var body: some View {
-        PlantbillCard {
-            VStack(spacing: PlantbillSpacing.sm) {
-                HStack {
-                    Text(line.productName)
-                        .font(PlantbillTypography.bodyEmphasized)
-                        .foregroundStyle(PlantbillColor.textPrimary)
-                    Spacer()
-                    Button {
-                        onRemove()
-                    } label: {
-                        Image(systemName: "trash")
-                            .foregroundStyle(PlantbillColor.error)
-                            .frame(width: PlantbillSpacing.minTouchTarget, height: PlantbillSpacing.minTouchTarget)
-                            .contentShape(Rectangle())
-                    }
-                    .accessibilityLabel("Remove \(line.productName)")
+        VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
+            HStack(spacing: PlantbillSpacing.sm) {
+                Text(verbatim: line.productName)
+                    .font(PlantbillTypography.bodyEmphasized)
+                    .foregroundStyle(PlantbillColor.textPrimary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text(line.lineTotal.format())
+                    .font(PlantbillTypography.bodyEmphasized)
+                    .foregroundStyle(PlantbillColor.textPrimary)
+                Button(action: onRemove) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundStyle(PlantbillColor.textSecondary)
+                        .frame(width: 40, height: 40)
+                        .contentShape(Rectangle())
                 }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text("Remove \(line.productName)"))
+            }
 
-                HStack(spacing: PlantbillSpacing.md) {
-                    boxedField(label: "Price", text: priceBinding, width: 76)
-
-                    Spacer()
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Quantity")
-                            .font(PlantbillTypography.caption)
-                            .foregroundStyle(PlantbillColor.textSecondary)
-                        HStack(spacing: PlantbillSpacing.xs) {
-                            stepperButton(systemName: "minus", action: onDecrement)
-                                .accessibilityLabel("Decrease quantity for \(line.productName)")
-                            boxedTextBox(text: quantityBinding, width: 56)
-                            stepperButton(systemName: "plus", action: onIncrement)
-                                .accessibilityLabel("Increase quantity for \(line.productName)")
-                        }
-                    }
+            HStack(alignment: .bottom, spacing: PlantbillSpacing.md) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Price")
+                        .font(PlantbillTypography.caption)
+                        .foregroundStyle(PlantbillColor.textSecondary)
+                    NumberBox(text: priceBinding, placeholder: "₹", keyboardType: .numberPad)
                 }
+                .frame(maxWidth: .infinity)
 
-                HStack {
-                    // Blank lines show no running total — there is nothing to
-                    // total yet, and a "₹0" would read as a real price.
-                    if !line.isFilled {
-                        Text("Enter quantity and price")
-                            .font(PlantbillTypography.caption)
-                            .foregroundStyle(PlantbillColor.textSecondary)
-                    }
-                    Spacer()
-                    if line.isFilled {
-                        Text(line.lineTotal.format())
-                            .font(PlantbillTypography.caption)
-                            .foregroundStyle(PlantbillColor.textSecondary)
-                    }
+                HStack(spacing: PlantbillSpacing.sm) {
+                    stepperButton(systemName: "minus", enabled: line.quantity > 1, action: onDecrement)
+                        .accessibilityLabel(Text("Decrease quantity for \(line.productName)"))
+                    NumberBox(text: quantityBinding, placeholder: "Qty", keyboardType: .numberPad)
+                        .frame(width: 72)
+                    stepperButton(systemName: "plus", enabled: true, action: onIncrement)
+                        .accessibilityLabel(Text("Increase quantity for \(line.productName)"))
                 }
             }
         }
+        .padding(.vertical, PlantbillSpacing.md)
     }
 
-    /// A small bordered box — same idea as `PlantbillTextField` but compact,
-    /// so price/quantity clearly read as editable text boxes rather than
-    /// plain inline numbers.
-    @ViewBuilder
-    private func boxedField(label: LocalizedStringKey, text: Binding<String>, width: CGFloat) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(label)
-                .font(PlantbillTypography.caption)
-                .foregroundStyle(PlantbillColor.textSecondary)
-            boxedTextBox(text: text, width: width)
-        }
-    }
-
-    /// Placeholder is an em dash, not "0" — these start blank and a "0" would
-    /// read as a real entered price of zero.
-    @ViewBuilder
-    private func boxedTextBox(text: Binding<String>, width: CGFloat) -> some View {
-        SelectAllTextField(text: text, placeholder: "—", keyboardType: .numberPad, textAlignment: .center)
-            .frame(width: width, height: PlantbillSpacing.minTouchTarget)
-            .background(
-                RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
-                    .fill(PlantbillColor.background)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
-                    .stroke(PlantbillColor.border, lineWidth: 1)
-            )
-    }
-
-    @ViewBuilder
-    private func stepperButton(systemName: String, action: @escaping () -> Void) -> some View {
+    /// `−` is disabled at 1 and below, as Android's stepper is — the remove
+    /// button is the only way to take a line off.
+    private func stepperButton(systemName: String, enabled: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: systemName)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.system(size: 18, weight: .bold))
                 .foregroundStyle(PlantbillColor.green)
-                .frame(width: PlantbillSpacing.minTouchTarget, height: PlantbillSpacing.minTouchTarget)
+                .frame(width: PlantbillSpacing.minTouchTarget, height: PlantbillSpacing.minTouchTarget + 8)
                 .background(
                     RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
                         .fill(PlantbillColor.greenTint)
@@ -364,5 +417,48 @@ private struct CartLineRow: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .disabled(!enabled)
+        .opacity(enabled ? 1 : 0.4)
+    }
+}
+
+/// A compact bordered number box. Select-all on focus, so typing replaces the
+/// value instead of inserting into it, and a Done bar because number pads have
+/// no return key.
+private struct NumberBox: View {
+    @Binding var text: String
+    let placeholder: LocalizedStringKey
+    var keyboardType: UIKeyboardType = .numberPad
+
+    @State private var isFocused = false
+
+    var body: some View {
+        ZStack {
+            if text.isEmpty {
+                Text(placeholder)
+                    .font(PlantbillTypography.body)
+                    .foregroundStyle(PlantbillColor.textSecondary)
+                    .allowsHitTesting(false)
+            }
+            SelectAllTextField(
+                text: $text,
+                placeholder: "",
+                keyboardType: keyboardType,
+                textAlignment: .center,
+                font: .systemFont(ofSize: 20, weight: .semibold),
+                onFocusChange: { isFocused = $0 }
+            )
+            .frame(maxHeight: .infinity)
+            .padding(.horizontal, PlantbillSpacing.xs)
+        }
+        .frame(height: PlantbillSpacing.minTouchTarget + 8)
+        .background(
+            RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                .fill(PlantbillColor.surface)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                .stroke(isFocused ? PlantbillColor.green : PlantbillColor.border, lineWidth: isFocused ? 2 : 1)
+        )
     }
 }

@@ -1,10 +1,24 @@
 import SwiftUI
 
+/// The billing screen, laid out like Android's `BillScreen`: a search box with
+/// the mic inside it, the category chips with the blocks/list switch at their
+/// end, the catalogue, a round cart button (item-count badge) above a round
+/// quick-add button in the corner, and a "Held bills (N)" bar along the bottom.
 struct BillView: View {
     @StateObject private var viewModel = BillingViewModel()
+    /// A device setting, deliberately outside the bill's state — Android found
+    /// that keeping it in the bill made it reset after every sale.
+    @AppStorage("product_view_mode") private var viewModeRaw = ProductViewMode.grid.rawValue
+
     @State private var showingCartReview = false
     @State private var showingQuickAdd = false
     @State private var showingHeldBills = false
+    /// A sheet can't be presented while another is still closing, so the
+    /// review opens from the closing sheet's `onDismiss` instead.
+    @State private var reviewAfterSheet = false
+    @FocusState private var searchFocused: Bool
+
+    private var viewMode: ProductViewMode { ProductViewMode(rawValue: viewModeRaw) ?? .grid }
 
     var body: some View {
         NavigationStack {
@@ -20,28 +34,36 @@ struct BillView: View {
             .navigationTitle("Bill")
             .navigationBarTitleDisplayMode(.inline)
             .background(PlantbillColor.background)
-            .searchable(text: $viewModel.searchText, prompt: Text("Search products"))
             .task { await viewModel.loadProducts() }
             .notificationBell()
             .sheet(isPresented: $showingCartReview) {
                 CartReviewSheet(viewModel: viewModel)
             }
-            .sheet(isPresented: $showingQuickAdd) {
-                QuickAddSheet(viewModel: viewModel)
+            .sheet(isPresented: $showingQuickAdd, onDismiss: openReviewIfQueued) {
+                QuickAddSheet(viewModel: viewModel) {
+                    reviewAfterSheet = true
+                }
             }
-            .sheet(isPresented: $showingHeldBills) {
+            .sheet(isPresented: $showingHeldBills, onDismiss: openReviewIfQueued) {
                 HeldBillsSheet(viewModel: viewModel) { held in
                     viewModel.resume(held)
+                    reviewAfterSheet = true
                     showingHeldBills = false
-                    showingCartReview = true
                 }
             }
         }
     }
 
+    private func openReviewIfQueued() {
+        guard reviewAfterSheet else { return }
+        reviewAfterSheet = false
+        showingCartReview = true
+    }
+
     private var browsingContent: some View {
         VStack(spacing: 0) {
-            utilityRow
+            searchField
+            chipsRow
             if viewModel.isShowingCachedProducts {
                 // Says plainly what still works, rather than leaving the
                 // cashier wondering whether the prices are stale.
@@ -50,225 +72,234 @@ struct BillView: View {
                     .foregroundStyle(PlantbillColor.textSecondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, PlantbillSpacing.md)
-                    .padding(.top, PlantbillSpacing.xs)
+                    .padding(.bottom, PlantbillSpacing.xs)
             }
-            filterBar
-            productGrid
+            catalog
         }
-        .safeAreaInset(edge: .bottom) {
-            if !viewModel.cartLines.isEmpty {
-                reviewAndPayBar
-            }
-        }
-        .overlay(alignment: .top) {
-            if let toast = viewModel.toast {
-                Text(toast)
-                    .font(PlantbillTypography.body)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, PlantbillSpacing.md)
-                    .padding(.vertical, PlantbillSpacing.sm)
-                    .background(
-                        Capsule().fill(PlantbillColor.textPrimary.opacity(0.92))
-                    )
-                    .padding(.top, PlantbillSpacing.sm)
-                    .transition(.move(edge: .top).combined(with: .opacity))
-            }
-        }
+        .overlay(alignment: .bottomTrailing) { cornerButtons }
+        .safeAreaInset(edge: .bottom, spacing: 0) { heldBillsBar }
+        .overlay(alignment: .top) { toastView }
         .animation(.easeInOut(duration: 0.2), value: viewModel.toast)
+        .animation(.spring(response: 0.3, dampingFraction: 0.85), value: viewModel.cartLines.isEmpty)
     }
 
-    private var utilityRow: some View {
+    // MARK: Search
+
+    /// Android's OutlinedTextField: magnifier in front, the mic inside the box
+    /// at its end.
+    private var searchField: some View {
         HStack(spacing: PlantbillSpacing.sm) {
-            Button {
-                showingQuickAdd = true
-            } label: {
-                Label("Quick add item", systemImage: "plus.circle.fill")
-                    .font(PlantbillTypography.caption)
-                    .fontWeight(.medium)
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(PlantbillColor.textSecondary)
+
+            ZStack(alignment: .leading) {
+                if viewModel.searchText.isEmpty {
+                    Text("Search products")
+                        .font(PlantbillTypography.body)
+                        .foregroundStyle(PlantbillColor.textSecondary)
+                        .allowsHitTesting(false)
+                }
+                TextField("", text: $viewModel.searchText)
+                    .font(PlantbillTypography.body)
+                    .foregroundStyle(PlantbillColor.textPrimary)
+                    .focused($searchFocused)
+                    .submitLabel(.search)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
             }
 
-            // Android hangs the mic off the search field's trailing edge;
-            // SwiftUI's `.searchable` takes no accessory view, so it sits here
-            // instead — directly under the search box and on the same row as
-            // the other billing shortcuts.
             VoiceSearchButton(
                 onResults: { viewModel.onVoiceTranscript($0) },
                 onUnavailable: { viewModel.showVoiceUnavailable() }
             )
-
-            Spacer()
-
-            if !viewModel.heldBills.isEmpty {
-                Button {
-                    showingHeldBills = true
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "tray.and.arrow.down.fill")
-                        Text("Held bills")
-                        Text("\(viewModel.heldBills.count)")
-                            .font(PlantbillTypography.caption.bold())
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 1)
-                            .background(Capsule().fill(PlantbillColor.green))
-                            .foregroundStyle(.white)
-                    }
-                    .font(PlantbillTypography.caption)
-                    .fontWeight(.medium)
-                }
-            }
         }
-        .foregroundStyle(PlantbillColor.green)
+        .padding(.leading, PlantbillSpacing.md)
+        .frame(minHeight: PlantbillSpacing.primaryActionHeight)
+        .background(
+            RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                .fill(PlantbillColor.surface)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
+                .stroke(searchFocused ? PlantbillColor.green : PlantbillColor.border, lineWidth: searchFocused ? 2 : 1)
+        )
+        .contentShape(Rectangle())
+        .onTapGesture { searchFocused = true }
         .padding(.horizontal, PlantbillSpacing.md)
         .padding(.top, PlantbillSpacing.sm)
     }
 
-    @ViewBuilder
-    private var filterBar: some View {
-        if !viewModel.categories.isEmpty {
+    // MARK: Categories + layout switch
+
+    private var chipsRow: some View {
+        HStack(spacing: 0) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: PlantbillSpacing.sm) {
                     FilterChip(title: "All", isSelected: viewModel.selectedCategory == nil) {
                         viewModel.selectedCategory = nil
                     }
                     ForEach(viewModel.categories, id: \.self) { category in
-                        FilterChip(title: LocalizedStringKey(category), isSelected: viewModel.selectedCategory == category) {
-                            viewModel.selectedCategory = viewModel.selectedCategory == category ? nil : category
+                        FilterChip(verbatim: category, isSelected: viewModel.selectedCategory == category) {
+                            viewModel.selectedCategory = category
                         }
                     }
                 }
                 .padding(.horizontal, PlantbillSpacing.md)
                 .padding(.vertical, PlantbillSpacing.sm)
             }
+
+            ProductViewToggle(mode: viewMode) { viewModeRaw = $0.rawValue }
+                .padding(.trailing, PlantbillSpacing.xs)
         }
     }
 
+    // MARK: Catalogue
+
     @ViewBuilder
-    private var productGrid: some View {
-        switch viewModel.productState {
+    private var catalog: some View {
+        switch viewModel.catalogState {
         case .loading:
             LoadingStateView(message: "Loading your products…")
-        case .empty:
-            if viewModel.searchText.isEmpty {
-                EmptyStateView(
-                    icon: "leaf",
-                    title: "No products",
-                    message: "Add products in the Products tab, or use Quick add."
-                )
-            } else {
-                EmptyStateView(
-                    icon: "leaf",
-                    title: "No products",
-                    message: "No products match \"\(viewModel.searchText)\"."
-                )
-            }
         case .error(let message):
             ErrorStateView(message: LocalizedStringKey(message)) {
                 Task { await viewModel.loadProducts() }
             }
-        case .loaded(let products):
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: PlantbillSpacing.sm)], spacing: PlantbillSpacing.sm) {
-                    ForEach(products) { product in
-                        Button {
-                            addToCartAndReview(product)
-                        } label: {
-                            ProductGridCell(product: product, quantityInCart: quantityInCart(for: product.id))
-                        }
-                    }
+        case .loaded:
+            let products = viewModel.filteredProducts
+            if products.isEmpty {
+                if viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    EmptyStateView(
+                        icon: "leaf",
+                        title: "No products",
+                        message: "Add products in the Products tab, or use Quick add."
+                    )
+                } else {
+                    EmptyStateView(
+                        icon: "leaf",
+                        title: "No products",
+                        message: "No products match \"\(viewModel.searchText)\"."
+                    )
                 }
-                .padding(PlantbillSpacing.md)
-                .padding(.bottom, viewModel.cartLines.isEmpty ? 0 : PlantbillSpacing.xxl)
+            } else {
+                ProductCatalogView(products: products, viewMode: viewMode) { product in
+                    add(product)
+                }
             }
         }
     }
 
-    private func quantityInCart(for productId: UUID) -> Int {
-        viewModel.cartLines.filter { $0.productId == productId }.reduce(0) { $0 + $1.quantity }
-    }
-
-    private func addToCartAndReview(_ product: Product) {
+    private func add(_ product: Product) {
         viewModel.addToCart(product)
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        searchFocused = false
         showingCartReview = true
     }
 
-    private var reviewAndPayBar: some View {
-        VStack(spacing: 0) {
-            Divider()
-            Button {
-                showingCartReview = true
-            } label: {
-                HStack {
-                    Text("Review & pay")
-                        .font(PlantbillTypography.button)
-                    Spacer()
-                    Text("\(viewModel.cartLines.reduce(0) { $0 + $1.quantity }) items · \(viewModel.total.format())")
-                        .font(PlantbillTypography.button)
+    // MARK: Corner buttons
+
+    /// Both are small round buttons in the corner so the catalogue keeps its
+    /// full height — Android's two FloatingActionButtons. Cart sits above Quick
+    /// add and only appears once something is on the bill.
+    private var cornerButtons: some View {
+        VStack(alignment: .trailing, spacing: PlantbillSpacing.sm) {
+            if !viewModel.cartLines.isEmpty {
+                Button {
+                    searchFocused = false
+                    showingCartReview = true
+                } label: {
+                    Image(systemName: "cart.fill")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 60, height: 60)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                .fill(PlantbillColor.green)
+                        )
+                        .overlay(alignment: .topTrailing) {
+                            Text("\(viewModel.itemCount)")
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 6)
+                                .frame(minWidth: 22, minHeight: 22)
+                                .background(Capsule().fill(PlantbillColor.error))
+                                .offset(x: 6, y: -6)
+                        }
+                        .shadow(color: PlantbillColor.green.opacity(0.35), radius: 8, y: 4)
                 }
-                .foregroundStyle(.white)
-                .padding(.horizontal, PlantbillSpacing.lg)
-                .frame(height: PlantbillSpacing.primaryActionHeight)
-                .background(PlantbillColor.green)
-                .clipShape(RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius))
-                .contentShape(Rectangle())
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text("Review & pay"))
+                .accessibilityValue(Text("\(viewModel.itemCount) items"))
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+
+            Button {
+                searchFocused = false
+                showingQuickAdd = true
+            } label: {
+                Image(systemName: "plus")
+                    .font(.system(size: 24, weight: .semibold))
+                    .foregroundStyle(PlantbillColor.green)
+                    .frame(width: 60, height: 60)
+                    .background(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .fill(PlantbillColor.greenTint)
+                    )
+                    .shadow(color: .black.opacity(0.12), radius: 6, y: 3)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("Quick add item"))
+        }
+        .padding(PlantbillSpacing.md)
+    }
+
+    // MARK: Held bills bar
+
+    @ViewBuilder
+    private var heldBillsBar: some View {
+        if !viewModel.heldBills.isEmpty {
+            VStack(spacing: 0) {
+                Divider()
+                SecondaryButton(title: "Held bills (\(viewModel.heldBills.count))", systemImage: "pause.fill") {
+                    searchFocused = false
+                    showingHeldBills = true
+                }
                 .padding(.horizontal, PlantbillSpacing.md)
                 .padding(.vertical, PlantbillSpacing.sm)
             }
             .background(.bar)
         }
     }
+
+    // MARK: Toast
+
+    @ViewBuilder
+    private var toastView: some View {
+        if let toast = viewModel.toast {
+            toast.text
+                .font(PlantbillTypography.body)
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, PlantbillSpacing.md)
+                .padding(.vertical, PlantbillSpacing.sm)
+                .background(
+                    Capsule().fill(PlantbillColor.textPrimary.opacity(0.92))
+                )
+                .padding(.horizontal, PlantbillSpacing.md)
+                .padding(.top, PlantbillSpacing.sm)
+                .transition(.move(edge: .top).combined(with: .opacity))
+        }
+    }
 }
 
-private struct ProductGridCell: View {
-    let product: Product
-    let quantityInCart: Int
-
-    var body: some View {
-        PlantbillCard {
-            VStack(alignment: .leading, spacing: PlantbillSpacing.xs) {
-                ZStack(alignment: .topTrailing) {
-                    RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)
-                        .fill(PlantbillColor.greenTint)
-                        .frame(height: 90)
-                        .overlay {
-                            if let url = product.resolvedPhotoURL {
-                                AsyncImage(url: url) { phase in
-                                    if let image = phase.image {
-                                        image.resizable().scaledToFill()
-                                    } else {
-                                        Image(systemName: "leaf.fill").foregroundStyle(PlantbillColor.green)
-                                    }
-                                }
-                                .frame(height: 90)
-                                .frame(maxWidth: .infinity)
-                                .clipShape(RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius))
-                            } else {
-                                Image(systemName: "leaf.fill")
-                                    .font(.system(size: 28))
-                                    .foregroundStyle(PlantbillColor.green)
-                                    .frame(maxWidth: .infinity)
-                            }
-                        }
-                        .clipped()
-
-                    if quantityInCart > 0 {
-                        Text("\(quantityInCart)")
-                            .font(PlantbillTypography.caption.bold())
-                            .foregroundStyle(.white)
-                            .padding(6)
-                            .background(Circle().fill(PlantbillColor.green))
-                            .padding(6)
-                    }
-                }
-
-                Text(product.name)
-                    .font(PlantbillTypography.bodyEmphasized)
-                    .foregroundStyle(PlantbillColor.textPrimary)
-                    .lineLimit(1)
-                Text(product.price.format())
-                    .font(PlantbillTypography.body)
-                    .foregroundStyle(PlantbillColor.green)
-            }
+extension BillToast {
+    /// Android's wording for each message, as localizable text.
+    var text: Text {
+        switch self {
+        case .addedToCart(let name): return Text("Added \(name) to cart")
+        case .added(let name): return Text("Added \(name)")
+        case .billHeld: return Text("Bill held. Open “Held bills” to continue it later.")
+        case .voiceNeedsProducts: return Text("Add a few products first, then use voice search.")
+        case .voiceUnavailable: return Text("Voice search isn't available on this device.")
         }
     }
 }

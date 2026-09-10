@@ -34,6 +34,8 @@ struct BillOut: Decodable {
     }
 
     let id: UUID
+    /// Per-shop bill number ("0001"); nil for bills saved before numbering.
+    let billNo: String?
     let billType: String
     let subtotal: String
     let discountType: String
@@ -45,6 +47,7 @@ struct BillOut: Decodable {
     let dueAmount: String
     let customerId: UUID?
     let customerName: String?
+    let salespersonEmail: String?
     let remarks: String?
     let isEdited: Bool
     let createdAt: Date

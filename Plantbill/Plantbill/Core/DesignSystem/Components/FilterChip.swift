@@ -1,13 +1,27 @@
 import SwiftUI
 
 struct FilterChip: View {
-    let title: LocalizedStringKey
+    private let title: Text
     let isSelected: Bool
     let action: () -> Void
 
+    init(title: LocalizedStringKey, isSelected: Bool, action: @escaping () -> Void) {
+        self.title = Text(title)
+        self.isSelected = isSelected
+        self.action = action
+    }
+
+    /// For shop data — a category the owner typed in — which must show exactly
+    /// as written and never be looked up as a translation key.
+    init(verbatim title: String, isSelected: Bool, action: @escaping () -> Void) {
+        self.title = Text(verbatim: title)
+        self.isSelected = isSelected
+        self.action = action
+    }
+
     var body: some View {
         Button(action: action) {
-            Text(title)
+            title
                 .font(PlantbillTypography.caption)
                 .fontWeight(.medium)
                 .lineLimit(1)

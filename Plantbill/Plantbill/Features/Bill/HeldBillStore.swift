@@ -26,6 +26,21 @@ struct HeldBill: Identifiable, Codable, Equatable {
     var customerName: String
     var customerPhone: String
     var remarks: String
+    /// Captured when the bill is held, as Android does, so the list shows the
+    /// real count (sum of quantities) and the total after discount. Optional
+    /// so bills held by an older build still load.
+    var itemCount: Int?
+    var totalWire: String?
+
+    /// Falls back to the lines for a bill held before these were recorded.
+    var displayItemCount: Int {
+        itemCount ?? lines.reduce(0) { $0 + $1.quantity }
+    }
+
+    var displayTotal: Money {
+        if let totalWire { return Money.parse(totalWire) }
+        return lines.reduce(Money.zero) { $0 + Money.parse($1.unitPriceWire) * $1.quantity }
+    }
 }
 
 enum HeldBillStore {

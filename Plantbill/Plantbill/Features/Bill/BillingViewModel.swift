@@ -1,12 +1,22 @@
 import Combine
 import Foundation
 
+/// A short confirmation shown over the bill screen — Android's Snackbar
+/// messages. An enum rather than a String so the view can render each one as
+/// localized text.
+enum BillToast: Equatable {
+    case addedToCart(String)
+    case added(String)
+    case billHeld
+    case voiceNeedsProducts
+    case voiceUnavailable
+}
+
 @MainActor
 final class BillingViewModel: ObservableObject {
-    enum ProductLoadState {
+    enum CatalogState: Equatable {
         case loading
-        case loaded([Product])
-        case empty
+        case loaded
         case error(String)
     }
 
@@ -26,16 +36,40 @@ final class BillingViewModel: ObservableObject {
         }
     }
 
-    // MARK: Product browsing
+    // MARK: Catalogue
 
-    @Published private(set) var productState: ProductLoadState = .loading
-    @Published var searchText: String = "" { didSet { scheduleReload() } }
-    @Published var selectedCategory: String? = nil { didSet { Task { await loadProducts() } } }
-    @Published private(set) var categories: [String] = []
-    /// True when the grid is showing the on-device catalogue because the
-    /// server couldn't be reached.
+    /// Loaded once and filtered on the phone, like Android's
+    /// `filteredProducts`. Typing a letter or tapping a category never goes
+    /// back to the server, so the grid doesn't blank to a spinner in the
+    /// middle of a search and the category chips don't collapse to the one
+    /// that was picked.
+    @Published private(set) var catalogState: CatalogState = .loading
+    @Published private(set) var products: [Product] = []
+    @Published var searchText: String = ""
+    @Published var selectedCategory: String?
+    /// True when the catalogue came from this phone because the server
+    /// couldn't be reached.
     @Published private(set) var isShowingCachedProducts = false
-    @Published private var searchDebounceTask: Task<Void, Never>?
+
+    var categories: [String] {
+        let names = products.compactMap { product -> String? in
+            guard let category = product.category,
+                  !category.trimmingCharacters(in: .whitespaces).isEmpty else { return nil }
+            return category
+        }
+        return Array(Set(names)).sorted()
+    }
+
+    var filteredProducts: [Product] {
+        let needle = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        return products.filter { product in
+            if let selectedCategory, product.category != selectedCategory { return false }
+            if !needle.isEmpty, product.name.range(of: needle, options: [.caseInsensitive, .diacriticInsensitive]) == nil {
+                return false
+            }
+            return true
+        }
+    }
 
     // MARK: Cart
 
@@ -51,7 +85,7 @@ final class BillingViewModel: ObservableObject {
     /// Setting it (re)schedules the returning-customer lookup.
     @Published var customerPhone: String = "" {
         didSet {
-            let digits = String(customerPhone.filter(\.isNumber).prefix(10))
+            let digits = String(Self.asciiDigits(customerPhone).prefix(10))
             if digits != customerPhone {
                 customerPhone = digits
                 return // the re-entrant set below handles the rest
@@ -63,9 +97,11 @@ final class BillingViewModel: ObservableObject {
     /// Non-nil only when the backend reported a match for the current 10-digit
     /// number. Never gates or delays saving the bill.
     @Published private(set) var returningCustomer: CustomerLookup?
-    @Published private var lookupTask: Task<Void, Never>?
+    private var lookupTask: Task<Void, Never>?
     @Published var remarks: String = ""
-    @Published private(set) var idempotencyKey = UUID().uuidString
+    /// Reused across retries of the same cart so a double tap never saves the
+    /// bill twice; replaced once the cart is cleared or saved.
+    private(set) var idempotencyKey = UUID().uuidString
 
     // MARK: Held bills
 
@@ -74,37 +110,29 @@ final class BillingViewModel: ObservableObject {
     // MARK: Checkout
 
     @Published private(set) var checkoutState: CheckoutState = .idle
+    @Published private(set) var toast: BillToast?
+    private var toastTask: Task<Void, Never>?
 
-    /// Transient confirmation banner (voice search results, mostly).
-    @Published private(set) var toast: String?
-    @Published private var toastTask: Task<Void, Never>?
-
-    // MARK: Computed (display-only preview — server is authoritative)
+    // MARK: Computed (display-only preview — the server is authoritative)
 
     var subtotal: Money { CartMath.subtotal(cartLines) }
     var discountValueMoney: Money { Money.parse(discountValueText) }
     var discountAmount: Money { CartMath.discountAmount(subtotal: subtotal, type: discountType, value: discountValueMoney) }
     var total: Money { CartMath.total(subtotal: subtotal, discount: discountAmount) }
     var dueAmount: Money { Money.parse(dueAmountText) }
-    var amountToCollect: Money {
-        let remainder = total - dueAmount
-        return remainder.isNegative ? .zero : remainder
+    /// The due actually sent: never more than the bill itself. Android clamps
+    /// the same way, so an over-typed due can't make cash + UPI + due miss the
+    /// total and have the server refuse the bill.
+    var effectiveDue: Money { min(dueAmount, total) }
+    private var payment: (cash: Money, upi: Money) {
+        CartMath.paymentSplit(total: total, mode: paymentMode, cashEntered: Money.parse(cashPartText), due: dueAmount)
     }
-    var cashAmount: Money {
-        switch paymentMode {
-        case .cash: return amountToCollect
-        case .upi: return .zero
-        case .split: return min(Money.parse(cashPartText), amountToCollect)
-        }
-    }
-    var upiAmount: Money {
-        switch paymentMode {
-        case .cash: return .zero
-        case .upi: return amountToCollect
-        case .split: return amountToCollect - cashAmount
-        }
-    }
+    var cashAmount: Money { payment.cash }
+    var upiAmount: Money { payment.upi }
+    /// The customer labels switch to "required" as soon as any due is typed.
     var requiresCustomerPhone: Bool { dueAmount.isPositive }
+    /// The cart button's badge — Android's `itemCount`, the sum of quantities.
+    var itemCount: Int { cartLines.reduce(0) { $0 + $1.quantity } }
 
     /// Every line needs a quantity ≥ 1 and a price before the bill can be
     /// saved. Mirrors Android's `allLinesFilled`.
@@ -113,102 +141,88 @@ final class BillingViewModel: ObservableObject {
     /// Shown under the disabled Save button while any line is still blank.
     var showsIncompleteLinesHint: Bool { !cartLines.isEmpty && !allLinesFilled }
 
+    /// For the scan-to-pay QR: the shop's UPI ID, and the name the customer's
+    /// UPI app shows as the payee — the shop's, never the app's.
+    var businessUpi: String? { BusinessProfile.shared.upi }
+    var businessName: String { BusinessProfile.shared.businessName ?? BusinessProfile.shared.shopName ?? "" }
+
     // MARK: Product loading
 
-    private func scheduleReload() {
-        searchDebounceTask?.cancel()
-        searchDebounceTask = Task {
-            try? await Task.sleep(for: .milliseconds(300))
-            guard !Task.isCancelled else { return }
-            await loadProducts()
-        }
-    }
-
     func loadProducts() async {
-        productState = .loading
+        if products.isEmpty { catalogState = .loading }
         do {
-            var query: [URLQueryItem] = [URLQueryItem(name: "active", value: "true")]
-            let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-            if !trimmed.isEmpty { query.append(URLQueryItem(name: "q", value: trimmed)) }
-            if let selectedCategory { query.append(URLQueryItem(name: "category", value: selectedCategory)) }
-
-            let products: [Product] = try await APIClient.shared.send(Endpoint(path: "products", queryItems: query))
-            categories = Array(Set(products.compactMap { $0.category?.isEmpty == false ? $0.category : nil })).sorted()
-            productState = products.isEmpty ? .empty : .loaded(products)
+            let list: [Product] = try await APIClient.shared.send(
+                Endpoint(path: "products", queryItems: [URLQueryItem(name: "active", value: "true")])
+            )
+            products = list
             isShowingCachedProducts = false
-            // Only an unfiltered catalogue is worth caching — storing a search
-            // result would leave the shop offline with a partial list.
-            if trimmed.isEmpty, selectedCategory == nil {
-                ProductCache.save(products, shopId: BusinessProfile.shared.shopId)
-            }
-        } catch let error as APIError {
-            productState = fallbackToCache() ?? .error(error.userMessage)
+            catalogState = .loaded
+            ProductCache.save(list, shopId: BusinessProfile.shared.shopId)
         } catch {
-            productState = fallbackToCache() ?? .error(APIError.unknown.userMessage)
+            // With no signal, serve the last known catalogue rather than an
+            // error — the cashier can still browse plants, build a cart and
+            // hold the bill.
+            if let cached = ProductCache.load(shopId: BusinessProfile.shared.shopId)?.filter(\.isActive),
+               !cached.isEmpty {
+                products = cached
+                isShowingCachedProducts = true
+                catalogState = .loaded
+            } else if products.isEmpty {
+                catalogState = .error((error as? APIError)?.userMessage ?? APIError.unknown.userMessage)
+            }
         }
-    }
-
-    /// With no signal, serve the last known catalogue rather than an error —
-    /// the cashier can still browse plants, build a cart and hold the bill.
-    /// Filtering is applied locally so search and categories keep working.
-    private func fallbackToCache() -> ProductLoadState? {
-        guard let cached = ProductCache.load(shopId: BusinessProfile.shared.shopId), !cached.isEmpty else {
-            return nil
-        }
-        categories = Array(Set(cached.compactMap { $0.category?.isEmpty == false ? $0.category : nil })).sorted()
-
-        let needle = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let filtered = cached.filter { product in
-            guard product.isActive else { return false }
-            if let selectedCategory, product.category != selectedCategory { return false }
-            if !needle.isEmpty, !product.name.lowercased().contains(needle) { return false }
-            return true
-        }
-        isShowingCachedProducts = true
-        return filtered.isEmpty ? .empty : .loaded(filtered)
     }
 
     // MARK: Cart line editing
 
-    /// Manual tap-to-add starts BLANK — no quantity, no price prefill from the
-    /// product's saved price. The operator enters the size-based price and the
-    /// count for every line (`info/iOS-UPDATES.md` §2).
+    /// Always appends a NEW line — tapping a plant that's already in the cart
+    /// does not bump the existing line, because the same plant in a different
+    /// size is a different price. Quantity starts blank; the price pre-fills
+    /// from the saved price and is left blank only when there is none (₹0),
+    /// which forces a deliberate entry. The search box is cleared so the next
+    /// plant is searched from empty. Android's `addLine`.
     func addToCart(_ product: Product) {
-        cartLines.append(CartLine(productId: product.id, productName: product.name))
+        cartLines.append(
+            CartLine(
+                productId: product.id,
+                productName: product.name,
+                priceInput: product.price.isPositive ? product.price.toInput() : ""
+            )
+        )
+        searchText = ""
     }
 
-    /// Raw text straight from the quantity box. Clearing it returns the line to
-    /// blank and KEEPS the line — blank is not "removed"; only the trash
-    /// control removes a line.
+    /// Raw text straight from the quantity box. Clearing it returns the line
+    /// to blank and KEEPS the line — only the remove control removes a line.
     func updateQuantityText(lineId: UUID, text: String) {
         guard let index = cartLines.firstIndex(where: { $0.id == lineId }) else { return }
-        cartLines[index].qtyInput = text.filter(\.isNumber)
+        cartLines[index].qtyInput = String(Self.asciiDigits(text).prefix(7))
     }
 
+    /// Blank stays blank — it is never coerced to 0.
     func updatePriceText(lineId: UUID, text: String) {
         guard let index = cartLines.firstIndex(where: { $0.id == lineId }) else { return }
-        cartLines[index].priceInput = text.filter(\.isNumber)
+        cartLines[index].priceInput = Self.sanitizedAmount(text)
     }
 
     /// Stepper `+`: from blank this gives 1, matching Android's QuantityStepper.
     func incrementQuantity(lineId: UUID) {
         guard let index = cartLines.firstIndex(where: { $0.id == lineId }) else { return }
-        let next = max(1, cartLines[index].quantity + 1)
-        cartLines[index].qtyInput = "\(next)"
+        cartLines[index].qtyInput = "\(max(1, cartLines[index].quantity + 1))"
     }
 
-    /// Stepper `−`: floors at 1 so it can never reach 0 (removing is the trash
-    /// control's job, not the stepper's). From blank it also lands on 1.
+    /// Stepper `−`: floors at 1 so it can never reach 0 (removing is the
+    /// remove control's job, not the stepper's).
     func decrementQuantity(lineId: UUID) {
         guard let index = cartLines.firstIndex(where: { $0.id == lineId }) else { return }
-        let next = max(1, cartLines[index].quantity - 1)
-        cartLines[index].qtyInput = "\(next)"
+        cartLines[index].qtyInput = "\(max(1, cartLines[index].quantity - 1))"
     }
 
     func removeLine(lineId: UUID) {
         cartLines.removeAll { $0.id == lineId }
     }
 
+    /// Empty the cart and reset every bill input, keeping the loaded catalogue.
     func clearCart() {
         cartLines = []
         discountType = .flat
@@ -227,14 +241,14 @@ final class BillingViewModel: ObservableObject {
 
     // MARK: Voice search
 
-    /// Every alternative the recogniser heard is scored against the catalog and
-    /// the best-scoring product is added straight to the cart. The mic is
+    /// Every alternative the recogniser heard is scored against the catalogue
+    /// and the best-scoring product is added straight to the cart. The mic is
     /// deliberately restricted to the shop's own products: whatever is spoken
     /// snaps to a real product name rather than leaking stray words into a
     /// text search. Mirrors Android's `onVoiceTranscript`.
     func onVoiceTranscript(_ alternatives: [String]) {
-        guard case .loaded(let products) = productState, !products.isEmpty else {
-            showToast("Add a few products first, then use voice search.")
+        guard !products.isEmpty else {
+            showToast(.voiceNeedsProducts)
             return
         }
         let names = products.map(\.name)
@@ -247,18 +261,15 @@ final class BillingViewModel: ObservableObject {
         }
         let product = best.flatMap { m in products.first { $0.name == m.candidate } } ?? products[0]
         addToCart(product)
-        searchText = ""
-        showToast("Added \(product.name) to the cart.")
+        showToast(.addedToCart(product.name))
     }
 
     func showVoiceUnavailable() {
-        showToast("Voice search isn't available on this device.")
+        showToast(.voiceUnavailable)
     }
 
-    /// Android uses a Toast here; iOS has no equivalent, so this drives a small
-    /// self-dismissing banner in BillView.
-    func showToast(_ text: String) {
-        toast = text
+    private func showToast(_ message: BillToast) {
+        toast = message
         toastTask?.cancel()
         toastTask = Task { [weak self] in
             try? await Task.sleep(for: .seconds(2.5))
@@ -291,14 +302,19 @@ final class BillingViewModel: ObservableObject {
 
     // MARK: Quick add
 
-    func quickAdd(name: String, price: Money, quantity: Int) async -> Bool {
+    /// Creates a "Quick Add" product, then carts it with the typed price and
+    /// count. Returns nil on success, or the message to show under the form.
+    /// Android's `saveQuickAdd`.
+    func quickAdd(name: String, price: Money, quantity: Int) async -> String? {
         do {
             let body = try APIClient.shared.encode(
                 ProductCreateRequest(name: name, category: "Quick Add", retailPrice: price.toWire(), lastWholesalePrice: nil)
             )
             let product: Product = try await APIClient.shared.send(Endpoint(path: "products", method: .post, body: body))
-            // Quick add is the one flow that seeds explicit values — the operator
-            // has just typed the price and count, so the line arrives filled.
+            products.insert(product, at: 0)
+            // Quick add is the one flow that seeds explicit values — the
+            // operator has just typed the price and count, so the line arrives
+            // filled.
             cartLines.append(
                 CartLine(
                     productId: product.id,
@@ -307,21 +323,34 @@ final class BillingViewModel: ObservableObject {
                     priceInput: price.toInput()
                 )
             )
-            return true
+            searchText = ""
+            showToast(.added(product.name))
+            return nil
+        } catch let error as APIError {
+            if case .network = error { return error.userMessage }
+            if case .badRequest(let detail) = error { return detail }
+            return "Couldn't add the item."
         } catch {
-            return false
+            return "Couldn't add the item."
         }
     }
 
     // MARK: Held bills
 
+    /// Park the current cart so a ready customer can be billed first. Saves a
+    /// device-local snapshot of the whole bill, then empties the cart. Resume
+    /// it later from "Held bills".
     func holdCurrentBill() {
         guard !cartLines.isEmpty else { return }
         HeldBillStore.add(snapshotCurrentBill())
         heldBills = HeldBillStore.load()
         clearCart()
+        showToast(.billHeld)
     }
 
+    /// If a cart is already in progress it is parked first — never silently
+    /// discarded — then the chosen held bill is restored and removed from the
+    /// held list.
     func resume(_ held: HeldBill) {
         if !cartLines.isEmpty {
             HeldBillStore.add(snapshotCurrentBill())
@@ -373,22 +402,28 @@ final class BillingViewModel: ObservableObject {
             dueAmountText: dueAmountText,
             customerName: customerName,
             customerPhone: customerPhone,
-            remarks: remarks
+            remarks: remarks,
+            itemCount: itemCount,
+            totalWire: total.toWire()
         )
     }
 
     // MARK: Checkout
 
     func checkout() async {
-        guard !cartLines.isEmpty else { return }
+        guard !cartLines.isEmpty, checkoutState != .submitting else { return }
         // The server enforces quantity ≥ 1 / unit_price ≥ 0; the client's job is
         // simply never to submit an incomplete line.
         guard allLinesFilled else {
-            checkoutState = .error("Enter a quantity and price for every item.")
+            checkoutState = .error("Enter a quantity and price for every item before saving.")
             return
         }
-        if requiresCustomerPhone && !isValidPhone(customerPhone) {
-            checkoutState = .error("Enter a valid 10-digit phone number since money is owed on this bill.")
+        let due = effectiveDue
+        // A due means money owed later — the shop must be able to reach the
+        // customer, so their phone number is compulsory whenever any amount is
+        // left unpaid.
+        if due.isPositive && customerPhone.count < 10 {
+            checkoutState = .error("Enter the customer's phone number — it's required when there's a due (money owed).")
             return
         }
 
@@ -405,8 +440,10 @@ final class BillingViewModel: ObservableObject {
             discountValue: discountValueMoney.toWire(),
             cashAmount: cashAmount.toWire(),
             upiAmount: upiAmount.toWire(),
-            dueAmount: dueAmount.toWire(),
+            dueAmount: due.toWire(),
             remarks: trimmedRemarks.isEmpty ? nil : trimmedRemarks,
+            // Same rule as Android's BillRepository: the customer travels only
+            // with a name; the phone rides along with it.
             newCustomer: trimmedName.isEmpty ? nil : .init(name: trimmedName, phone: trimmedPhone.isEmpty ? nil : trimmedPhone)
         )
 
@@ -425,8 +462,30 @@ final class BillingViewModel: ObservableObject {
         clearCart()
     }
 
-    private func isValidPhone(_ phone: String) -> Bool {
-        let digits = phone.filter(\.isNumber)
-        return digits.count == 10
+    // MARK: Input helpers
+
+    /// Keeps digits only, normalised to ASCII — a Hindi or Tamil keypad can
+    /// type its own numerals, which `Int`/`Decimal` parsing wouldn't read.
+    private static func asciiDigits(_ text: String) -> String {
+        String(text.compactMap { ch -> Character? in
+            guard let value = ch.wholeNumberValue, (0...9).contains(value) else { return nil }
+            return Character(String(value))
+        })
+    }
+
+    /// Digits plus at most one decimal point, so a pre-filled price like
+    /// "150.5" survives being edited.
+    private static func sanitizedAmount(_ text: String) -> String {
+        var result = ""
+        var seenPoint = false
+        for ch in text {
+            if let value = ch.wholeNumberValue, (0...9).contains(value) {
+                result.append(String(value))
+            } else if ch == ".", !seenPoint {
+                seenPoint = true
+                result.append(ch)
+            }
+        }
+        return result
     }
 }

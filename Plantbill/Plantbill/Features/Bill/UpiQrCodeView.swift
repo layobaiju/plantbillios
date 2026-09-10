@@ -9,6 +9,8 @@ struct UpiQrCodeView: View {
     let payeeVpa: String
     let payeeName: String
     let amount: Money
+    /// Android draws it at 220dp in the review sheet.
+    var size: CGFloat = 180
 
     @State private var qrImage: UIImage?
     @State private var debounceTask: Task<Void, Never>?
@@ -24,7 +26,7 @@ struct UpiQrCodeView: View {
                 ProgressView()
             }
         }
-        .frame(width: 180, height: 180)
+        .frame(width: size, height: size)
         .padding(PlantbillSpacing.sm)
         .background(
             RoundedRectangle(cornerRadius: PlantbillSpacing.controlCornerRadius)

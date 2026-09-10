@@ -127,10 +127,14 @@ struct BillDetail: Decodable {
     }
 
     let id: UUID
+    /// Per-shop bill number ("0001"); nil for bills saved before numbering.
+    let billNo: String?
     let shopName: String?
     let businessName: String?
     let businessAddress: String?
     let businessPhone: String?
+    /// The shop logo to print, already filtered by the shop's on/off switch.
+    let businessLogoUrl: String?
     let subtotal: String
     let discountType: String
     let discountValue: String

@@ -83,7 +83,7 @@ private struct BillDetailBody: View {
                 }
 
                 SecondaryButton(title: "Print receipt") {
-                    ReceiptPrinter.print(detail.receiptData)
+                    Task { ReceiptPrinter.print(await ReceiptPrinter.receipt(for: detail)) }
                 }
             }
             .padding(PlantbillSpacing.lg)
