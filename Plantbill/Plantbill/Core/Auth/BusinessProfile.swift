@@ -13,6 +13,9 @@ final class BusinessProfile {
     /// Scopes the offline product cache, so switching accounts can never show
     /// another shop's catalogue.
     private(set) var shopId: UUID?
+    /// Scopes the saved offline copies of Sales and Customers to the account
+    /// that fetched them.
+    private(set) var userId: UUID?
 
     private init() {}
 
@@ -21,6 +24,7 @@ final class BusinessProfile {
         businessName = user.businessName
         shopName = user.shopName
         shopId = user.shopId
+        userId = user.id
     }
 
     func clear() {
@@ -28,5 +32,6 @@ final class BusinessProfile {
         businessName = nil
         shopName = nil
         shopId = nil
+        userId = nil
     }
 }

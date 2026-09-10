@@ -58,6 +58,14 @@ final class DuesViewModel: ObservableObject {
     @Published var query: String = ""
     @Published var settle: SettleTarget?
     @Published var message: String?
+    /// Set when the list is the copy saved on this phone.
+    @Published private(set) var savedAt: Date?
+
+    /// Shared with `OfflinePrefetch`, which saves this exact request.
+    static let duesQuery = [
+        URLQueryItem(name: "has_due", value: "true"),
+        URLQueryItem(name: "limit", value: "100"),
+    ]
 
     init(isManager: Bool) {
         self.isManager = isManager
@@ -88,12 +96,9 @@ final class DuesViewModel: ObservableObject {
         isLoading = true
         loadError = nil
         do {
-            let query = [
-                URLQueryItem(name: "has_due", value: "true"),
-                URLQueryItem(name: "limit", value: "100"),
-            ]
-            let page: BillListPage = try await APIClient.shared.send(Endpoint(path: "bills", queryItems: query))
-            dues = page.items.filter { $0.dueAmountMoney.isPositive }
+            let result: Cached<BillListPage> = try await APIClient.shared.sendCached(Endpoint(path: "bills", queryItems: Self.duesQuery))
+            dues = result.value.items.filter { $0.dueAmountMoney.isPositive }
+            savedAt = result.savedAt
             isLoading = false
         } catch let error as APIError {
             isLoading = false

@@ -92,6 +92,13 @@ final class SalesViewModel: ObservableObject {
     @Published private(set) var loadingMore = false
     @Published private(set) var hasMore = false
 
+    /// Set when what's on screen is the copy saved on this phone rather than
+    /// a fresh answer — no internet, or the server failing. The screen says
+    /// so, with the time, so nobody takes an old total for today's.
+    @Published private(set) var savedAt: Date?
+    private var summarySavedAt: Date?
+    private var billsSavedAt: Date?
+
     @Published var expenseEditor: ExpenseEditor?
     @Published private(set) var expenseCategories: [ExpenseCategory] = []
     @Published var message: String?
@@ -101,6 +108,26 @@ final class SalesViewModel: ObservableObject {
     }
 
     var isToday: Bool { ShopCalendar.isToday(selectedDate) }
+
+    /// The day-summary and bills-page requests, built in one place so the
+    /// copy `OfflinePrefetch` saves in the background is exactly the request
+    /// this screen makes — saved copies are looked up by request.
+    static func summaryQuery(dateString: String, staffId: UUID?) -> [URLQueryItem] {
+        var query = [URLQueryItem(name: "date", value: dateString)]
+        if let staffId { query.append(URLQueryItem(name: "created_by", value: staffId.uuidString)) }
+        return query
+    }
+
+    static func billsQuery(dateString: String, offset: Int, staffId: UUID?) -> [URLQueryItem] {
+        var query = [
+            URLQueryItem(name: "date_from", value: dateString),
+            URLQueryItem(name: "date_to", value: dateString),
+            URLQueryItem(name: "limit", value: "\(pageSize)"),
+            URLQueryItem(name: "offset", value: "\(offset)"),
+        ]
+        if let staffId { query.append(URLQueryItem(name: "created_by", value: staffId.uuidString)) }
+        return query
+    }
     var selectedStaffEmail: String? { staff.first { $0.id == selectedStaffId }?.email }
 
     func onAppear() async {
@@ -112,7 +139,8 @@ final class SalesViewModel: ObservableObject {
 
     private func loadStaff() async {
         do {
-            staff = try await APIClient.shared.send(Endpoint(path: "shop/users"))
+            let result: Cached<[Salesperson]> = try await APIClient.shared.sendCached(Endpoint(path: "shop/users"))
+            staff = result.value
         } catch {
             staff = []
         }
@@ -125,9 +153,9 @@ final class SalesViewModel: ObservableObject {
         let dateString = ShopCalendar.apiDateString(selectedDate)
         var rows: [StaffSales] = []
         for sp in staff {
-            let query = [URLQueryItem(name: "date", value: dateString), URLQueryItem(name: "created_by", value: sp.id.uuidString)]
-            if let summary: DaySummary = try? await APIClient.shared.send(Endpoint(path: "bills/summary/today", queryItems: query)) {
-                rows.append(StaffSales(salesperson: sp, sales: summary.totalSalesMoney))
+            let query = Self.summaryQuery(dateString: dateString, staffId: sp.id)
+            if let result: Cached<DaySummary> = try? await APIClient.shared.sendCached(Endpoint(path: "bills/summary/today", queryItems: query)) {
+                rows.append(StaffSales(salesperson: sp, sales: result.value.totalSalesMoney))
             }
         }
         staffSales = rows.filter { $0.sales.isPositive }.sorted { $0.sales > $1.sales }
@@ -136,11 +164,11 @@ final class SalesViewModel: ObservableObject {
     func load() async {
         summaryState = .loading
         billsLoading = true
+        summarySavedAt = nil
+        billsSavedAt = nil
 
         let dateString = ShopCalendar.apiDateString(selectedDate)
-        var mutableSummaryQuery = [URLQueryItem(name: "date", value: dateString)]
-        if let selectedStaffId { mutableSummaryQuery.append(URLQueryItem(name: "created_by", value: selectedStaffId.uuidString)) }
-        let summaryQuery = mutableSummaryQuery
+        let summaryQuery = Self.summaryQuery(dateString: dateString, staffId: selectedStaffId)
 
         async let summaryTask: Void = loadSummary(query: summaryQuery)
         async let billsTask: Void = loadBills(dateString: dateString, reset: true)
@@ -150,27 +178,30 @@ final class SalesViewModel: ObservableObject {
 
     private func loadSummary(query: [URLQueryItem]) async {
         do {
-            let summary: DaySummary = try await APIClient.shared.send(Endpoint(path: "bills/summary/today", queryItems: query))
-            summaryState = .loaded(summary)
+            let result: Cached<DaySummary> = try await APIClient.shared.sendCached(Endpoint(path: "bills/summary/today", queryItems: query))
+            summaryState = .loaded(result.value)
+            summarySavedAt = result.savedAt
         } catch let error as APIError {
             summaryState = .error(error.userMessage)
         } catch {
             summaryState = .error(APIError.unknown.userMessage)
         }
+        refreshSavedAt()
+    }
+
+    /// The older of the two saved times, when either part came from the phone.
+    private func refreshSavedAt() {
+        savedAt = [summarySavedAt, billsSavedAt].compactMap { $0 }.min()
     }
 
     private func loadBills(dateString: String, reset: Bool) async {
         do {
-            var query = [
-                URLQueryItem(name: "date_from", value: dateString),
-                URLQueryItem(name: "date_to", value: dateString),
-                URLQueryItem(name: "limit", value: "\(pageSize)"),
-                URLQueryItem(name: "offset", value: "\(reset ? 0 : bills.count)"),
-            ]
-            if let selectedStaffId { query.append(URLQueryItem(name: "created_by", value: selectedStaffId.uuidString)) }
-            let page: BillListPage = try await APIClient.shared.send(Endpoint(path: "bills", queryItems: query))
+            let query = Self.billsQuery(dateString: dateString, offset: reset ? 0 : bills.count, staffId: selectedStaffId)
+            let result: Cached<BillListPage> = try await APIClient.shared.sendCached(Endpoint(path: "bills", queryItems: query))
+            let page = result.value
             bills = reset ? page.items : bills + page.items
             hasMore = page.hasMore
+            if reset { billsSavedAt = result.savedAt }
             billsLoading = false
             loadingMore = false
         } catch let error as APIError {
@@ -181,6 +212,7 @@ final class SalesViewModel: ObservableObject {
             billsLoading = false
             loadingMore = false
         }
+        refreshSavedAt()
     }
 
     func loadMore() async {

@@ -45,18 +45,33 @@ struct OfflineBanner: View {
             .padding(.horizontal, PlantbillSpacing.md)
             .padding(.vertical, PlantbillSpacing.sm)
             .frame(maxWidth: .infinity)
-            .background(PlantbillColor.error)
+            // Red runs up under the status bar; the text stays below it.
+            .background(PlantbillColor.error.ignoresSafeArea(edges: .top))
             .transition(.move(edge: .top).combined(with: .opacity))
         }
     }
 }
 
 extension View {
-    /// Pins the offline banner above the app's content.
+    /// Puts the offline banner above the app's content.
     func offlineBanner() -> some View {
-        safeAreaInset(edge: .top, spacing: 0) {
+        modifier(OfflineBannerModifier())
+    }
+}
+
+/// Stacks the banner ABOVE the app rather than insetting it. A root-level
+/// `safeAreaInset` doesn't reach inside the tab bar's navigation stacks on
+/// current iOS, so the banner was drawn over every navigation bar — hiding the
+/// screen title, the bell and, worst, the Back button, the moment the signal
+/// dropped. Stacked, the whole app simply moves down below it.
+private struct OfflineBannerModifier: ViewModifier {
+    @ObservedObject private var monitor = NetworkMonitor.shared
+
+    func body(content: Content) -> some View {
+        VStack(spacing: 0) {
             OfflineBanner()
-                .animation(.easeInOut(duration: 0.2), value: NetworkMonitor.shared.isConnected)
+            content
         }
+        .animation(.easeInOut(duration: 0.2), value: monitor.isConnected)
     }
 }

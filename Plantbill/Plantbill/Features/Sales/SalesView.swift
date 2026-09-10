@@ -80,6 +80,7 @@ struct SalesView: View {
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
             .background(PlantbillColor.background)
+            .savedCopyNote(.sales, savedAt: viewModel.savedAt)
             .navigationTitle("Sales")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: SalesDestination.self) { destination in

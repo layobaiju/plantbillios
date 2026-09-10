@@ -61,9 +61,13 @@ struct MainTabView: View {
         }
         .tint(PlantbillColor.green)
         .environmentObject(notificationsStore)
-        .task { await notificationsStore.refresh() }
+        .task {
+            OfflinePrefetch.refresh()
+            await notificationsStore.refresh()
+        }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
+                OfflinePrefetch.refresh()
                 Task { await notificationsStore.refresh() }
             }
         }

@@ -12,6 +12,7 @@ struct DuesView: View {
 
     var body: some View {
         content
+            .savedCopyNote(.dues, savedAt: viewModel.savedAt)
             .navigationTitle("Dues")
             .navigationBarTitleDisplayMode(.inline)
             .background(PlantbillColor.background)

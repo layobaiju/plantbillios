@@ -451,6 +451,9 @@ final class BillingViewModel: ObservableObject {
             let body = try APIClient.shared.encode(request)
             let bill: BillOut = try await APIClient.shared.send(Endpoint(path: "bills", method: .post, body: body))
             checkoutState = .success(bill)
+            // Keeps the saved copy of today's sales (and a new customer)
+            // current, so it's right if the signal drops next.
+            OfflinePrefetch.refresh()
         } catch let error as APIError {
             checkoutState = .error(error.userMessage)
         } catch {

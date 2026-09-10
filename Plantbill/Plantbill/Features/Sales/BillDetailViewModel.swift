@@ -14,6 +14,8 @@ final class BillDetailViewModel: ObservableObject {
     @Published private(set) var isDeleting = false
     @Published var deleted = false
     @Published var deleteError: String?
+    /// Set when this bill is the copy saved on this phone.
+    @Published private(set) var savedAt: Date?
 
     init(billId: UUID) {
         self.billId = billId
@@ -22,8 +24,9 @@ final class BillDetailViewModel: ObservableObject {
     func load() async {
         state = .loading
         do {
-            let detail: BillDetail = try await APIClient.shared.send(Endpoint(path: "bills/\(billId)"))
-            state = .loaded(detail)
+            let result: Cached<BillDetail> = try await APIClient.shared.sendCached(Endpoint(path: "bills/\(billId)"))
+            state = .loaded(result.value)
+            savedAt = result.savedAt
         } catch let error as APIError {
             state = .error(error.userMessage)
         } catch {

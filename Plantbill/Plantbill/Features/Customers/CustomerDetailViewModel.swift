@@ -11,6 +11,8 @@ final class CustomerDetailViewModel: ObservableObject {
     /// nil when no bill has it (UI shows a fallback).
     @Published private(set) var name: String?
     @Published private(set) var bills: [BillListEntry] = []
+    /// Set when these bills are the copy saved on this phone.
+    @Published private(set) var savedAt: Date?
 
     init(customerId: UUID) {
         self.customerId = customerId
@@ -20,16 +22,17 @@ final class CustomerDetailViewModel: ObservableObject {
     var creditBillCount: Int { bills.filter { $0.paymentMethod == .due }.count }
 
     func load() async {
-        isLoading = true
+        isLoading = bills.isEmpty
         loadError = nil
         do {
             let query = [
                 URLQueryItem(name: "customer_id", value: customerId.uuidString),
                 URLQueryItem(name: "limit", value: "100"),
             ]
-            let page: BillListPage = try await APIClient.shared.send(Endpoint(path: "bills", queryItems: query))
-            bills = page.items
-            name = page.items.first { $0.customerName?.isEmpty == false }?.customerName
+            let result: Cached<BillListPage> = try await APIClient.shared.sendCached(Endpoint(path: "bills", queryItems: query))
+            bills = result.value.items
+            name = result.value.items.first { $0.customerName?.isEmpty == false }?.customerName
+            savedAt = result.savedAt
             isLoading = false
         } catch let error as APIError {
             isLoading = false

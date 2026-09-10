@@ -6,6 +6,14 @@ extension Notification.Name {
     static let apiUnauthorized = Notification.Name("APIUnauthorized")
 }
 
+/// A response plus where it came from: `savedAt` is nil for a fresh answer
+/// from the server, and the time it was saved when it's the copy kept on this
+/// phone. See `APIClient.sendCached`.
+struct Cached<Value> {
+    let value: Value
+    let savedAt: Date?
+}
+
 final class APIClient {
     static let shared = APIClient()
 
@@ -46,6 +54,36 @@ final class APIClient {
             return try decoder.decode(T.self, from: data)
         } catch {
             throw APIError.decoding
+        }
+    }
+
+    /// A GET whose last good response is kept on the phone. With no signal —
+    /// or the server failing — it returns that saved copy and when it was
+    /// saved, instead of an error. Any other failure (signed out, not found,
+    /// a bad request) is still thrown: those mean the saved copy is wrong now,
+    /// not merely out of date.
+    func sendCached<T: Decodable>(_ endpoint: Endpoint) async throws -> Cached<T> {
+        do {
+            let data = try await perform(endpoint)
+            let value: T
+            do {
+                value = try decoder.decode(T.self, from: data)
+            } catch {
+                throw APIError.decoding
+            }
+            OfflineResponseCache.save(data, for: endpoint)
+            return Cached(value: value, savedAt: nil)
+        } catch let error as APIError {
+            switch error {
+            case .network, .server:
+                if let saved = OfflineResponseCache.load(for: endpoint),
+                   let value = try? decoder.decode(T.self, from: saved.data) {
+                    return Cached(value: value, savedAt: saved.savedAt)
+                }
+                throw error
+            default:
+                throw error
+            }
         }
     }
 

@@ -14,6 +14,7 @@ struct CustomerDetailView: View {
 
     var body: some View {
         content
+            .savedCopyNote(.customer, savedAt: viewModel.savedAt)
             .navigationTitle(viewModel.name ?? "Customer")
             .navigationBarTitleDisplayMode(.inline)
             .background(PlantbillColor.background)

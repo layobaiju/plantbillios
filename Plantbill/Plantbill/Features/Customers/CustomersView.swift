@@ -14,6 +14,7 @@ struct CustomersView: View {
     var body: some View {
         NavigationStack(path: $path) {
             content
+                .savedCopyNote(.customers, savedAt: viewModel.savedAt)
                 .navigationTitle("Customers")
                 .navigationBarTitleDisplayMode(.inline)
                 .background(PlantbillColor.background)

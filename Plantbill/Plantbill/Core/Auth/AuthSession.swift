@@ -76,6 +76,9 @@ final class AuthSession: ObservableObject {
     func logout() {
         state = .unauthenticated
         BusinessProfile.shared.clear()
+        // Customer names and phone numbers live in these — they must not
+        // outlive the session that was allowed to see them.
+        OfflineResponseCache.clearAll()
         // Clears the cached identity too, so a signed-out device can't be
         // routed back in from a stale one.
         Task { await KeychainStore.clear() }
