@@ -101,6 +101,11 @@ struct OwnerDashboardView: View {
                         StaffPerformanceRow(row: row)
                     }
                 }
+
+                // Owners have no More tab, so the credit sits at the end of
+                // their dashboard instead.
+                PoweredByDofida()
+                    .padding(.top, PlantbillSpacing.md)
             }
             .padding(PlantbillSpacing.lg)
         }

@@ -119,13 +119,13 @@ struct MoreView: View {
                 }
 
                 Section {
-                    HStack {
-                        Spacer()
+                    VStack(spacing: PlantbillSpacing.sm) {
                         Text(versionString)
                             .font(PlantbillTypography.caption)
                             .foregroundStyle(PlantbillColor.textSecondary)
-                        Spacer()
+                        PoweredByDofida()
                     }
+                    .frame(maxWidth: .infinity)
                 }
                 .listRowBackground(Color.clear)
             }

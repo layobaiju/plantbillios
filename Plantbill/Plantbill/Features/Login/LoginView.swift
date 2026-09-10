@@ -53,6 +53,9 @@ struct LoginView: View {
                 )
 
                 supportFooter
+
+                PoweredByDofida()
+                    .padding(.top, PlantbillSpacing.sm)
             }
             .padding(PlantbillSpacing.lg)
             .padding(.top, PlantbillSpacing.xxl)
