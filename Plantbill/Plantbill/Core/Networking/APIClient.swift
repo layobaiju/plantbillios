@@ -4,6 +4,11 @@ extension Notification.Name {
     /// Posted on any 401 response — mirrors Android's UnauthorizedInterceptor
     /// forcing a global logout regardless of which screen triggered it.
     static let apiUnauthorized = Notification.Name("APIUnauthorized")
+
+    /// Posted on any 402 response — the shop's free trial has expired and the
+    /// server is refusing writes. Flips the app into read-only mode without
+    /// waiting for the next `/auth/me`.
+    static let apiTrialExpired = Notification.Name("APITrialExpired")
 }
 
 final class APIClient {
@@ -144,6 +149,13 @@ final class APIClient {
             throw APIError.invalidCredentials(friendlyMessage(from: data))
         case 403:
             throw APIError.forbidden(friendlyMessage(from: data))
+        case 402:
+            // The trial ran out. Broadcast it so the whole app flips to
+            // read-only immediately, rather than each screen discovering it
+            // one failed save at a time.
+            let detail = friendlyMessage(from: data)
+            NotificationCenter.default.post(name: .apiTrialExpired, object: nil)
+            throw APIError.trialExpired(detail)
         case 404:
             throw APIError.notFound
         case 409:

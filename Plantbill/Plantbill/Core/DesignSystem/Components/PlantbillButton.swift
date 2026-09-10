@@ -5,6 +5,10 @@ import SwiftUI
 /// action per screen.
 struct PrimaryButton: View {
     let title: LocalizedStringKey
+    /// Optional leading SF Symbol. Defaulted off — most primary actions read
+    /// better as words alone, but a contact action ("Call us") is understood
+    /// faster with the icon beside it.
+    var systemImage: String? = nil
     var isLoading: Bool = false
     var isDisabled: Bool = false
     let action: () -> Void
@@ -16,6 +20,9 @@ struct PrimaryButton: View {
                     ProgressView()
                         .progressViewStyle(.circular)
                         .tint(.white)
+                } else if let systemImage {
+                    Label(title, systemImage: systemImage)
+                        .font(PlantbillTypography.button)
                 } else {
                     Text(title)
                         .font(PlantbillTypography.button)
@@ -47,6 +54,7 @@ struct PrimaryButton: View {
 /// which an inner `Text`'s own style would just override.
 struct SecondaryButton: View {
     let title: LocalizedStringKey
+    var systemImage: String? = nil
     var tint: Color = PlantbillColor.green
     var isLoading: Bool = false
     var isDisabled: Bool = false
@@ -59,6 +67,10 @@ struct SecondaryButton: View {
                     ProgressView()
                         .progressViewStyle(.circular)
                         .tint(tint)
+                } else if let systemImage {
+                    Label(title, systemImage: systemImage)
+                        .font(PlantbillTypography.bodyEmphasized)
+                        .foregroundStyle(tint)
                 } else {
                     Text(title)
                         .font(PlantbillTypography.bodyEmphasized)

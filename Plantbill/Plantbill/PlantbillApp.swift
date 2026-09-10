@@ -8,6 +8,7 @@ struct PlantbillApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .trialBanner()
                 .offlineBanner()
                 .environmentObject(session)
                 .environmentObject(languageStore)

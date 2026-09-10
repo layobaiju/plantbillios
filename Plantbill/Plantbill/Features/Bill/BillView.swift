@@ -86,6 +86,7 @@ struct BillView: View {
                     .font(PlantbillTypography.caption)
                     .fontWeight(.medium)
             }
+            .trialGated()
 
             // Android hangs the mic off the search field's trailing edge;
             // SwiftUI's `.searchable` takes no accessory view, so it sits here
@@ -214,6 +215,7 @@ struct BillView: View {
                 .padding(.horizontal, PlantbillSpacing.md)
                 .padding(.vertical, PlantbillSpacing.sm)
             }
+            .trialGated()
             .background(.bar)
         }
     }

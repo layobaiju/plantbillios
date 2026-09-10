@@ -65,7 +65,9 @@ struct ProductsListView: View {
     private var bottomActionBar: some View {
         HStack(spacing: PlantbillSpacing.sm) {
             SecondaryButton(title: "Bulk import") { showingBulkImport = true }
+                .trialGated()
             PrimaryButton(title: "Add product") { showingAddSheet = true }
+                .trialGated()
         }
         .padding(.horizontal, PlantbillSpacing.md)
         .padding(.top, PlantbillSpacing.sm)

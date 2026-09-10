@@ -13,7 +13,11 @@ struct MoreView: View {
 
     @EnvironmentObject private var session: AuthSession
     @EnvironmentObject private var languageStore: LanguageStore
+    @ObservedObject private var trial = TrialStore.shared
     @State private var showingLanguagePicker = false
+    @State private var showingDeleteAccount = false
+    @State private var deleteError: String?
+    @State private var isDeleting = false
     @State private var showingCashSet = false
     @State private var path = NavigationPath()
     @AppStorage("cash_in_hand_cumulative") private var cashInHandCumulative = false
@@ -99,6 +103,22 @@ struct MoreView: View {
                     }
                 }
 
+                if trial.isTrialShop {
+                    Section {
+                        Button {
+                            trial.promptToContinue()
+                        } label: {
+                            settingsRow(
+                                icon: trial.isLocked ? "lock.fill" : "clock",
+                                title: trial.isLocked ? "Trial ended \u{2014} continue" : "Free trial",
+                                value: Text(trialValue)
+                            )
+                        }
+                    } header: {
+                        Text("Your plan")
+                    }
+                }
+
                 Section {
                     Button {
                         openSupportChat()
@@ -115,6 +135,37 @@ struct MoreView: View {
                             .font(PlantbillTypography.bodyEmphasized)
                             .frame(maxWidth: .infinity)
                             .contentShape(Rectangle())
+                    }
+                }
+
+                // Only for an account created through signup. A shop the
+                // admin set up belongs to a paying business — the server
+                // refuses to self-delete it (403), so offering the button
+                // there would be a dead end with a frightening label.
+                if trial.isSelfSignup {
+                    Section {
+                        Button(role: .destructive) {
+                            deleteError = nil
+                            showingDeleteAccount = true
+                        } label: {
+                            HStack {
+                                Text("Delete my account")
+                                    .font(PlantbillTypography.bodyEmphasized)
+                                Spacer()
+                                if isDeleting { ProgressView() }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .contentShape(Rectangle())
+                        }
+                        .disabled(isDeleting)
+                    } footer: {
+                        VStack(alignment: .leading, spacing: PlantbillSpacing.xs) {
+                            Text("Permanently removes this shop and everything in it \u{2014} bills, items, customers and staff. This cannot be undone.")
+                            if let deleteError {
+                                Text(deleteError)
+                                    .foregroundStyle(PlantbillColor.error)
+                            }
+                        }
                     }
                 }
 
@@ -149,6 +200,38 @@ struct MoreView: View {
             }
             .sheet(isPresented: $showingCashSet) {
                 SetCashInHandSheet()
+            }
+            .sheet(isPresented: $showingDeleteAccount) {
+                TypeEmailToDeleteSheet(
+                    email: user.email,
+                    title: "Delete my account",
+                    message: "This removes your shop and every bill, item, customer and staff member in it. Nothing can be recovered afterwards, and we cannot bring it back for you.",
+                    confirmLabel: "Delete everything",
+                    onConfirm: deleteAccount
+                )
+            }
+        }
+    }
+
+    private var trialValue: String {
+        if trial.isLocked { return "Ended" }
+        guard let days = trial.daysLeft else { return "" }
+        if days == 0 { return "Ends today" }
+        return days == 1 ? "1 day left" : "\(days) days left"
+    }
+
+    private func deleteAccount() {
+        isDeleting = true
+        deleteError = nil
+        Task {
+            do {
+                try await session.deleteAccount()
+            } catch let error as APIError {
+                isDeleting = false
+                deleteError = error.userMessage
+            } catch {
+                isDeleting = false
+                deleteError = APIError.unknown.userMessage
             }
         }
     }

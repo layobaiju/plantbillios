@@ -11,6 +11,9 @@ enum APIError: Error {
     /// plain-language (e.g. "Invalid email or password").
     case invalidCredentials(String)
     case forbidden(String)
+    /// 402 — the shop's free trial ran out. The workspace is readable but no
+    /// longer writable until there's a plan.
+    case trialExpired(String)
     case badRequest(String)
     case notFound
     case conflict(String)
@@ -26,6 +29,8 @@ enum APIError: Error {
         case .invalidCredentials(let detail):
             return detail
         case .forbidden(let detail):
+            return detail
+        case .trialExpired(let detail):
             return detail
         case .badRequest(let detail):
             return detail

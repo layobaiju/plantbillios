@@ -8,10 +8,17 @@ struct LoginView: View {
     /// Shown when a support link couldn't be opened and the contact was
     /// copied to the clipboard instead.
     @State private var supportNotice: String?
+    @State private var showingSignup = false
 
     private enum Field { case email, password }
 
     var body: some View {
+        NavigationStack {
+            content
+        }
+    }
+
+    private var content: some View {
         ScrollView {
             VStack(spacing: PlantbillSpacing.xl) {
                 header
@@ -52,6 +59,7 @@ struct LoginView: View {
                     action: submit
                 )
 
+                signupFooter
                 supportFooter
             }
             .padding(PlantbillSpacing.lg)
@@ -59,6 +67,32 @@ struct LoginView: View {
         }
         .background(PlantbillColor.background)
         .scrollDismissesKeyboard(.interactively)
+        .navigationDestination(isPresented: $showingSignup) {
+            SignupView()
+        }
+    }
+
+    /// Deliberately below the sign-in button and visually quieter. Almost
+    /// everyone opening this app already has an account the admin made for
+    /// them; signup is for the one person in a hundred who found Plantbill on
+    /// their own, and it must not compete with the field they came here to use.
+    private var signupFooter: some View {
+        VStack(spacing: PlantbillSpacing.xs) {
+            Text("New to Plantbill?")
+                .font(PlantbillTypography.body)
+                .foregroundStyle(PlantbillColor.textSecondary)
+
+            Button {
+                showingSignup = true
+            } label: {
+                Text("Start a free 14-day trial")
+                    .font(PlantbillTypography.bodyEmphasized)
+                    .foregroundStyle(PlantbillColor.green)
+                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: PlantbillSpacing.minTouchTarget)
+                    .contentShape(Rectangle())
+            }
+        }
     }
 
     private var header: some View {

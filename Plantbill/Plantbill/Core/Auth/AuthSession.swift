@@ -58,6 +58,49 @@ final class AuthSession: ObservableObject {
         }
     }
 
+    /// Creates a shop and signs straight into it — no "now go and log in"
+    /// step, because the server hands back a token with the 201 and asking a
+    /// shop owner to re-type the password they just chose is a place to lose
+    /// them.
+    func signUp(
+        shopName: String,
+        email: String,
+        password: String,
+        ownerName: String?,
+        ownerPhone: String?
+    ) async throws {
+        let body = try apiClient.encode(
+            SignupRequest(
+                shopName: shopName,
+                email: email,
+                password: password,
+                ownerName: ownerName,
+                ownerPhone: ownerPhone
+            )
+        )
+        let token: TokenResponse = try await apiClient.send(
+            Endpoint(path: "auth/signup", method: .post, body: body, requiresAuth: false)
+        )
+        await KeychainStore.saveToken(token.accessToken)
+
+        let user: CurrentUser = try await apiClient.send(Endpoint(path: "auth/me"))
+        await KeychainStore.saveUser(user)
+        state = resolvedState(for: user)
+    }
+
+    /// In-app account deletion, required by App Store guideline 5.1.1(v) once
+    /// an app lets people create an account. Deletes the workspace and
+    /// everything in it, server-side, then drops the session.
+    ///
+    /// The server refuses this (403) for a shop the admin set up, so the UI
+    /// only offers it where it will actually work.
+    func deleteAccount() async throws {
+        try await apiClient.sendNoContent(
+            Endpoint(path: "auth/me", method: .delete)
+        )
+        logout()
+    }
+
     func login(email: String, password: String) async throws {
         let body = try apiClient.encode(LoginRequest(email: email, password: password))
         let token: TokenResponse = try await apiClient.send(
@@ -76,6 +119,7 @@ final class AuthSession: ObservableObject {
     func logout() {
         state = .unauthenticated
         BusinessProfile.shared.clear()
+        TrialStore.shared.clear()
         // Clears the cached identity too, so a signed-out device can't be
         // routed back in from a stale one.
         Task { await KeychainStore.clear() }
@@ -86,6 +130,7 @@ final class AuthSession: ObservableObject {
             return .unsupportedRole
         }
         BusinessProfile.shared.update(from: user)
+        TrialStore.shared.update(from: user)
         return .authenticated(user)
     }
 }
