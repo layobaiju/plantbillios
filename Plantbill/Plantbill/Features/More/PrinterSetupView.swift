@@ -104,10 +104,10 @@ struct PrinterSetupView: View {
     private var explanationCard: some View {
         PlantbillCard {
             VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
-                Text("Only needed if Print doesn't find your printer")
+                Text("Bluetooth printer check")
                     .font(PlantbillTypography.bodyEmphasized)
                     .foregroundStyle(PlantbillColor.textPrimary)
-                Text("The Print button on a bill uses AirPrint and should find your printer automatically over Wi-Fi. This screen is a Bluetooth fallback for testing — iPhone can only print over Bluetooth Low Energy (BLE), so whether it works here depends on your printer's model.")
+                Text("Bills print through AirPrint, which finds Wi-Fi printers on your network automatically. Use this screen to see whether a Bluetooth receipt printer can connect to this iPhone and print a test page. iPhone works only with printers that support Bluetooth Low Energy (BLE).")
                     .font(PlantbillTypography.body)
                     .foregroundStyle(PlantbillColor.textSecondary)
             }

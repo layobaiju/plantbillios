@@ -192,7 +192,11 @@ struct CartReviewSheet: View {
         VStack(alignment: .leading, spacing: PlantbillSpacing.sm) {
             sectionHeader(viewModel.requiresCustomerPhone ? "Customer (required for due)" : "Customer (optional)")
 
-            PlantbillTextField(label: "Name", text: $viewModel.customerName, textContentType: .name)
+            PlantbillTextField(
+                label: viewModel.requiresCustomerPhone ? "Name (required — money owed)" : "Name",
+                text: $viewModel.customerName,
+                textContentType: .name
+            )
 
             PlantbillTextField(
                 label: viewModel.requiresCustomerPhone ? "Phone (required — money owed)" : "Phone (for receipts)",

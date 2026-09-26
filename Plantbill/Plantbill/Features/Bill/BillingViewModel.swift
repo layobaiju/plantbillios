@@ -427,10 +427,31 @@ final class BillingViewModel: ObservableObject {
             return
         }
 
+        let trimmedPhone = customerPhone.trimmingCharacters(in: .whitespacesAndNewlines)
+        // A part-typed number would come back from the server as a raw
+        // validation error; say it plainly instead.
+        if !trimmedPhone.isEmpty && trimmedPhone.count != 10 {
+            checkoutState = .error("Enter all 10 digits of the phone number, or clear it.")
+            return
+        }
+        // The server records a customer only together with a name, so a phone
+        // typed without one used to be dropped without a word — even the phone
+        // a due had just made compulsory, leaving money owed with nobody to
+        // reach. A number the lookup already knows brings its own name; any
+        // other number needs one typed.
+        var nameToSend = customerName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if nameToSend.isEmpty, !trimmedPhone.isEmpty,
+           let knownName = returningCustomer?.name?.trimmingCharacters(in: .whitespacesAndNewlines),
+           !knownName.isEmpty {
+            nameToSend = knownName
+        }
+        if !trimmedPhone.isEmpty && nameToSend.isEmpty {
+            checkoutState = .error("Enter the customer's name too, so their phone number is saved with this bill.")
+            return
+        }
+
         checkoutState = .submitting
 
-        let trimmedName = customerName.trimmingCharacters(in: .whitespacesAndNewlines)
-        let trimmedPhone = customerPhone.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedRemarks = remarks.trimmingCharacters(in: .whitespacesAndNewlines)
 
         let request = BillCreateRequest(
@@ -442,9 +463,9 @@ final class BillingViewModel: ObservableObject {
             upiAmount: upiAmount.toWire(),
             dueAmount: due.toWire(),
             remarks: trimmedRemarks.isEmpty ? nil : trimmedRemarks,
-            // Same rule as Android's BillRepository: the customer travels only
-            // with a name; the phone rides along with it.
-            newCustomer: trimmedName.isEmpty ? nil : .init(name: trimmedName, phone: trimmedPhone.isEmpty ? nil : trimmedPhone)
+            // The customer travels only with a name (the server requires one);
+            // the checks above make sure a typed phone is never left behind.
+            newCustomer: nameToSend.isEmpty ? nil : .init(name: nameToSend, phone: trimmedPhone.isEmpty ? nil : trimmedPhone)
         )
 
         do {
