@@ -1,0 +1,29 @@
+Submission ID: 550c1b92-f5c0-443b-8e0a-1a905c093e7e
+
+Plantbill is billing software for plant nurseries in India: shop staff make a customer bill in a few taps, print the receipt, and see the day's sales, cash, expenses and unpaid dues. Users are nursery owners, managers and counter salespeople.
+
+GUIDELINE 1.5 - SUPPORT URL
+Corrected. It is now https://sites.google.com/view/plantbill-contact - public, no sign-in, with our WhatsApp, phone and email, and how to get an account, reset a password, print, or have data deleted.
+
+GUIDELINE 2.1(b) - BUSINESS MODEL
+Nothing is sold in Plantbill or outside it: no subscriptions, no in-app purchases, no paid content, no feature unlocked by payment, no advertising.
+1. No subscriptions exist. The users are one shop's own staff - owner, manager, salespeople - on accounts we create for that business.
+2. Nowhere. There is no store, checkout or payment page for Plantbill anywhere.
+3. None. No purchase precedes or accompanies access.
+4. None. Every feature works for any signed-in shop: billing, printing, sales and cash book, dues, customers, staff, expenses, reports, offline copies. No tiers, trials, upgrade prompts or purchase links. The app processes no payments - the scan-to-pay screen only draws a QR of the shop's own UPI ID, so the customer pays the shop from their own banking app.
+5. It is business software provided to a business - a plant nursery - for its own staff, never sold to consumers, individuals or families; an individual cannot obtain an account. We charge shops nothing at present. Any future fee would be agreed directly with the business owner and settled off the app, never through a consumer storefront.
+6. The shop contacts us by WhatsApp, phone or email and we create its account and first login. No fee. There is no sign-up inside the app by design, as an account belongs to one business and its own plant catalogue. The shop's manager then creates staff logins under More > Salespeople.
+
+REQUESTED INFORMATION
+1. Screen recording: «link». Recorded on «iPhone», iOS «version». It shows launch, sign-in, a full bill (search, voice search, quantity, price, discount, customer, Cash/UPI/Split, part payment as due), saving, AirPrint, Sales, Dues, Reports, Customers, More and the manager's Products and Salespeople screens, including the microphone, speech-recognition and Bluetooth prompts. The app has no registration, account deletion, purchase or tracking prompt.
+2. Tested on «iPhone» iOS «version» and iPhone X iOS 16.7.10 (physical); simulators iPhone 17, 17 Pro, 17 Pro Max and iPad Air 11-inch on iOS 26.5. Minimum iOS 16.0.
+3. Purpose and audience: as above.
+4. Demo accounts, with sample data ready - salesperson «email» / «password»; manager «email» / «password». Step-by-step instructions for the main features are in the App Review Information notes.
+5. External services: our own server https://api.plantbill.in (self-hosted in India) holds all shop data; Apple's Speech framework for optional voice search; AirPrint for printing; Core Bluetooth only for an optional BLE receipt printer; and optionally, server-side only, receipts through the official WhatsApp Business Platform. No analytics, advertising, tracking, crash-reporting, AI or payment SDKs, and no third-party dependencies.
+6. Regions: identical everywhere, nothing gated by location. Content is India-specific (rupees, UPI, 10-digit numbers, Asia/Kolkata day boundary). Languages: English, Hindi, Kannada, Malayalam, Tamil.
+7. Not a regulated industry, and no third-party protected material: it records a shop's own sales.
+
+Build 1.0 (3) differs from 1.0 (2) only in two fixes: a phone number typed without a name is no longer discarded, and clearer wording on the Bluetooth printer screen.
+
+Thank you,
+Adon Joseph

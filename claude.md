@@ -1,5 +1,10 @@
 # Plantora — Project Context
 
+> **Read [HANDOVER.md](HANDOVER.md) first.** It has the current state of the project
+> (September 2026): the shipped iOS app, the App Store submission, and what is still open.
+> The notes below are the original product brief — parts of them (printing, WhatsApp delivery,
+> the role names, the "to do" list) have since been built or superseded.
+
 ## What this is
 Plantora is a mobile-first billing PWA for plant shops in India. One platform admin (the owner) creates billing accounts for individual shops; each shop's data is fully isolated. End users are often elderly shop owners (60–80), so the shop-facing app must be simple, legible, reliable, and forgiving.
 

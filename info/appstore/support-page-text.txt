@@ -1,0 +1,30 @@
+Text of the public support page, published at https://sites.google.com/view/plantbill-contact
+(Google Sites, free, public, no sign-in). Apple's Support URL points here.
+Keep these contacts identical to the ones in the apps and in frontend/src/pages/SupportPage.tsx.
+Plain ASCII on purpose: em dashes and arrows came through as mojibake when pasted into Sites.
+
+PlantBill - Support
+
+Billing software for plant nurseries and garden shops.
+
+CONTACT US
+WhatsApp: +91 79754 02266
+Phone: +91 79754 02266
+Email: plantparkgroup@gmail.com
+
+We usually reply the same day, Monday to Saturday, 9 AM to 7 PM IST. We answer in English, Malayalam, Hindi, Kannada and Tamil.
+
+GETTING AN ACCOUNT
+PlantBill accounts are created for a shop by us - there is no public sign-up, because each account belongs to a specific business and its own plant catalogue. To start using PlantBill at your nursery, message us on WhatsApp or send an email and we will set the shop up for you. Staff logins are then created inside the app by the shop's own manager or owner, under More > Salespeople.
+
+FORGOT YOUR PASSWORD
+Ask your shop's manager or owner to reset it under More > Salespeople. If you are the owner, contact us at the number or email above and we will reset it for you.
+
+PRINTING A BILL
+Tap Print on a saved bill. iPhone and iPad print through AirPrint, so a Wi-Fi printer on the same network is found automatically. Android phones print to a Bluetooth thermal printer.
+
+IF THE INTERNET GOES DOWN
+The app keeps working for the things a counter needs: your plant list, today's sales, your customers and the dues list stay readable from the copy saved on the phone, and a bill can be held until the connection comes back. Anything shown from that saved copy is labelled with the time it was saved.
+
+DELETING YOUR DATA
+Write to us at plantparkgroup@gmail.com and we will delete a shop's account and its records, or a customer's contact details. Our privacy policy is at https://plantbill.in/privacy

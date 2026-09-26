@@ -1,0 +1,36 @@
+WHAT THE APP IS
+Plantbill is billing software for plant nurseries and garden shops in India: staff make a customer bill in a few taps, print or share the receipt, and see the day's sales, cash, expenses and unpaid dues. Users are nursery owners, managers and counter salespeople, many of them 50-75 years old, so the app uses large text, one clear action per screen and five Indian languages.
+
+BUSINESS MODEL (no in-app purchase)
+Nothing is sold in the app or outside it: no subscriptions, no in-app purchases, no paid content, no feature unlocked by payment, no advertising. Every feature works for any signed-in shop. Plantbill is business software provided to a business - a plant nursery - for its own staff; it is not sold to consumers or families, and there is no store or checkout anywhere. Shops are charged nothing at present; any future fee would be agreed directly with the business owner and settled off the app. The "scan to pay" screen only draws a QR of the shop's own UPI ID, so the shop's customer pays the shop from their own banking app; no money passes through the app or through us.
+
+SIGNING IN
+There is no public sign-up: each shop's account is created for it by us, because an account belongs to one business and its own plant catalogue. Demo accounts with sample data, one per account type:
+Salesperson (counter staff): «email» / «password»
+Manager (products, staff, expenses, approvals): «email» / «password»
+
+TRYING THE CORE FEATURES (as the salesperson)
+1. Bill tab: search "rose", or tap the microphone and say a plant name.
+2. Tap a plant; its saved price fills in. Type the quantity or use +.
+3. Optional: "+ Add item" for more plants; a flat or percentage discount.
+4. Optional: customer name and 10-digit phone number.
+5. Choose Cash, UPI or Split; type an amount in "Due" for a part payment.
+6. "Save bill", then "Print receipt" for the AirPrint sheet.
+7. Sales tab: day total, cash/UPI/due, cash in hand, expenses, every bill; Dues; Reports (charts + .xlsx).
+8. Customers tab; More tab (language, shop details, labour, borrowings, printer, support).
+9. Sign in as the manager for Products (add, edit, photo, .csv import) and More > Salespeople.
+
+PERMISSION PROMPTS
+Microphone and speech recognition: only for the optional spoken plant search. Bluetooth: only if a shop connects a Bluetooth Low Energy receipt printer.
+
+WHAT THE APP DOES NOT HAVE
+No account registration or deletion in the app (accounts are created and removed by us or the shop's manager), no purchases or subscriptions, no user-generated public content, no tracking prompt.
+
+OUTSIDE SERVICES
+Our own server at https://api.plantbill.in (FastAPI + PostgreSQL, self-hosted in India) holds all shop data. Apple's Speech framework for voice search. AirPrint for printing; Core Bluetooth for an optional BLE receipt printer. Optionally, and only server-side, a shop can have receipts sent through the official WhatsApp Business Platform. No analytics, advertising, tracking, crash-reporting, AI or payment SDKs; no external dependencies.
+
+REGIONS
+Identical behaviour everywhere; content is India-specific (rupees, UPI, Indian phone numbers, Asia/Kolkata day boundary). Interface in English, Hindi, Kannada, Malayalam and Tamil.
+
+SUPPORT
+https://sites.google.com/view/plantbill-contact - WhatsApp and phone +91 79754 02266, plantparkgroup@gmail.com

@@ -1,0 +1,35 @@
+SCREEN RECORDING FOR APPLE - SHOT LIST
+Phone: any iPhone running iOS 26. Record with Control Centre > Screen Recording.
+Length: about 2-3 minutes. No narration; leave the microphone off in the recording.
+Go slowly; pause a beat on each screen.
+
+BEFORE YOU START
+- Install Plantbill 1.0 (3) from TestFlight on that iPhone.
+- Sign out of the app if it is already signed in, so the recording starts at the sign-in screen.
+- Turn the ringer off; close other apps.
+
+RECORD IN THIS ORDER
+ 1. Home screen. Tap the Plantbill icon - the opening animation must be in the recording.
+ 2. Sign-in screen: type the demo salesperson email and password, tap Sign in.
+ 3. Bill screen: type "rose" in the search box. Show the results.
+ 4. Clear the search. Tap the microphone. ALLOW both prompts (microphone, then speech
+    recognition) - Apple asked to see permission prompts. Say a plant name out loud, e.g.
+    "money plant". Do this bit in a quiet room.
+ 5. Tap a plant to add it. In the review sheet: set the quantity with +, change the price.
+ 6. Tap "+ Add item", add a second plant, set its quantity.
+ 7. Set a discount: tap "% Percent" and type 10.
+ 8. Type a customer name and a 10-digit phone number.
+ 9. Tap "Split", type a cash part, then type an amount in "Due".
+10. Tap "Save bill". Then tap "Print receipt" so the AirPrint sheet appears. Close it.
+11. Sales tab: show the day's total, cash/UPI/due, cash in hand, expenses. Tap one bill to open it.
+12. Back, then tap "Dues", then "Reports" (show the charts). Back to Sales.
+13. Customers tab: open one customer.
+14. More tab: open Language and show the five languages. Open Printer - tap Scan and ALLOW the
+    Bluetooth prompt. Go back.
+15. More > Log out.
+16. Sign in as the demo MANAGER. Show Products (open one product), then More > Salespeople.
+17. Stop the recording.
+
+AFTER
+Send me the file, or put it somewhere Apple can open it (a Google Drive link with sharing set to
+anyone), and tell me the iPhone model and iOS version so I can put them in the reply.
